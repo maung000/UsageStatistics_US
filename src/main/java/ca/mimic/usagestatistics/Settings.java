@@ -537,24 +537,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     public static class PrefsFragment extends PreferenceFragment {
         CheckBoxPreference boot_preference;
-        CheckBoxPreference divider_preference;
-        CheckBoxPreference row_divider_preference;
-        CheckBoxPreference weighted_recents_preference;
-        CheckBoxPreference colorize_preference;
-        CheckBoxPreference second_row_preference;
-        CheckBoxPreference smart_notification_preference;
-        CheckBoxPreference more_apps_preference;
         SwitchPreference toggle_preference;
-        UpdatingListPreference appnos_preference;
-        UpdatingListPreference priority_preference;
-        UpdatingListPreference statusbar_icon_preference;
-        UpdatingListPreference icon_size_preference;
-        UpdatingListPreference pinned_sort_preference;
-        UpdatingListPreference pinned_placement_preference;
-        UpdatingListPreference more_apps_pages_preference;
-        UpdatingListPreference notification_bg_preference;
         Preference app_pack_preference;
-        Preference more_apps_icon_preference;
 
         public static PrefsFragment newInstance(int prefLayout) {
             PrefsFragment fragment = new PrefsFragment();
@@ -593,7 +577,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
                 app_pack_preference.setSummary(appPackName);
                 updateIconPackIcon(mContext);
-                //iconPackUpdate = new IconPackUpdate(prefs2, app_pack_preference);
                 app_pack_preference.setOnPreferenceClickListener(
                         new Preference.OnPreferenceClickListener() {
                             @Override
@@ -618,114 +601,11 @@ public class Settings extends Activity implements ActionBar.TabListener {
                 final SharedPreferences prefs2 = prefs.prefsGet();
                 final SharedPreferences.Editor editor = prefs.editorGet();
 
-                if (preference.getKey().equals(DIVIDER_PREFERENCE)) {
-                    editor.putBoolean(DIVIDER_PREFERENCE, (Boolean) newValue);
-                    editor.commit();
-                } else if (preference.getKey().equals(ROW_DIVIDER_PREFERENCE)) {
-                    editor.putBoolean(ROW_DIVIDER_PREFERENCE, (Boolean) newValue);
-                    editor.commit();
-                } else if (preference.getKey().equals(COLORIZE_PREFERENCE)) {
-                    editor.putBoolean(COLORIZE_PREFERENCE, (Boolean) newValue);
-                    editor.commit();
-                } else if (preference.getKey().equals(STATUSBAR_ICON_PREFERENCE)) {
-                    final String mStatusBarIcon = (String) newValue;
-                    if (mStatusBarIcon.equals(STATUSBAR_ICON_NONE)) {
-                        new AlertDialog.Builder(myService.mContext)
-                                .setTitle(R.string.alert_title_statusbar_icon_preference)
-                                .setMessage(R.string.alert_message_statusbar_icon_preference)
-                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        editor.putString(STATUSBAR_ICON_PREFERENCE, mStatusBarIcon);
-                                        editor.putString(PRIORITY_PREFERENCE, Integer.toString(PRIORITY_BOTTOM));
-                                        editor.commit();
-                                        PrefsFragment mBehaviorSettings = (PrefsFragment) mGetFragments.getFragmentByPosition(USAGE_TAB);
-                                        mBehaviorSettings.priority_preference.setValue(Integer.toString(PRIORITY_BOTTOM));
-                                        launchPriorityWarning(prefs2);
-                                        myService.execute(SERVICE_DESTROY_NOTIFICATIONS);
-                                        myService.execute(SERVICE_BUILD_REORDER_LAUNCH);
-                                    }
-                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                statusbar_icon_preference.setValue(prefs2.getString(STATUSBAR_ICON_PREFERENCE, STATUSBAR_ICON_DEFAULT));
-                            }
-                        }).show();
-                        return true;
-                    } else {
-                        editor.putString(STATUSBAR_ICON_PREFERENCE, mStatusBarIcon);
-                        editor.commit();
-                        myService.execute(SERVICE_DESTROY_NOTIFICATIONS);
-                    }
-                } else if (preference.getKey().equals(ICON_COLOR_PREFERENCE)) {
-                    String hex = ColorPickerPreference.convertToARGB(Integer.valueOf(String.valueOf(newValue)));
-                    preference.setSummary(hex);
-                    int intHex = ColorPickerPreference.convertToColorInt(hex);
-                    editor.putInt(ICON_COLOR_PREFERENCE, intHex);
-                    editor.commit();
-                } else if (preference.getKey().equals(ICON_SIZE_PREFERENCE)) {
-                    editor.putString(ICON_SIZE_PREFERENCE, (String) newValue);
-                    editor.commit();
-                } else if (preference.getKey().equals(TOGGLE_PREFERENCE)) {
-                    editor.putBoolean(TOGGLE_PREFERENCE, (Boolean) newValue);
-                    editor.commit();
-                    boolean toggleBool = (Boolean) newValue;
-                    toggleDependencies(toggleBool);
-                    myService.execute(toggleBool ? SERVICE_CREATE_NOTIFICATIONS : SERVICE_DESTROY_NOTIFICATIONS);
-                    return true;
-                } else if (preference.getKey().equals(BOOT_PREFERENCE)) {
+                if (preference.getKey().equals(BOOT_PREFERENCE)) {
                     editor.putBoolean(BOOT_PREFERENCE, (Boolean) newValue);
                     editor.commit();
                     return true;
-                } else if (preference.getKey().equals(WEIGHT_PRIORITY_PREFERENCE)) {
-                    editor.putString(WEIGHT_PRIORITY_PREFERENCE, (String) newValue);
-                    editor.commit();
-                } else if (preference.getKey().equals(WEIGHTED_RECENTS_PREFERENCE)) {
-                    editor.putBoolean(WEIGHTED_RECENTS_PREFERENCE, (Boolean) newValue);
-                    editor.commit();
-                } else if (preference.getKey().equals(SMART_NOTIFICATION_PREFERENCE)) {
-                    editor.putBoolean(SMART_NOTIFICATION_PREFERENCE, (Boolean) newValue);
-                    editor.commit();
-                } else if (preference.getKey().equals(FLOATING_WINDOWS_PREFERENCE)) {
-                    Boolean isFloating = (Boolean) newValue;
-                    if (isFloating)
-                        Toast.makeText(mContext, mContext.getResources().getString(R.string.alert_floating_windows),
-                                Toast.LENGTH_LONG).show();
-                    editor.putBoolean(FLOATING_WINDOWS_PREFERENCE, isFloating);
-                    editor.commit();
-                } else if (preference.getKey().equals(MORE_APPS_PREFERENCE)) {
-                    editor.putBoolean(MORE_APPS_PREFERENCE, (Boolean) newValue);
-                    editor.commit();
-                    myService.execute(SERVICE_BUILD_REORDER_LAUNCH);
-                } else if (preference.getKey().equals(MORE_APPS_PAGES_PREFERENCE)) {
-                    editor.putString(MORE_APPS_PAGES_PREFERENCE, (String) newValue);
-                    editor.commit();
-                } else if (preference.getKey().equals(APPSNO_PREFERENCE)) {
-                    editor.putString(APPSNO_PREFERENCE, (String) newValue);
-                    editor.commit();
-                } else if (preference.getKey().equals(PRIORITY_PREFERENCE)) {
-                    String mPriorityPreference = (String) newValue;
-                    if (!mIsLollipop) {
-                        editor.putString(PRIORITY_PREFERENCE, mPriorityPreference);
-                        PrefsFragment mAppearanceSettings = (PrefsFragment) mGetFragments.getFragmentByPosition(APPEARANCE_TAB);
-                        if (!mPriorityPreference.equals(Integer.toString(PRIORITY_BOTTOM)) &&
-                                mAppearanceSettings.statusbar_icon_preference.getValue().equals(STATUSBAR_ICON_NONE)) {
-                            editor.putString(STATUSBAR_ICON_PREFERENCE, STATUSBAR_ICON_DEFAULT);
-                            mAppearanceSettings.statusbar_icon_preference.setValue(STATUSBAR_ICON_DEFAULT);
-                        }
-                        editor.commit();
-                        launchPriorityWarning(prefs2);
-                    } else {
-                        PrefsFragment mBehaviorSettings = (PrefsFragment) mGetFragments.getFragmentByPosition(USAGE_TAB);
-                        mBehaviorSettings.priority_preference.setSummary(R.string.priority_bottom);
-                        launchPriorityOnL(mPriorityPreference);
-                        return true;
-                    }
-                    myService.execute(SERVICE_DESTROY_NOTIFICATIONS);
-                } else if (preference.getKey().equals(SECOND_ROW_PREFERENCE)) {
-                    setAppsnoSummary((Boolean) newValue, appnos_preference);
-                    editor.putBoolean(SECOND_ROW_PREFERENCE, (Boolean) newValue);
-                    editor.commit();
-                    launchPriorityWarning(prefs2);
-                } else if (preference.getKey().equals(PINNED_SORT_PREFERENCE)) {
+                }  else if (preference.getKey().equals(PINNED_SORT_PREFERENCE)) {
                     editor.putString(PINNED_SORT_PREFERENCE, (String) newValue);
                     editor.commit();
                     String pinnedApps = prefs2.getString(PINNED_APPS, null);
@@ -733,60 +613,13 @@ public class Settings extends Activity implements ActionBar.TabListener {
                         myService.execute(SERVICE_BUILD_REORDER_LAUNCH);
                     }
                     return true;
-                } else if (preference.getKey().equals(PINNED_PLACEMENT_PREFERENCE)) {
-                    editor.putString(PINNED_PLACEMENT_PREFERENCE, (String) newValue);
-                    editor.commit();
-                    String pinnedApps = prefs2.getString(PINNED_APPS, null);
-                    if (pinnedApps != null && !pinnedApps.isEmpty()) {
-                        myService.execute(SERVICE_BUILD_REORDER_LAUNCH);
-                    }
-                    return true;
-                } else if (preference.getKey().equals(NOTIFICATION_BG_PREFERENCE)) {
-                    editor.putString(NOTIFICATION_BG_PREFERENCE, (String) newValue);
-                    editor.commit();
-                    myService.execute(SERVICE_DESTROY_NOTIFICATIONS);
-                    myService.execute(SERVICE_BUILD_REORDER_LAUNCH);
-                    return true;
                 }
                 myService.execute(SERVICE_BUILD_REORDER_LAUNCH);
                 return true;
             }
         };
-
-        void toggleDependencies(boolean isToggled) {
-            try {
-                PrefsFragment mGeneralFrag = (PrefsFragment) mGetFragments.getFragmentByPosition(SETTING_TAB);
-                mGeneralFrag.more_apps_icon_preference.setEnabled(isToggled);
-                mGeneralFrag.more_apps_pages_preference.setEnabled(isToggled);
-                mGeneralFrag.more_apps_preference.setEnabled(isToggled);
-
-                PrefsFragment mBehaviorFrag = (PrefsFragment) mGetFragments.getFragmentByPosition(USAGE_TAB);
-                mBehaviorFrag.priority_preference.setEnabled(isToggled);
-                mBehaviorFrag.weighted_recents_preference.setEnabled(isToggled);
-                mBehaviorFrag.smart_notification_preference.setEnabled(isToggled);
-
-                PrefsFragment mAppearanceFrag = (PrefsFragment) mGetFragments.getFragmentByPosition(APPEARANCE_TAB);
-                mAppearanceFrag.appnos_preference.setEnabled(isToggled);
-                mAppearanceFrag.second_row_preference.setEnabled(isToggled);
-                mAppearanceFrag.statusbar_icon_preference.setEnabled(!mIsAtLeastLollipop && isToggled);
-                mAppearanceFrag.divider_preference.setEnabled(isToggled);
-                mAppearanceFrag.row_divider_preference.setEnabled(isToggled);
-                mAppearanceFrag.colorize_preference.setEnabled(isToggled);
-                mAppearanceFrag.icon_size_preference.setEnabled(isToggled);
-                mAppearanceFrag.notification_bg_preference.setEnabled(mIsAtLeastLollipop && isToggled);
-            } catch (Exception e) {
-            }
-        }
     }
 
-    static void updateMoreAppsIcon(Context context) {
-        try {
-            Drawable d = new BitmapDrawable(context.getResources(), new IconHelper(mContext).cachedResourceIconHelper(MORE_APPS_PACKAGE));
-            PrefsFragment mGeneralSettings = (PrefsFragment) mGetFragments.getFragmentByPosition(SETTING_TAB);
-            mGeneralSettings.more_apps_icon_preference.setIcon(d);
-        } catch (Exception e) {
-        }
-    }
 
     static void updateIconPackIcon(Context context) {//tạo icon
         String iconPackPackage = prefs.prefsGet().getString(ICON_PACK_PREFERENCE, null);
@@ -802,14 +635,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
         mGeneralSettings.app_pack_preference.setIcon(icon);
     }
 
-    private static void setAppsnoSummary(Boolean second_row, Preference appnos_preference) {
-        // Update summary of AppNum pref for second row wording
-        if (second_row) {
-            appnos_preference.setSummary(R.string.summary_appsno_second_row_preference);
-        } else {
-            appnos_preference.setSummary(R.string.summary_appsno_preference);
-        }
-    }
 
     private static void launchNotificationSettings() {
         final Intent intent = new Intent(ACTION_APP_NOTIFICATION_SETTINGS);

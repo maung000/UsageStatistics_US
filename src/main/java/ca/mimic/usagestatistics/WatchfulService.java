@@ -632,146 +632,146 @@ public class WatchfulService extends Service {
     }
 
     public synchronized void createNotification() {
-        int filledConts = 0;
-        int maxButtons;
-        boolean filledSecondRow = false;
-
-        Context mContext = getApplicationContext();
-
-        if (moreAppsPage == 1)
-            updatePrefs();
-
-        RemoteViews customNotifView = new RemoteViews(taskPackage, contLayout);
-        RemoteViews customNotifBigView = customNotifView;
-
-        // Create new AppDrawer row
-        AppDrawer appDrawer = new AppDrawer(taskPackage);
-        appDrawer.createRow(rowLayout, R.id.notifRow);
-        appDrawer.setImageLayouts(imageButtonLayout, imageContLayout);
-        appDrawer.setPrefs(prefs);
-        appDrawer.setContext(mContext);
-
-        maxButtons = numOfApps;
-
-        int iconCacheCount = (maxButtons * (secondRow ? 2 : 1));
-        appDrawer.setCount(iconCacheCount, Settings.CACHED_NOTIFICATION_ICON_LIMIT, secondRow);
-
-        ArrayList<TaskInfo> pageList;
-
-        if (moreAppsPage == 1) {
-            if (pinnedList == null) {
-                Tools.USLog("pinnedList is null");
-                pinnedList = Tools.buildPinnedList(mContext, db);
-                pinnedCount = pinnedList.size();
-            }
-            if (taskList != null) {
-                pageList = new ArrayList<TaskInfo>(taskList);
-            } else {
-                pageList = new ArrayList<TaskInfo>();
-            }
-            pageList = new Tools().getPinnedTasks(mContext, pinnedList, pageList, iconCacheCount, moreApps);
-        } else {
-            if (pinnedCount > iconCacheCount)
-                pinnedCount = iconCacheCount - 1;
-            pageList = getPageTasks(moreAppsPage, iconCacheCount);
-            if (pageList == null) {
-                moreAppsPage = 1;
-                createNotification();
-                return;
-            }
-            pageList = new Tools().getPinnedTasks(mContext, null, pageList, iconCacheCount, moreApps);
-            if (pageList.size() == 1) {
-                moreAppsPage = 1;
-                return;
-            }
-        }
-
-
-
-        customNotifBigView.removeAllViews(R.id.notifContainer);
-        notificationTasks = new ArrayList<String>();
-
-        for (int i=0; i <= pageList.size(); i++) {
-            boolean wrapItUp = false;
-            if (i == pageList.size())
-                wrapItUp = true;
-            if (filledConts == maxButtons || wrapItUp) {
-                if (filledSecondRow) {
-                    filledSecondRow = false;
-                    customNotifBigView = customNotifView;
-                    customNotifBigView.addView(R.id.notifContainer, appDrawer.getRow());
-                    break;
-                } else {
-                    customNotifView.addView(R.id.notifContainer, appDrawer.getRow());
-                    filledSecondRow = true;
-                    filledConts = 0;
-                    appDrawer.createRow(rowLayout, R.id.notifRow);
-                    appDrawer.setImageLayouts(imageButtonLayout, imageContLayout);
-                }
-            }
-
-            if (!wrapItUp) {
-                if (appDrawer.newItem(pageList.get(i), itemLayout)) {
-                    appDrawer.addItem();
-                    notificationTasks.add(pageList.get(i).packageName);
-                    filledConts++;
-                }
-            }
-        }
-
-        if (!notificationBg.equals(Settings.NOTIFICATION_BG_DEFAULT_VALUE)) {
-            customNotifView.setInt(R.id.notifContainer, "setBackgroundColor",
-                    Color.parseColor(notificationBg));
-        }
-
-        if (filledSecondRow && secondRow) {
-            Tools.USLog("Second row is not full -- adding expanded row anyway!");
-            // Second row is not full :(
-            customNotifBigView = customNotifView;
-            customNotifBigView.addView(R.id.notifContainer, appDrawer.getRow());
-        }
-
-        // Set statusbar icon
-        int smallIcon = iconMap.get(Settings.STATUSBAR_ICON_WHITE);
-        try {
-            smallIcon = iconMap.get(mIcon);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        Notification notification;
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(WatchfulService.this).
-                setContentTitle(getResources().getString(R.string.app_name))
-                .setContentText(getResources().getString(R.string.app_name))
-                .setSmallIcon(smallIcon)
-                .setContent(customNotifView)
-                .setOngoing(true)
-                .setWhen(System.currentTimeMillis())
-                .setPriority(setPriority);
-
-        if (Tools.isLollipop(false))
-            lollipopNotificationSettings(builder);
-
-        notification = builder.build();
-
-        if (secondRow) {
-            notification.bigContentView = customNotifBigView;
-        }
-
-        Tools.USLog("isNotificationRunning: " + isNotificationRunning);
-        if (isNotificationRunning) {
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(1337, notification);
-        } else {
-            startForeground(1337, notification);
-        }
-
-        if (moreAppsPage > 1) {
-            notificationTasks = null;
-            pinnedList = null;
-        }
-
-        isNotificationRunning = true;
+//        int filledConts = 0;
+//        int maxButtons;
+//        boolean filledSecondRow = false;
+//
+//        Context mContext = getApplicationContext();
+//
+//        if (moreAppsPage == 1)
+//            updatePrefs();
+//
+//        RemoteViews customNotifView = new RemoteViews(taskPackage, contLayout);
+//        RemoteViews customNotifBigView = customNotifView;
+//
+//        // Create new AppDrawer row
+//        AppDrawer appDrawer = new AppDrawer(taskPackage);
+//        appDrawer.createRow(rowLayout, R.id.notifRow);
+//        appDrawer.setImageLayouts(imageButtonLayout, imageContLayout);
+//        appDrawer.setPrefs(prefs);
+//        appDrawer.setContext(mContext);
+//
+//        maxButtons = numOfApps;
+//
+//        int iconCacheCount = (maxButtons * (secondRow ? 2 : 1));
+//        appDrawer.setCount(iconCacheCount, Settings.CACHED_NOTIFICATION_ICON_LIMIT, secondRow);
+//
+//        ArrayList<TaskInfo> pageList;
+//
+//        if (moreAppsPage == 1) {
+//            if (pinnedList == null) {
+//                Tools.USLog("pinnedList is null");
+//                pinnedList = Tools.buildPinnedList(mContext, db);
+//                pinnedCount = pinnedList.size();
+//            }
+//            if (taskList != null) {
+//                pageList = new ArrayList<TaskInfo>(taskList);
+//            } else {
+//                pageList = new ArrayList<TaskInfo>();
+//            }
+//            pageList = new Tools().getPinnedTasks(mContext, pinnedList, pageList, iconCacheCount, moreApps);
+//        } else {
+//            if (pinnedCount > iconCacheCount)
+//                pinnedCount = iconCacheCount - 1;
+//            pageList = getPageTasks(moreAppsPage, iconCacheCount);
+//            if (pageList == null) {
+//                moreAppsPage = 1;
+//                createNotification();
+//                return;
+//            }
+//            pageList = new Tools().getPinnedTasks(mContext, null, pageList, iconCacheCount, moreApps);
+//            if (pageList.size() == 1) {
+//                moreAppsPage = 1;
+//                return;
+//            }
+//        }
+//
+//
+//
+//        customNotifBigView.removeAllViews(R.id.notifContainer);
+//        notificationTasks = new ArrayList<String>();
+//
+//        for (int i=0; i <= pageList.size(); i++) {
+//            boolean wrapItUp = false;
+//            if (i == pageList.size())
+//                wrapItUp = true;
+//            if (filledConts == maxButtons || wrapItUp) {
+//                if (filledSecondRow) {
+//                    filledSecondRow = false;
+//                    customNotifBigView = customNotifView;
+//                    customNotifBigView.addView(R.id.notifContainer, appDrawer.getRow());
+//                    break;
+//                } else {
+//                    customNotifView.addView(R.id.notifContainer, appDrawer.getRow());
+//                    filledSecondRow = true;
+//                    filledConts = 0;
+//                    appDrawer.createRow(rowLayout, R.id.notifRow);
+//                    appDrawer.setImageLayouts(imageButtonLayout, imageContLayout);
+//                }
+//            }
+//
+//            if (!wrapItUp) {
+//                if (appDrawer.newItem(pageList.get(i), itemLayout)) {
+//                    appDrawer.addItem();
+//                    notificationTasks.add(pageList.get(i).packageName);
+//                    filledConts++;
+//                }
+//            }
+//        }
+//
+//        if (!notificationBg.equals(Settings.NOTIFICATION_BG_DEFAULT_VALUE)) {
+//            customNotifView.setInt(R.id.notifContainer, "setBackgroundColor",
+//                    Color.parseColor(notificationBg));
+//        }
+//
+//        if (filledSecondRow && secondRow) {
+//            Tools.USLog("Second row is not full -- adding expanded row anyway!");
+//            // Second row is not full :(
+//            customNotifBigView = customNotifView;
+//            customNotifBigView.addView(R.id.notifContainer, appDrawer.getRow());
+//        }
+//
+//        // Set statusbar icon
+//        int smallIcon = iconMap.get(Settings.STATUSBAR_ICON_WHITE);
+//        try {
+//            smallIcon = iconMap.get(mIcon);
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Notification notification;
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(WatchfulService.this).
+//                setContentTitle(getResources().getString(R.string.app_name))
+//                .setContentText(getResources().getString(R.string.app_name))
+//                .setSmallIcon(smallIcon)
+//                .setContent(customNotifView)
+//                .setOngoing(true)
+//                .setWhen(System.currentTimeMillis())
+//                .setPriority(setPriority);
+//
+//        if (Tools.isLollipop(false))
+//            lollipopNotificationSettings(builder);
+//
+//        notification = builder.build();
+//
+//        if (secondRow) {
+//            notification.bigContentView = customNotifBigView;
+//        }
+//
+//        Tools.USLog("isNotificationRunning: " + isNotificationRunning);
+//        if (isNotificationRunning) {
+//            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//            notificationManager.notify(1337, notification);
+//        } else {
+//            startForeground(1337, notification);
+//        }
+//
+//        if (moreAppsPage > 1) {
+//            notificationTasks = null;
+//            pinnedList = null;
+//        }
+//
+//        isNotificationRunning = true;
     }
 
     @TargetApi(21)
