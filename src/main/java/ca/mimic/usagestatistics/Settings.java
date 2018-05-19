@@ -23,15 +23,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.CheckBoxPreference;
@@ -41,9 +37,7 @@ import android.preference.SwitchPreference;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.SparseArray;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,19 +53,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class Settings extends Activity implements ActionBar.TabListener {
 
@@ -85,7 +73,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     final static String VERSION_CHECK = "version_check";
 
-    final static int GENERAL_TAB = 1;
+    final static int SETTING_TAB = 1;
     final static int USAGE_TAB = 2;
     final static int APPEARANCE_TAB = 3;
     final static int APPS_TAB = 0;
@@ -259,8 +247,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
         actionBar.setTitle(R.string.title_usage_statistics);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        //actionBar.setCustomView(R.layout.action_spinner);
-        //setUpSpinner((Spinner) actionBar.getCustomView().findViewById(R.id.config_spinner));
         actionBar.setDisplayShowCustomEnabled(true);
 
 
@@ -290,7 +276,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-        pageChangeListener.onPageSelected(GENERAL_TAB);
+        pageChangeListener.onPageSelected(SETTING_TAB);
 
     }
 
@@ -323,35 +309,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
     protected void onDestroy() {
         super.onDestroy();
         isBound = false;
-    }
-
-
-
-    protected static void resetIconCache(String resourceName) {
-        if (resourceName.equals(Settings.MORE_APPS_PACKAGE)) {
-            Bitmap bitmap = Tools.drawableToBitmap(mContext.getResources().getDrawable(Settings.MORE_APPS_DRAWABLE_RESOURCE));
-            IconCacheHelper.preloadIcon(mContext, resourceName, bitmap, Tools.dpToPx(mContext, CACHED_ICON_SIZE));
-            updateMoreAppsIcon(mContext);
-        }
-        myService.execute(SERVICE_CREATE_NOTIFICATIONS);
-    }
-
-    protected static void resetIconComponent(ComponentName componentName) {
-        Tools.USLog("resetIconCache!: " + componentName.getPackageName());
-
-        try {
-            Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(componentName.getPackageName());
-            ResolveInfo rInfo = mContext.getPackageManager().resolveActivity(intent, 0);
-
-            Drawable icon = new IconCacheHelper(mContext).getFullResIcon(rInfo.activityInfo, true);
-            Bitmap bitmap = Tools.drawableToBitmap(icon);
-            IconCacheHelper.preloadComponent(mContext, componentName, bitmap, Tools.dpToPx(mContext, CACHED_ICON_SIZE));
-            myService.execute(SERVICE_CREATE_NOTIFICATIONS);
-            mAppRowAdapter.reDraw(true);
-            updateRowItem();
-        } catch (Exception e) {
-            Tools.USLog("reset Icon Cache exception: " + e);
-        }
     }
 
     @TargetApi(17)
@@ -390,16 +347,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
                     .show();
         }
     }
-
-
-
-
-    protected void setupButton(Button button, LinearLayout.LayoutParams params) {
-        button.setSingleLine(false);
-        button.setAllCaps(true);
-        button.setLayoutParams(params);
-    }
-
 
     @TargetApi(21)
     static protected void launchUsPermission(Context context) {
@@ -808,7 +755,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
         void toggleDependencies(boolean isToggled) {
             try {
-                PrefsFragment mGeneralFrag = (PrefsFragment) mGetFragments.getFragmentByPosition(GENERAL_TAB);
+                PrefsFragment mGeneralFrag = (PrefsFragment) mGetFragments.getFragmentByPosition(SETTING_TAB);
                 mGeneralFrag.more_apps_icon_preference.setEnabled(isToggled);
                 mGeneralFrag.more_apps_pages_preference.setEnabled(isToggled);
                 mGeneralFrag.more_apps_preference.setEnabled(isToggled);
@@ -835,7 +782,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
     static void updateMoreAppsIcon(Context context) {
         try {
             Drawable d = new BitmapDrawable(context.getResources(), new IconHelper(mContext).cachedResourceIconHelper(MORE_APPS_PACKAGE));
-            PrefsFragment mGeneralSettings = (PrefsFragment) mGetFragments.getFragmentByPosition(GENERAL_TAB);
+            PrefsFragment mGeneralSettings = (PrefsFragment) mGetFragments.getFragmentByPosition(SETTING_TAB);
             mGeneralSettings.more_apps_icon_preference.setIcon(d);
         } catch (Exception e) {
         }
@@ -851,7 +798,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
             icon = new BitmapDrawable(context.getResources(), new IconHelper(mContext).cachedResourceIconHelper(iconPackPackage));
         } catch (Exception e) {
         }
-        PrefsFragment mGeneralSettings = (PrefsFragment) mGetFragments.getFragmentByPosition(GENERAL_TAB);
+        PrefsFragment mGeneralSettings = (PrefsFragment) mGetFragments.getFragmentByPosition(SETTING_TAB);
         mGeneralSettings.app_pack_preference.setIcon(icon);
     }
 
@@ -1032,7 +979,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
             popup.getMenuInflater().inflate(R.menu.app_action, popup.getMenu());
             MenuItem pinItem = popup.getMenu().getItem(0);
 
-            //if (rowItem.getPinned()) pinItem.setTitle(R.string.action_unpin);
             PopupMenu.OnMenuItemClickListener menuAction = new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -1041,8 +987,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
                     switch (item.getItemId()) {
                        case R.id.action_stat:
-                            //Intent intent = new Intent(mContext, Stats.class);
-                            //startActivity(intent);
                             String packedName = rowItem.getPackageName();
                             DialogCalculate(packedName);
                             break;
@@ -1065,7 +1009,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
         final EditText edtdayStart = (EditText) dialog.findViewById(R.id.dayStart);
         final EditText edtdayEnd = (EditText) dialog.findViewById(R.id.dayEnd);
         final  EditText edtCalculate = (EditText) dialog.findViewById(R.id.sum_time);
-        final Button buttonUsage = (Button) dialog.findViewById(R.id.btn_statitic);
+        final Button btnStatitic = (Button) dialog.findViewById(R.id.btn_statitic);
 
             edtdayStart.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1081,8 +1025,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
                     Select_day(edtdayEnd);
                 }
             });
-        final String packedName_temp = packedName;
-        buttonUsage.setOnClickListener(new View.OnClickListener() {
+
+        btnStatitic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -1137,8 +1081,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
         try {
             highestSeconds = db.getHighestSeconds();
-            //tasks = db.getAllTasks();
-            //
+
             ArrayList<String> pinnedApps = new ArrayList<String>();
 
             SharedPreferences settingsPrefs = mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_MULTI_PROCESS);
@@ -1241,12 +1184,10 @@ public class Settings extends Activity implements ActionBar.TabListener {
         @Override
         public Fragment getItem(final int position) {
             switch (position) {
-                case GENERAL_TAB:
-                    return PrefsFragment.newInstance(R.layout.general_settings);
+                case SETTING_TAB:
+                    return PrefsFragment.newInstance(R.layout.setting);
                 case USAGE_TAB:
                     return Usage.newInstance();
-                case APPEARANCE_TAB:
-                    return PrefsFragment.newInstance(R.layout.appearance_settings);
                 case APPS_TAB: {
                     return AppsFragment.newInstance();
                 }
@@ -1263,12 +1204,10 @@ public class Settings extends Activity implements ActionBar.TabListener {
         public CharSequence getPageTitle(int position) {
             Locale l = Locale.getDefault();
             switch (position) {
-                case GENERAL_TAB:
+                case SETTING_TAB:
                     return mContext.getString(R.string.title_general).toUpperCase(l);
                 case USAGE_TAB:
                     return mContext.getString(R.string.title_usage).toUpperCase(l);
-                //case APPEARANCE_TAB:
-                //    return mContext.getString(R.string.title_appearance).toUpperCase(l);
                 case APPS_TAB:
                     return mContext.getString(R.string.title_apps).toUpperCase(l);
             }

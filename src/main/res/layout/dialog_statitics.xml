@@ -1,0 +1,226 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:orientation="vertical" android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="#F0FFF0">>-->
+    <!--<TextView-->
+
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="THỐNG KÊ THỜI GIAN SỬ DỤNG ỨNG DỤNG"-->
+        <!--android:textSize="25sp"-->
+        <!--android:gravity="center"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textColor="#3b15d1"-->
+        <!--android:id="@+id/textView" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/dayStart"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignLeft="@+id/name_dayStart"-->
+        <!--android:layout_alignStart="@+id/name_dayStart"-->
+        <!--android:layout_below="@+id/name_dayStart"-->
+        <!--android:layout_marginTop="12dp"-->
+        <!--android:background="#DCDCDC"-->
+        <!--android:hint="  Nhập thời gian ở đây" />-->
+
+    <!--<TextView-->
+
+        <!--android:id="@+id/name_dayStart"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_below="@+id/textView"-->
+        <!--android:layout_marginLeft="19dp"-->
+        <!--android:layout_marginStart="19dp"-->
+        <!--android:layout_marginTop="24dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="Thời gian bắt đầu:"-->
+        <!--android:textColor="#5e47b9"-->
+        <!--android:textSize="20sp"-->
+        <!--android:textStyle="bold" />-->
+
+
+    <!--<TextView-->
+
+        <!--android:id="@+id/name_dayEnd"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignLeft="@+id/dayStart"-->
+        <!--android:layout_alignStart="@+id/dayStart"-->
+        <!--android:layout_below="@+id/dayStart"-->
+        <!--android:layout_marginTop="14dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="Thời gian kết thúc:"-->
+        <!--android:textColor="#5e47b9"-->
+        <!--android:textSize="20sp"-->
+        <!--android:textStyle="bold" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/dayEnd"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignLeft="@+id/name_dayEnd"-->
+        <!--android:layout_alignStart="@+id/name_dayEnd"-->
+        <!--android:layout_below="@+id/imageView2"-->
+        <!--android:background="#DCDCDC"-->
+        <!--android:hint="  Nhập thời gian ở đây" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/sum_time"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignEnd="@+id/imageView2"-->
+        <!--android:layout_alignRight="@+id/imageView2"-->
+        <!--android:layout_alignTop="@+id/name_sum_time"-->
+        <!--android:layout_toEndOf="@+id/name_sum_time"-->
+        <!--android:layout_toRightOf="@+id/name_sum_time"-->
+        <!--android:width="130dp"-->
+        <!--android:height="30dp"-->
+        <!--android:background="#DCDCDC" />-->
+
+    <!--<TextView-->
+
+        <!--android:id="@+id/name_sum_time"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignLeft="@+id/dayEnd"-->
+        <!--android:layout_alignStart="@+id/dayEnd"-->
+        <!--android:layout_below="@+id/dayEnd"-->
+        <!--android:layout_marginTop="21dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="Tổng thời gian sử dụng:"-->
+        <!--android:textColor="#5e47b9"-->
+        <!--android:textSize="20sp"-->
+        <!--android:textStyle="bold" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btn_usage"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/sum_time"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="31dp"-->
+        <!--android:text="Chạy thống kê" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imageView2"-->
+        <!--android:layout_width="200dp"-->
+
+        <!--android:layout_height="120dp"-->
+        <!--android:layout_alignTop="@+id/name_dayStart"-->
+        <!--android:layout_toEndOf="@+id/dayStart"-->
+        <!--android:layout_toRightOf="@+id/dayStart"-->
+        <!--android:background="@drawable/statitics" />-->
+
+<!--</RelativeLayout>-->
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e3fdf9">
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="THỐNG KÊ THỜI GIAN SỬ DỤNG ỨNG DỤNG"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:id="@+id/textView" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="80dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginRight="120dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/statitics" />
+
+    <TableRow
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="130dp">
+
+        <TextView
+
+            android:id="@+id/name_dayStart"
+            android:layout_width="184dp"
+            android:layout_height="wrap_content"
+            android:text="Thời gian bắt đầu:"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/dayStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#e3fdf9"
+            android:textColor="#000000"
+            android:hint=" Chọn thời gian " />
+
+
+    </TableRow>
+    <TableRow
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="130dp">
+
+        <TextView
+            android:id="@+id/name_dayEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời gian kết thúc:"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/dayEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#e3fdf9"
+            android:textColor="#000000"
+            android:hint=" Chọn thời gian " />
+
+    </TableRow>
+
+    <Button
+        android:id="@+id/btn_statitic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="130dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="20dp"
+        android:text="Chạy thống kê" />
+
+
+    <TableRow
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="130dp"
+        android:layout_marginBottom="30dp">
+
+        <TextView
+            android:id="@+id/name_sum_time"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:text="Tổng thời gian:"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/sum_time"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:width="10dp"
+            android:height="30dp"
+            android:background="#e3fdf9"
+            android:textColor="#000000"/>
+    </TableRow>
+
+
+
+</TableLayout>
