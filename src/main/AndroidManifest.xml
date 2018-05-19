@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ca.mimic.usagestatistics"
+    android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+
+    <uses-permission
+        android:name="android.permission.GET_TASKS"
+        tools:ignore="" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:logo="@drawable/ic_logo_app"
+        android:theme="@style/AppTheme1">
+        <receiver
+            android:name="ca.mimic.usagestatistics.BootStart"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="ca.mimic.hangar.SCREEN_ON_REFRESH" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="ca.mimic.usagestatistics.WatchfulService"
+            android:exported="false"
+            android:icon="@drawable/ic_launcher"
+            android:process=":appwatch"></service>
+
+        <activity
+            android:name="ca.mimic.usagestatistics.Settings"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.NOTIFICATION_PREFERENCES" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="ca.mimic.usagestatistics.Instructions"
+            android:label="@string/instructions_title"
+            android:parentActivityName="ca.mimic.usagestatistics.Settings"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.mimic.usagestatistics.Settings" />
+        </activity>
+        <activity android:name="ca.mimic.usagestatistics.AddApp"
+            android:theme="@style/AppTheme"/>
+
+    </application>
+
+</manifest>

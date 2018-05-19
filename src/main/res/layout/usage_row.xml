@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/row_usage">
+
+    <TextView
+        android:id="@+id/day_of_month"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/line"
+        android:background="#10bdd7"
+        android:layout_width="match_parent"
+        android:layout_height="2dp" />
+
+    <!--<GridView-->
+        <!--android:id="@+id/grid_view_usage"-->
+        <!--android:layout_width="394dp"-->
+        <!--android:layout_height="445dp"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginTop="40dp"-->
+        <!--android:columnWidth="100dp"-->
+        <!--android:gravity="center"-->
+        <!--android:horizontalSpacing="30dp"-->
+        <!--android:numColumns="3"-->
+        <!--android:verticalSpacing="30dp" />-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+
+</LinearLayout>

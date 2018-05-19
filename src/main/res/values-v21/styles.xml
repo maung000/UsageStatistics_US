@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo"></style>
+
+    <style name="AppTheme1" parent="android:Theme.Holo.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="AppTheme2" parent="android:Theme.Material.Light"></style>
+
+    <!--<style name="AppTheme1" parent="android:ThemeOverlay.Material.Dark"></style>-->
+        <!-- Customize your theme here. android:ThemeOverlay.Material.ActionBar" -->
+
+
+    <color name="applist_action_line_color">#7fcac3</color>
+
+</resources>

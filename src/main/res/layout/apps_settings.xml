@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/loading_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="16sp"
+        android:text="@string/apps_loading" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="6dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="40dp"
+        android:layout_alignParentTop="true">
+    </ListView>
+
+    <HorizontalScrollView
+        android:id="@+id/applist_action_bar_scroll"
+        android:layout_width="wrap_content"
+        android:height="40dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:requiresFadingEdge="horizontal"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:id="@+id/applist_action_bar"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/sort_text"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="@string/title_sort_spinner"/>
+
+            <Spinner
+                android:id="@+id/sort_spinner"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/sort_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!--<View
+                android:id="@+id/separator"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/sort_spinner"
+                android:layout_centerVertical="true"
+                android:background="#22FFFFFF"
+                android:padding="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="1dp" />-->
+
+            <!--<TextView
+                android:id="@+id/top_text"
+                android:layout_toRightOf="@id/separator"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="@string/title_top_spinner"/>-->
+
+
+            <ImageView
+                android:id="@+id/refresh"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@id/sort_spinner"
+                android:adjustViewBounds="false"
+                android:contentDescription="@string/refresh_button"
+                android:gravity="center_vertical"
+                android:src="@drawable/ic_action_refresh" />
+
+        </RelativeLayout>
+
+    </HorizontalScrollView>
+
+    <View
+        android:id="@+id/applist_action_line"
+        android:layout_height="2dp"
+        android:layout_above="@+id/applist_action_bar_scroll"
+        android:background="@color/applist_action_line_color"
+        android:layout_width="fill_parent" />
+
+</RelativeLayout>

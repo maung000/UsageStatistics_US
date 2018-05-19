@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">AM</string>
+    <string name="title_general">Hiển Thị</string>
+    <string name="title_usage">Thống kê</string>
+    <string name="title_appearance">Appearance</string>
+    <string name="title_apps">Ứng Dụng</string>
+    <string name="title_add_apps">Thêm ứng dụng</string>
+    <string name="title_usage_statistics">UsageStatistics</string>
+    <string name="title_setting">Cài đặt</string>
+    <!-- Preferences -->
+
+    <!-- General  Notification bar -->
+    <string name="title_toggle_preference">Thanh thông báo</string>
+    <string name="title_boot_preference">Tự khởi chạy</string>
+
+    <string name="title_icon_pack_preference">Thêm ứng dụng</string>
+    <string name="default_icon_pack">Default Icons</string>
+    <string name="reset_icon">Use default icon</string>
+    <string name="switched_icon_packs_alert">Rebuilding icon cache.  This may take a few seconds!</string>
+    <string name="title_app_pack_picker">Chọn ứng dụng cần theo dõi</string>
+    <string name="title_icon_pack_choose_from">Choose from an icon pack</string>
+    <string name="title_icon_pack_not_found">No icon packs found</string>
+    <string name="title_icon_pack_install">Find an icon pack</string>
+    <string name="title_icon_pack_no_single_ui">Your chosen icon pack (%1$s) does not provide a UI for individual icon selection.\n\nPlease contact the icon pack developer for more information.</string>
+    <string name="title_icon_pack_no_single_picks">You have not selected a base icon pack to apply to all AM icons.\n\nYou may want to select one from the <b>General</b> tab first.</string>
+
+    <string name="title_pinned_category">Pinned apps</string>
+    <string name="title_pinned_sort_preference">Pinned app sorting</string>
+    <string name="title_pinned_placement_preference">Pinned app placement</string>
+
+    <!-- Notice Time spent in app  Alphabetical-->
+
+    <string name="pinned_sort_time">Thời gian sử dụng </string>
+    <string name="pinned_sort_alphabetical">Bảng chữ cái</string>
+    <string name="pinned_sort_last_opened">Last opened</string>
+    <string name="pinned_sort_added">Time pinned</string>
+
+    <string-array name="entries_pinned_sort_preference" translatable="false">
+        <item>@string/pinned_sort_time</item>
+        <item>@string/pinned_sort_alphabetical</item>
+        <item>@string/pinned_sort_last_opened</item>
+        <item>@string/pinned_sort_added</item>
+    </string-array>
+
+    <string-array name="values_pinned_sort_preference" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string name="pinned_placement_left">Left</string>
+    <string name="pinned_placement_right">Right</string>
+
+    <string-array name="entries_pinned_placement_preference" translatable="false">
+        <item>@string/pinned_placement_left</item>
+        <item>@string/pinned_placement_right</item>
+    </string-array>
+
+    <string-array name="values_pinned_placement_preference" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string name="title_more_apps_category">Pages</string>
+    <string name="title_more_apps">Multiple pages</string>
+    <string name="summary_more_apps">Adds a button to switch pages</string>
+
+    <string name="title_more_apps_pages">Number of pages</string>
+    <string name="summary_more_apps_pages">Switch between %s pages</string>
+    <string-array name="values_more_apps_pages_preference" translatable="false">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string name="title_more_apps_icon">Switcher icon</string>
+
+    <!-- Behavior -->
+    <string name="title_weight_category">Sorting and Icon Order</string>
+    <string name="title_weighted_recents_preference">Weighted sorting</string>
+    <string name="summary_weighted_recents_preference">Apps sorted by most used and recency</string>
+    <string name="title_weight_priority_preference">Weight bias</string>
+    <string name="summary_wildcard_preference" translatable="false">%s</string>
+    <string name="dialog_weight_priority_preference">Choose a weight</string>
+
+    <string name="weight_priority_default">Default</string>
+    <string name="weight_priority_recency">Recency</string>
+    <string name="weight_priority_launches">Number of launches</string>
+    <string name="weight_priority_time">Time spent in app</string>
+
+    <string-array name="entries_weight_priority_preference" translatable="false">
+        <item>@string/weight_priority_default</item>
+        <item>@string/weight_priority_recency</item>
+        <item>@string/weight_priority_launches</item>
+        <item>@string/weight_priority_time</item>
+    </string-array>
+    <string-array name="values_weight_priority_preference" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string name="title_priority_preference">Notification position</string>
+    <string name="summary_priority_preference">%s position in notification drawer</string>
+    <string name="dialog_priority_preference">Choose a position</string>
+
+    <string name="priority_top">Top</string>
+    <string name="priority_normal">Normal</string>
+    <string name="priority_bottom">Bottom (hides in statusbar/lockscreen)</string>
+
+    <string-array name="entries_priority_preference" translatable="false">
+        <item>@string/priority_top</item>
+        <item>@string/priority_normal</item>
+        <item>@string/priority_bottom</item>
+    </string-array>
+    <string-array name="values_priority_preference" translatable="false">
+        <item>2</item>
+        <item>0</item>
+        <item>-2</item>
+    </string-array>
+
+    <string name="summary_priority_on_l_notification">With Lollipop, AM will always be set to bottom.  In order to set top priority for AM, you must use the new built-in toggle that Android provides.\n\n<b>Turn on Priority after launching notification settings.</b>"</string>
+    <string name="priority_on_l_accept_button">Launch notification settings</string>
+    <string name="priority_on_l_cancel_button">Cancel</string>
+
+    <string name="title_smart_notification">Smart notification sort</string>
+    <string name="summary_smart_notification">Only reorder when a new icon is added</string>
+
+    <string name="title_floating_windows">Launch apps in floating windows</string>
+    <string name="summary_floating_windows">Only available in supported ROMs</string>
+    <string name="alert_floating_windows">Supported in XHaloFloatingWindow, AOSPA and derivatives.</string>
+
+    <!-- Appearance -->
+
+    <string name="title_appsno_preference">Number of apps</string>
+    <string name="summary_appsno_preference">Showing %s apps</string>
+    <string name="summary_appsno_second_row_preference">Showing %s apps per row</string>
+    <string name="dialog_appsno_preference">Choose no. of apps to show</string>
+
+    <string-array name="entries_appsno_preference" translatable="false">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
+    <string name="title_second_row_preference">Second row</string>
+    <string name="summary_second_row_preference">Show an additional row of apps</string>
+    <string name="alert_second_row_summary">Android will only show the <b>top notification</b> as expanded by default.\n\nIf your AM priority is not set to <i>Top</i>, the second row <b>will be hidden</b> if not at the top of the notification drawer and need to be expanded manually in order to be shown.</string>
+
+    <string name="title_statusbar_icon_preference">Statusbar icon</string>
+    <string name="dialog_statusbar_icon_preference">Choose an icon style</string>
+    <string name="alert_title_statusbar_icon_preference">Just so you know..</string>
+    <string name="alert_message_statusbar_icon_preference">Due to the limitations of Android, disabling the statusbar icon can only be done by lowering the priority of the notification.\n\nTL;DR Your AM bar will be at the bottom of the notification drawer.</string>
+
+    <string name="statusbar_icon_warm_white">Warm white icon</string>
+    <string name="statusbar_icon_cold_white">Cold white icon</string>
+    <string name="statusbar_icon_blue_white">Blue white icon</string>
+    <string name="statusbar_icon_all_white">All white icon (default)</string>
+    <string name="statusbar_icon_warm_black">Warm black icon</string>
+    <string name="statusbar_icon_cold_black">Cold black icon</string>
+    <string name="statusbar_icon_blue_black">Blue black icon</string>
+    <string name="statusbar_icon_transparent">Transparent</string>
+    <string name="statusbar_icon_none">No icon</string>
+
+    <string-array name="entries_statusbar_icon_preference" translatable="false">
+        <item>@string/statusbar_icon_warm_white</item>
+        <item>@string/statusbar_icon_cold_white</item>
+        <item>@string/statusbar_icon_blue_white</item>
+        <item>@string/statusbar_icon_all_white</item>
+        <item>@string/statusbar_icon_warm_black</item>
+        <item>@string/statusbar_icon_cold_black</item>
+        <item>@string/statusbar_icon_blue_black</item>
+        <item>@string/statusbar_icon_transparent</item>
+        <item>@string/statusbar_icon_none</item>
+    </string-array>
+    <string-array name="values_statusbar_icon_preference" translatable="false">
+        <item>**white_warm**</item>
+        <item>**white_cold**</item>
+        <item>**white_blue**</item>
+        <item>**white**</item>
+        <item>**black_warm**</item>
+        <item>**black_cold**</item>
+        <item>**black_blue**</item>
+        <item>**transparent**</item>
+        <item>**none**</item>
+    </string-array>
+
+    <string name="title_divider_preference">Enable divider</string>
+    <string name="summary_divider_preference">Shows a divider between each app icon</string>
+    <string name="title_row_divider_preference">Enable row divider</string>
+    <string name="summary_row_divider_preference">Shows a divider between each row</string>
+    <string name="title_colorize_preference">Colorize notification icons</string>
+    <string name="summary_colorize_preference">Change the color of the notification icons</string>
+    <string name="title_icon_color_preference">Color</string>
+    <string name="title_icon_color_category">Icon Color</string>
+
+    <string name="title_lollipop_category" translatable="false">Lollipop</string>
+    <string name="title_notification_bg_preference">Background color</string>
+    <string name="summary_notification_bg_preference">Choose a background color</string>
+
+    <string name="notification_bg_default">Default (with rounded corners)</string>
+    <string name="notification_bg_dark">Material dark</string>
+    <string name="notification_bg_black">Black</string>
+
+    <string-array name="entries_notification_bg_preference" translatable="false">
+        <item>@string/notification_bg_default</item>
+        <item>@string/notification_bg_dark</item>
+        <item>@string/notification_bg_black</item>
+    </string-array>
+    <string-array name="values_notification_bg_preference" translatable="false">
+        <item>**default**</item>
+        <item>#263238</item>
+        <item>#212121</item>
+    </string-array>
+
+    <!-- Apps -->
+    <string name="apps_loading">Loading apps..</string>
+
+    <string name="title_top_spinner">Top</string>
+    <string name="title_sort_spinner">Sắp xếp</string>
+    <string name="refresh_button">Làm mới</string>
+
+    <string name="top_pinned">Đã ghim</string>
+    <string name="top_blacklisted">Danh sách bôi đen</string>
+    <string name="top_none">Không</string>
+
+    <string name="sort_select">Đã chọn</string>
+
+    <string name="sort_time_spent">Thời gian sử dụng</string>
+    <string name="sort_alphabetical">Bảng chữ cái</string>
+
+    <string-array name="entries_top_spinner" translatable="false">
+        <item>@string/top_pinned</item>
+        <item>@string/top_blacklisted</item>
+        <item>@string/top_none</item>
+    </string-array>
+
+    <string-array name="entries_sort_spinner" translatable="false">
+        <item>@string/sort_time_spent</item>
+        <item>@string/sort_alphabetical</item>
+    </string-array>
+
+    <string-array name="entries_sort_spinner_add_app" translatable="false">
+        <item>@string/sort_select</item>
+        <item>@string/sort_alphabetical</item>
+
+    </string-array>
+
+    <!-- Color Picker -->
+    <string name="dialog_color_picker">Color Picker</string>
+    <string name="press_color_to_apply">Press on color below to apply</string>
+    <string name="arrow_right" translatable="false">→</string>
+    <string name="arrow_down" translatable="false">↓</string>
+    <string name="hex">Hex:</string>
+
+    <!-- Action menu -->
+    <string name="action_pin">Ghim</string>
+    <string name="action_unpin">Bỏ ghim</string>
+    <string name="action_stat">Thống kê</string>
+    <string name="action_blacklist">Bôi đen</string>
+    <string name="action_pick_icon">Thay đổi icon</string>
+    <string name="action_reset_stats">Xóa thống kê</string>
+
+    <!-- Action spinner -->
+    <string name="title_activity_apps_widget">Apps Widget</string>
+    <string name="title_activity_stats_widget">Stats Widget</string>
+
+    <string-array name="entries_action_spinner" translatable="false">
+        <item>@string/title_activity_settings</item>
+        <item>@string/title_activity_apps_widget</item>
+        <item>@string/title_activity_stats_widget</item>
+    </string-array>
+
+    <!-- Settings menu -->
+    <string name="configure_changelog">Recent changes</string>
+    <string name="configure_instructions">Instructions</string>
+    <string name="configure_donate">Donate</string>
+    <string name="configure_license">License</string>
+    <string name="configure_contribute">Contribute</string>
+
+    <!-- Donate -->
+    <string name="donate_title">Want to buy me a beer?</string>
+    <string name="donate_head">Donations are always appreciated and helpful in funding the future development of this and other apps.\n\nHowever, if you find AM useful and want to show thanks for the work that has gone into it, visit the Contribute section to see the many ways you can help.\n\nIf you\'re in a generous mood, you can donate using <b>Google Play</b> below.</string>
+    <string name="donate_title_google" translatable="false">Google Play</string>
+    <string name="donate_google">Donate with Google</string>
+    <string name="donate_contribute">Make AM better!</string>
+    <string name="donate_accept_button">"Keep on keepin\' on"</string>
+    <string-array name="entries_google_donate" translatable="false">
+        <item>$1 (USD)</item>
+        <item>$2 (USD)</item>
+        <item>$3 (USD)</item>
+        <item>$4 (USD)</item>
+        <item>$5 (USD)</item>
+    </string-array>
+    <string name="donate_sorry">"Hm.. looks like Google Play didn\'t like that.  Sorry :("</string>
+    <string name="donate_thanks_title">Thank you!</string>
+    <string name="donate_thanks_continue">Back to AM</string>
+    <string name="donate_thanks">"Your contribution to the development of AM is much appreciated! The Android community is made better by people like you who support and motivate developers."</string>
+
+    <!-- Contribute -->
+    <string name="contribute_title">Contribute to AM</string>
+
+    <string name="contribute_google_title">Rate + Review</string>
+    <string name="contribute_google_text">"Higher ratings &amp; positive reviews help spread the word by promoting AM\'s rank in the Play Store.  It\'s also the easiest and quickest way to contribute!"</string>
+    <string name="contribute_google_link">Rate on Google Play</string>
+    <string name="contribute_google_url" translatable="false">market://details?id=ca.mimic.usagestatistics</string>
+
+    <string name="contribute_translate_title">Translate</string>
+    <string name="contribute_translate_text">"AM is used by people all over the world.  Crowdin is a tool that lets users easily translate the app into their native language."</string>
+    <string name="contribute_translate_link">Translate with Crowdin</string>
+    <string name="contribute_translate_url" translatable="false">https://crowdin.net/project/hangar</string>
+
+    <string name="contribute_code_title">Fix bugs, add features!</string>
+    <string name="contribute_code_text">"AM is completely open and free, licensed under the GPLv3.  Submitting patches and pull requests via github is encouraged and welcome."</string>
+    <string name="contribute_code_link">View project on Github</string>
+    <string name="contribute_code_url" translatable="false">https://github.com/corcoran/Hangar</string>
+
+    <string name="contribute_plus_title">Join the community</string>
+    <string name="contribute_plus_text">"Beta test, leave feedback, suggest features and be updated on the status of new development."</string>
+    <string name="contribute_plus_link">Join the Google Plus community</string>
+    <string name="contribute_plus_url" translatable="false">https://plus.google.com/communities/117722899904055747117</string>
+
+    <string name="contributors_title">Special thanks</string>
+    <string name="contributors_name1" translatable="false">Melissa Gregory</string>
+    <string name="contributors_role1">Feedback &amp; support</string>
+
+    <string name="contributors_name2" translatable="false">David Cormier, Cyril L.</string>
+    <string name="contributors_role2">French translations</string>
+
+    <string name="contributors_name3" translatable="false">Conor Anderson</string>
+    <string name="contributors_role3">Spanish translations</string>
+
+    <string name="contributors_name4" translatable="false">Vinicius Domingues, Alex Pinto</string>
+    <string name="contributors_role4">Portuguese translations</string>
+
+    <string name="contributors_name5" translatable="false">Mario Sacquegna</string>
+    <string name="contributors_role5">Italian translations</string>
+
+    <string name="contributors_name6" translatable="false">Michał Ostrowski (ufoman)</string>
+    <string name="contributors_role6">Polish translations</string>
+
+    <string name="contributors_name7" translatable="false">Abdullah Amir</string>
+    <string name="contributors_role7">Russian translations</string>
+
+    <string name="contributors_name8" translatable="false">Eike Wacker</string>
+    <string name="contributors_role8">German translations</string>
+
+    <string name="contributors_name9" translatable="false">Jan Madsen</string>
+    <string name="contributors_role9">Danish translations</string>
+
+    <string name="contributors_name10" translatable="false">Anthony King</string>
+    <string name="contributors_role10">English (UK) translations</string>
+
+    <string name="contributors_name11" translatable="false">SiiiE</string>
+    <string name="contributors_role11">Hebrew translations</string>
+
+    <string name="contributors_special_thanks" translatable="false">&lt;3 Bridget W, Jeff DeChambeau, Joel Burke, Jonathan Kagan, Derek Rauch, Griffin Millender &amp; Anthony King</string>
+
+    <string name="contribute_accept_button">Continue</string>
+
+    <!-- Usage Stats permission -->
+    <string name="us_permission_title">Cấp quyền truy cập</string>
+    <string name="us_permission_head">Phần mềm cần phải được cấp quyền theo cách thủ công để có thể giám sát việc sử dụng ứng dụng.</string>
+    <string name="us_permission_settings_button">Cấp quyền cho UsageStatistics</string>
+
+    <!-- License -->
+    <string name="license_title">License and Source</string>
+    <string name="license_head">AM is licensed under the GNU GPLv3 from the Free Software Foundation and is Copyright © 2014 Jeff Corcoran.\n\nUnder the GPL, Hangar is available free of charge as long as the use of Hangar adheres to the terms of the GPL.\n\nUsers may download the software for free, and modify, integrate and distribute it. However, GPL users must abide by the rules of the GPL, which stipulate that if a work based on Hangar is redistributed, the complete source code for this work must also be open and available for redistribution under the terms of the GPL.\n\nSee the GPL and the FAQ of the Free Software Foundation for more details.</string>
+    <string name="license_view_source">Visit AM on Github</string>
+    <string name="license_github_url" translatable="false">https://github.com/corcoran/Hangar</string>
+    <string name="license_accept_button">Continue</string>
+
+    <!-- Changelog -->
+    <string name="changelog_title">AM Changes</string>
+    <string name="changelog_donate_button">Show thanks</string>
+    <string name="changelog_contribute_button">Make AM better!</string>
+    <string name="changelog_accept_button">Continue</string>
+    <string name="changelog_changes_title">Changes</string>
+    <string name="changelog_coming_soon_title">Coming soon!</string>
+    <string name="changelog_coming_soon_text" translatable="false">Divider color on white background, Stats widget additions</string>
+
+    <string-array name="versionNumbers" translatable="false">
+        <item>2.7 (Oct 10th)</item>
+        <item>2.6 (Dec 17th)</item>
+        <item>2.5 (Sept 14th)</item>
+        <item>2.4 (August 14th)</item>
+        <item>2.3 (July 29th)</item>
+        <item>2.2 (July 3rd)</item>
+        <item>2.1 (May 29th)</item>
+        <item>2.0 (May 16th)</item>
+        <item>1.15 (Apr 23th)</item>
+        <item>1.14 (Apr 14th)</item>
+        <item>1.13 (Apr 6th)</item>
+        <item>1.12 (Apr 5th)</item>
+        <item>1.11 (Apr 2nd)</item>
+        <item>1.10 (Apr 1st)</item>
+    </string-array>
+
+    <string-array name="versionSummaries" translatable="false">
+        <item>
+"  &#8226; [Fix!] Bring back position setting for
+     MM/L users
+  &#8226; [New!] AN Settings shortcut from
+     Notification/App settings
+  &#8226; Updated translations"</item>
+        <item>
+"  &#8226; [Fix!] Android L support!
+  &#8226; [New!] Added background color option for
+     L devices
+  &#8226; [Fix!] Added methods for AN to restart
+     when upgraded or killed by system
+  &#8226; Updated translations"</item>
+        <item>
+"  &#8226; [New!] Launch apps in floating windows
+     (supported ROMs only)
+  &#8226; [Fix!] Crash on start
+  &#8226; [Fix!] Notification, Apps widget freezes
+  &#8226; [Fix!] Icon pack sorting and bug
+  &#8226; [Fix!] Apps tab optimizations/fast load
+  &#8226; Added Chinese/Hebrew translations"</item>
+        <item>
+"  &#8226; [New!] Multiple pages in notification bar
+  &#8226; [New!] Rounded corners option in widgets
+  &#8226; [Fix!] Fixed settings bug on app pin"</item>
+        <item>
+"  &#8226; [New!] Pinned app feature
+  &#8226; [New!] Icon pack support
+  &#8226; [New!] Per-app manual icon selection
+  &#8226; [New!] Second row feature
+  &#8226; [New!] Sorting added to Apps section
+  &#8226; [New!] Ultra efficient Smart notification sort
+  &#8226; [New!] German/Danish translations
+  &#8226; [Fix!] Revamped icon caching
+  &#8226; [Fix!] Apps section now uses far less memory
+  &#8226; [Fix!] Icon creation made more efficient
+  &#8226; Updated app icon (Material design)
+  &#8226; Updated Instructions"</item>
+        <item>
+"  &#8226; [New!] Added all white icon
+  &#8226; [New!] Small, medium &amp; large notification icons
+  &#8226; [New!] Contribute/Make AM better section!
+  &#8226; [New!] Portuguese/Spanish/Italian/Polish/
+    French/Russian added
+  &#8226; [Fix!] DB sync exception fixed
+  &#8226; [Fix!] Fix some apps not launching to main action
+  &#8226; Minimum Android requirement lowered to 4.1+"</item>
+        <item>
+"  &#8226; [Fix!] Crash in setting position/icon type
+  &#8226; Added Instructions"</item>
+        <item>
+"  &#8226; [Fix!] Apps widget resize crash fixed
+  &#8226; Big refactor of code
+  &#8226; Added donation/license sections
+  &#8226; Version bump to 2.0"</item>
+        <item>
+"  &#8226; [Fix!] No longer crashes on boot
+  &#8226; [Fix!] Notification properly loads on boot
+  &#8226; Apps widget now 4x1 by default
+  &#8226; Refactored recent app sort code
+  &#8226; Refactored appdrawer row/item creation"</item>
+        <item>
+"  &#8226; [New!] Apps widget
+  &#8226; Removed debug logging"</item>
+        <item>
+"  &#8226; [New!] Changelog pop-up screen
+  &#8226; [Fix!] 4.3 Navbar launcher size issue fixed
+  &#8226; Tweaked default widget background alpha
+  &#8226; [Fix!] Widget no longer stops updating
+  &#8226; [Fix!] No longer crashes on clean boot"</item>
+        <item>
+"  &#8226; [New!] Auto-populate widget based on available size
+  &#8226; Cleaned up settings code
+  &#8226; Added setting for portrait/landscape # of apps
+  &#8226; Rotation properly redraws widgets
+  &#8226; Stats Widget bar/App bars now stretches properly
+  &#8226; [Fix!] Launcher detect and refresh works properly
+  &#8226; [Fix!] Blacklisted items no longer show up in widget"</item>
+        <item>
+"  &#8226; Separate wipe-stats function
+  &#8226; Add menu option for reconfiguring widget
+  &#8226; New per-app menu pop-up in Settings"</item>
+        <item>
+"  &#8226; Added # of apps, background color, divider toggle
+  &#8226; [New!] Widget configuration page
+  &#8226; [New!] Added Stats widget"</item>
+    </string-array>
+
+    <!-- Apps Widget -->
+    <string name="apps_widget_name">AM Apps Widget</string>
+    <string name="title_icon_size_preference">Icon size</string>
+
+    <string name="icon_size_small">Small</string>
+    <string name="icon_size_medium">Medium (default)</string>
+    <string name="icon_size_large">Large</string>
+
+    <string-array name="entries_icon_size_preference" translatable="false">
+        <item>@string/icon_size_small</item>
+        <item>@string/icon_size_medium</item>
+        <item>@string/icon_size_large</item>
+    </string-array>
+
+    <string-array name="values_icon_size_preference" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="entries_apps_widget_appsno_preference" translatable="false">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+    </string-array>
+
+    <string name="title_ignore_pinned_preference">Exclude pinned apps</string>
+
+    <!-- Stats Widget -->
+    <string name="stats_widget_name">AM Stats Widget</string>
+    <string name="title_background_color_preference">Background color</string>
+    <string name="title_rounded_corners_preference">Rounded corners</string>
+    <string name="button_name">Place widget</string>
+    <string name="reconfigure_button_name">Save widget preferences</string>
+    <string name="reconfigure_reminder">You can modify the widget settings at any time from the UsageStatistics menu</string>
+
+    <string name="automatic_appsno">Handled automatically</string>
+
+    <string name="appsno_category">Number of apps</string>
+
+    <string name="title_apps_by_widget_size_preference">Automatic</string>
+    <string name="summary_apps_by_widget_size_preference">Populate by available space</string>
+
+    <string name="aesthetics_category">Aesthetics</string>
+
+    <string name="title_stats_widget_appsno_preference">Portrait</string>
+    <string name="summary_stats_widget_appsno_preference">Showing up to a maximum of %s apps</string>
+
+    <string-array name="entries_stats_widget_appsno_preference" translatable="false">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <string name="title_stats_widget_appsno_ls_preference">Landscape</string>
+    <string name="summary_stats_widget_appsno_ls_preference">Showing up to a maximum of %s apps</string>
+
+    <string-array name="entries_stats_widget_appsno_ls_preference" translatable="false">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <string name="title_alignment_preference">Widget vertical alignment</string>
+
+    <string name="alignment_top">Top</string>
+    <string name="alignment_center">Center</string>
+    <string name="alignment_bottom">Bottom</string>
+
+    <string-array name="entries_alignment_preference" translatable="false">
+        <item>@string/alignment_top</item>
+        <item>@string/alignment_center</item>
+        <item>@string/alignment_bottom</item>
+    </string-array>
+
+    <string-array name="values_alignment_preference" translatable="false">
+        <item>48</item>
+        <item>16</item>
+        <item>80</item>
+    </string-array>
+
+    <!-- Instructions -->
+
+    <string name="instructions_title">AM Instructions</string>
+    <string name="instructions_1_1">"Welcome to AM!"</string>
+    <string name="instructions_1_2">"Now that AM is installed, it has added an <b>app shortcut bar</b> to your notification drawer.  It will also start monitoring the frequency and amount of time you spend in your apps."</string>
+    <string name="instructions_1_3">"As AM follows your daily usage, it will use this data to prioritize the apps you rely on most.  With every app you use, Hangar gets smarter and changes those shortcuts in real time to suit your needs."</string>
+    <string name="instructions_title_1">"AM\'s app shortcut bar in the notification drawer"</string>
+    <string name="instructions_1_swipe">Swipe to next page</string>
+
+    <string name="instructions_2_1">"Statistics"</string>
+    <string name="instructions_2_2">"AM also keeps track of your in-app usage!"</string>
+    <string name="instructions_title_2">Stats widget</string>
+    <string name="instructions_2_3">"You can check the stats under AM\'s <b>Apps tab</b> or by placing the <b>Stats widget</b> on your homescreen."</string>
+
+    <string name="instructions_3_1">"Customizations"</string>
+    <string name="instructions_3_2">"In addition to the default <b>notification drawer</b> app shortcut bar, you can add and customize a <b>widget</b> for launching apps.  Specify the color, size, quantity, background color and more."</string>
+    <string name="instructions_title_3">ex. 2 differently styled Apps widgets</string>
+    <string name="instructions_title_4">App options menu</string>
+    <string name="instructions_3_3">"You can also <b>pin</b> apps to be permanently anchored.  Got an <b>icon pack</b> you like?  Hangar supports icon packs and even the ability to manually change an individual app\'s icon.\n\nFinally, you can exclude apps from showing up with the <b>blacklist</b> option.  Do all this and more from the Hangar <b>Apps tab</b>."</string>
+
+    <string name="instructions_4_1">"Get started"</string>
+    <string name="instructions_4_2">"AM is a lightweight tool that makes launching apps convenient from anywhere in Android.\n\nTo enjoy the full benefits of this tool, it should have at least a day\'s worth of monitored app statistics to base its recommendations on.\n\nEnjoy and thank you for trying Hangar!"</string>
+    <string name="instructions_4_button">Configure AM</string>
+    <string name="title_activity_add_app1">Thêm ứng dụng</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entry 1</item>
+        <item>Entry 2</item>
+        <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+
+
+</resources>
