@@ -10,7 +10,7 @@
     <CheckBoxPreference
         android:key="boot_preference"
         android:title="@string/title_boot_preference"
-        android:summary="Chạy ứng dụng khi khởi động lại máy"/>
+        android:summary="Cho phép ứng dụng khởi chạy khi khởi động lại máy"/>
 
     <PreferenceScreen
         android:key="icon_pack_preference"
@@ -20,52 +20,5 @@
 
     </PreferenceScreen>
 
-    <!--<PreferenceCategory
-        android:title="@string/title_pinned_category">
-
-        <ca.mimic.apphangar.UpdatingListPreference
-            android:key="pinned_sort_preference"
-            android:title="@string/title_pinned_sort_preference"
-            android:summary="@string/summary_wildcard_preference"
-            android:entries="@array/entries_pinned_sort_preference"
-            android:entryValues="@array/values_pinned_sort_preference"
-            android:dialogTitle="@string/title_pinned_sort_preference"
-            android:defaultValue="0" />
-
-        <ca.mimic.apphangar.UpdatingListPreference
-            android:key="pinned_placement_preference"
-            android:title="@string/title_pinned_placement_preference"
-            android:summary="@string/summary_wildcard_preference"
-            android:entries="@array/entries_pinned_placement_preference"
-            android:entryValues="@array/values_pinned_placement_preference"
-            android:dialogTitle="@string/title_pinned_placement_preference"
-            android:defaultValue="0" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/title_more_apps_category">
-
-        <CheckBoxPreference
-            android:key="more_apps_preference"
-            android:title="@string/title_more_apps"
-            android:summary="@string/summary_more_apps" />
-
-        <ca.mimic.apphangar.UpdatingListPreference
-            android:key="more_apps_pages_preference"
-            android:title="@string/title_more_apps_pages"
-            android:summary="@string/summary_more_apps_pages"
-            android:dependency="more_apps_preference"
-            android:entries="@array/values_more_apps_pages_preference"
-            android:entryValues="@array/values_more_apps_pages_preference"
-            android:dialogTitle="@string/title_more_apps_pages"
-            android:defaultValue="3" />
-
-        <Preference
-            android:key="more_apps_icon_preference"
-            android:title="@string/title_more_apps_icon"
-            android:dependency="more_apps_preference" />
-
-       </PreferenceCategory>-->
 
 </PreferenceScreen>

@@ -201,7 +201,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
         mIsAtLeastLollipop = Tools.isLollipop(false);
 
 
-        launchInstructions();
+        showChangelog(prefs);
+
 
         if (mIsAtLeastLollipop && needsUsPermission()) {
             launchUsPermission(mContext);
@@ -257,12 +258,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
     @Override
     protected void onResume() {
         super.onResume();
-        prefs = new PrefsGet(getSharedPreferences(getPackageName(), Context.MODE_MULTI_PROCESS));
-        Tools.USLog("onResume Settings!");
-        try {
-            ((Spinner) getActionBar().getCustomView().findViewById(R.id.config_spinner)).setSelection(0);
-        } catch (Exception e) {
-        }
         myService.watchHelper(START_SERVICE);
     }
 
@@ -329,6 +324,35 @@ public class Settings extends Activity implements ActionBar.TabListener {
         startActivity(new Intent(mContext, Instructions.class));
     }
 
+    protected boolean showChangelog(PrefsGet prefs) {
+        SharedPreferences mPrefs = prefs.prefsGet();
+        SharedPreferences.Editor mEditor = prefs.editorGet();
+
+        String USVersion = null;
+        try {
+            USVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            String[] versionArray = USVersion.split("\\."); // Only get major.minor
+            USVersion = versionArray[0] + "." + versionArray[1];
+        } catch (PackageManager.NameNotFoundException e) {}
+
+        String whichVersion = mPrefs.getString(VERSION_CHECK, null);
+
+        Tools.USLog("savedVer: " + whichVersion + " hangarVersion: " + USVersion);
+        if (whichVersion != null) {
+            if (whichVersion.equals(USVersion)) {
+                return false;
+            } else {
+                mEditor.putString(VERSION_CHECK, USVersion);
+                mEditor.commit();
+                return true;
+            }
+        } else {
+            mEditor.putString(VERSION_CHECK, USVersion);
+            mEditor.commit();
+            launchInstructions();
+            return false;
+        }
+    }
 
     ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className,

@@ -188,12 +188,6 @@ public class AddApp extends Activity implements ActionBar.TabListener {
     @Override
     protected void onResume() {
         super.onResume();
-        prefs = new PrefsGet(getSharedPreferences(getPackageName(), Context.MODE_MULTI_PROCESS));
-        Tools.USLog("onResume Settings!");
-        try {
-            ((Spinner) getActionBar().getCustomView().findViewById(R.id.config_spinner)).setSelection(0);
-        } catch (Exception e) {
-        }
         myService.watchHelper(START_SERVICE);
     }
 
