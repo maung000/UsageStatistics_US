@@ -71,10 +71,7 @@ public class IconHelper {
                 ich = new IconCacheHelper(mContext);
                 Tools.USLog("Loading new IconCacheHelper instance");
             }
-            if (resourceName.equals(Settings.MORE_APPS_PACKAGE)) {
-                iconPackIcon = mContext.getResources().getDrawable(Settings.MORE_APPS_DRAWABLE_RESOURCE);
-                IconCacheHelper.preloadIcon(mContext, resourceName, Tools.drawableToBitmap(iconPackIcon), Tools.dpToPx(mContext, Settings.CACHED_ICON_SIZE));
-            } else {
+            if (!resourceName.equals(Settings.MORE_APPS_PACKAGE)) {
                 Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(resourceName);
                 ResolveInfo rInfo = mContext.getPackageManager().resolveActivity(intent, 0);
                 if (rInfo == null)

@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="5dp"
             android:textStyle="bold"
             android:text="@string/instructions_2_1"/>
 
@@ -27,16 +27,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="5dp"
             android:text="@string/instructions_2_2"/>
 
         <include layout="@layout/instructions_img_2" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold"
+            android:text="@string/instructions_3_1"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:text="@string/instructions_2_3"/>
+            android:layout_marginBottom="15dp"
+            android:text="@string/instructions_3_2"/>
+
+        <include layout="@layout/instructions_img_3" />
+
+
 
     </LinearLayout>
 

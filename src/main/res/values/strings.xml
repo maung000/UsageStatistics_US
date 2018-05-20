@@ -617,27 +617,25 @@
 
     <!-- Instructions -->
 
-    <string name="instructions_title">AM Instructions</string>
-    <string name="instructions_1_1">"Welcome to AM!"</string>
-    <string name="instructions_1_2">"Now that AM is installed, it has added an <b>app shortcut bar</b> to your notification drawer.  It will also start monitoring the frequency and amount of time you spend in your apps."</string>
-    <string name="instructions_1_3">"As AM follows your daily usage, it will use this data to prioritize the apps you rely on most.  With every app you use, Hangar gets smarter and changes those shortcuts in real time to suit your needs."</string>
-    <string name="instructions_title_1">"AM\'s app shortcut bar in the notification drawer"</string>
-    <string name="instructions_1_swipe">Swipe to next page</string>
+    <string name="instructions_title">Giới thiệu UsageStatistics</string>
+    <string name="instructions_1_1">"Chào mừng đến với UsageStatistics!"</string>
+    <string name="instructions_1_2">"UsageStatistics giúp bạn có thể chọn một hoặc nhiều ứng dụng bất kì để theo dõi thời gian sử dụng của ứng dụng đó"</string>
+    <string name="instructions_title_1">"Thêm ứng dụng để theo dõi"</string>
+    <string name="instructions_1_swipe">Vuốt qua trang kế tiếp</string>
 
-    <string name="instructions_2_1">"Statistics"</string>
-    <string name="instructions_2_2">"AM also keeps track of your in-app usage!"</string>
-    <string name="instructions_title_2">Stats widget</string>
-    <string name="instructions_2_3">"You can check the stats under AM\'s <b>Apps tab</b> or by placing the <b>Stats widget</b> on your homescreen."</string>
+    <string name="instructions_2_1">"Ứng dụng "</string>
+    <string name="instructions_2_2">"Theo dõi những ứng dụng đã chọn !"</string>
+    <!--<string name="instructions_title_2">Stats widget</string>-->
 
-    <string name="instructions_3_1">"Customizations"</string>
-    <string name="instructions_3_2">"In addition to the default <b>notification drawer</b> app shortcut bar, you can add and customize a <b>widget</b> for launching apps.  Specify the color, size, quantity, background color and more."</string>
-    <string name="instructions_title_3">ex. 2 differently styled Apps widgets</string>
-    <string name="instructions_title_4">App options menu</string>
-    <string name="instructions_3_3">"You can also <b>pin</b> apps to be permanently anchored.  Got an <b>icon pack</b> you like?  Hangar supports icon packs and even the ability to manually change an individual app\'s icon.\n\nFinally, you can exclude apps from showing up with the <b>blacklist</b> option.  Do all this and more from the Hangar <b>Apps tab</b>."</string>
+    <string name="instructions_3_1">"Thống kê theo ngày"</string>
+    <string name="instructions_3_2">"Bạn có thể kiểm tra chi tiết hằng ngày bạn sử dụng những ứng dụng bạn chọn trong bao lâu."</string>
 
-    <string name="instructions_4_1">"Get started"</string>
-    <string name="instructions_4_2">"AM is a lightweight tool that makes launching apps convenient from anywhere in Android.\n\nTo enjoy the full benefits of this tool, it should have at least a day\'s worth of monitored app statistics to base its recommendations on.\n\nEnjoy and thank you for trying Hangar!"</string>
-    <string name="instructions_4_button">Configure AM</string>
+    <string name="instructions_4_1">"Tùy chỉnh"</string>
+    <string name="instructions_4_2"><b>Đặt lại thời gian</b> cho phép bạn xóa thời gian sử dụng ứng dụng bạn chọn trở về ban đầu.<b>Thống kê</b> khi chọn sẽ xuất hiện bảng <b>Thông kê thời gian sử dụng ứng dụng</b>"</string>
+    <string name="instructions_4_button">Tiếp tục</string>
+
+    <string name="instructions_5_1">"<b>Thông kê thời gian sử dụng ứng dụng</b> cho phép bạn xác định thời gian sử dụng ứng dụng trong khoảng thời gian cụ thể. "</string>
+
     <string name="title_activity_add_app1">Thêm ứng dụng</string>
 
     <!-- Strings related to Settings -->

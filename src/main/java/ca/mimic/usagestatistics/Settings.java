@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Point;
@@ -114,7 +115,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     final static String MORE_APPS_PACKAGE = "ca.mimic.usagestatistics.MoreApps";
     final static String MORE_APPS_ACTION = "ca.mimic.usagestatistics.action.MORE_APPS";
-    final static int MORE_APPS_DRAWABLE_RESOURCE = R.drawable.ic_apps_plus;
 
     final static int FLOATING_WINDOWS_INTENT_FLAG = 0x00002000;
 
@@ -138,14 +138,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     final static int TASKLIST_QUEUE_LIMIT = 100;
 
-    final static String STATUSBAR_ICON_WHITE_WARM = "**white_warm**";
-    final static String STATUSBAR_ICON_WHITE_COLD = "**white_cold**";
-    final static String STATUSBAR_ICON_WHITE_BLUE = "**white_blue**";
     final static String STATUSBAR_ICON_WHITE = "**white**";
-    final static String STATUSBAR_ICON_BLACK_WARM = "**black_warm**";
-    final static String STATUSBAR_ICON_BLACK_COLD = "**black_cold**";
-    final static String STATUSBAR_ICON_BLACK_BLUE = "**black_blue**";
-    final static String STATUSBAR_ICON_TRANSPARENT = "**transparent**";
     final static String STATUSBAR_ICON_DEFAULT = STATUSBAR_ICON_WHITE;
 
     public static final String ACTION_APP_NOTIFICATION_SETTINGS = "android.settings.APP_NOTIFICATION_SETTINGS";
@@ -208,10 +201,12 @@ public class Settings extends Activity implements ActionBar.TabListener {
         mIsAtLeastLollipop = Tools.isLollipop(false);
 
 
+        launchInstructions();
 
         if (mIsAtLeastLollipop && needsUsPermission()) {
             launchUsPermission(mContext);
         }
+
 
         display = getWindowManager().getDefaultDisplay();
         updateDisplayWidth();
@@ -330,11 +325,10 @@ public class Settings extends Activity implements ActionBar.TabListener {
                 .show();
     }
 
-
-
     protected void launchInstructions() {
         startActivity(new Intent(mContext, Instructions.class));
     }
+
 
     ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className,
@@ -519,6 +513,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                 boot_preference = (CheckBoxPreference)findPreference(BOOT_PREFERENCE);
                 boot_preference.setChecked(prefs2.getBoolean(BOOT_PREFERENCE, BOOT_DEFAULT));
                 boot_preference.setOnPreferenceChangeListener(changeListener);
+
 
                 String appPackName = Tools.getApplicationName(mContext, prefs2.getString(ICON_PACK_PREFERENCE, null));
                 app_pack_preference = findPreference(ICON_PACK_PREFERENCE);

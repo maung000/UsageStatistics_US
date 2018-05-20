@@ -32,20 +32,6 @@
 
         <include layout="@layout/instructions_img_1" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_marginBottom="15dp"
-            android:text="@string/instructions_1_3"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:textSize="12sp"
-            android:textStyle="italic"
-            android:text="@string/instructions_1_swipe" />
 
     </LinearLayout>
 

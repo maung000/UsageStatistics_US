@@ -9,7 +9,8 @@
 
     <CheckBoxPreference
         android:key="boot_preference"
-        android:title="@string/title_boot_preference" />
+        android:title="@string/title_boot_preference"
+        android:summary="Chạy ứng dụng khi khởi động lại máy"/>
 
     <PreferenceScreen
         android:key="icon_pack_preference"

@@ -515,10 +515,7 @@ public class IconPackHelper {
             if (isPicker && (mTask != null || moreAppIcon)) {
                 Resources res = context.getResources();
                 String defaultLabel = res.getString(R.string.reset_icon);
-                if (moreAppIcon) {
-                    Drawable icon = context.getResources().getDrawable(Settings.MORE_APPS_DRAWABLE_RESOURCE);
-                    mSupportedPackages.add(0, new IconPackInfo(defaultLabel, icon, Settings.MORE_APPS_PACKAGE));
-                } else {
+                if (!moreAppIcon) {
                     Intent intent = context.getPackageManager().getLaunchIntentForPackage(mTask.getPackageName());
                     ResolveInfo rInfo = context.getPackageManager().resolveActivity(intent, 0);
 
