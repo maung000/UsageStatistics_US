@@ -227,14 +227,6 @@ public class TasksDataSource {
         }
     }
 
-    public void blacklistTask(TasksModel task, boolean blacklisted) {
-        synchronized (this) {
-            ContentValues args = new ContentValues();
-            args.put(Tasks.COLUMN_BLACKLISTED, blacklisted ? 1 : 0);
-            database.update(Tasks.TABLE_TASKS, args, Tasks.COLUMN_ID
-                    + " = " + task.getId(), null);
-        }
-    }
 
     public List<TasksModel> getBlacklisted() {
         synchronized (this) {

@@ -353,7 +353,7 @@ public class IconPackHelper {
         if (noPackages) {
             builder.setTitle(R.string.title_icon_pack_not_found);
         } else {
-            builder.setTitle(isPicker ? R.string.title_icon_pack_choose_from : R.string.title_app_pack_picker);
+            builder.setTitle(isPicker ? R.string.title_icon_pack_choose_from : R.string.title_add_app_follow);
         }
         AlertDialog alertDialog = builder.create();
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {

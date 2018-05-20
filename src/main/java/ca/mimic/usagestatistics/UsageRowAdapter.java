@@ -67,7 +67,6 @@ public class UsageRowAdapter extends BaseAdapter {
 
         ViewHolder holder;
 
-        UsageRowItem rowItem = (UsageRowItem) getItem(position);
 
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)

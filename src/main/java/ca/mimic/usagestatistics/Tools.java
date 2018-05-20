@@ -33,14 +33,12 @@ import java.util.List;
 
 public class Tools {
     final static String TAG = "UsageStatistics";
-    // 15 min buffer for the timestamp
-    final static int USAGE_STATS_QUERY_TIMEBUFFER = 900000;
-    // Query usage stats this amount of time
+
     final static int USAGE_STATS_QUERY_TIMEFRAME = 46800000;
     final static String USAGE_STATS_SERVICE_NAME = "usagestats";
     final static int AWAKE_REFRESH = 60000;
 
-    final static String REFRESH_ACTION = "ca.mimic.hangar.SCREEN_ON_REFRESH";
+    final static String REFRESH_ACTION = "ca.mimic.usagestatistics.SCREEN_ON_REFRESH";
     final static String REPLACE_ACTION = "android.intent.action.PACKAGE_REPLACED";
     final static String BOOT_ACTION = "android.intent.action.BOOT_COMPLETED";
 

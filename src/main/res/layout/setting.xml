@@ -3,20 +3,17 @@
     android:layout_height="fill_parent"
     android:layout_width="fill_parent">
 
-    <SwitchPreference
-        android:key="toggle_preference"
-        android:title="@string/title_toggle_preference" />
+    <!--<SwitchPreference-->
+        <!--android:key="toggle_preference"-->
+        <!--android:title="@string/title_toggle_preference" />-->
 
     <CheckBoxPreference
         android:key="boot_preference"
         android:title="@string/title_boot_preference" />
 
-    <!--<Preference
-        android:key="icon_pack_preference"
-        android:title="@string/title_icon_pack_preference"/>-->
     <PreferenceScreen
         android:key="icon_pack_preference"
-        android:title="@string/title_icon_pack_preference"
+        android:title="@string/title_add_app"
         android:persistent="false">
 
 

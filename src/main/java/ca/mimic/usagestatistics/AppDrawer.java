@@ -93,27 +93,6 @@ public class AppDrawer {
     }
 
 
-    protected void setPrefs(SharedPreferences prefs) {
-        // set Prefs for mLastItems
-        isColorized = prefs.getBoolean(Settings.COLORIZE_PREFERENCE, Settings.COLORIZE_DEFAULT);
-        roundedCorners = prefs.getBoolean(Settings.ROUNDED_CORNERS_PREFERENCE, Settings.COLORIZE_DEFAULT);
-        getColor = prefs.getInt(Settings.ICON_COLOR_PREFERENCE, Settings.ICON_COLOR_DEFAULT);
-        isFloating = prefs.getBoolean(Settings.FLOATING_WINDOWS_PREFERENCE, Settings.FLOATING_WINDOWS_DEFAULT);
-    }
-
-    protected void setCount(int count, int maxCount, boolean secondRow) {
-        // Prevent TransactionTooLarge insanity while still keeping image quality where possible
-
-        if (needsScaling()) {
-            mSize = mContext.getResources().getInteger(R.integer.notification_icon_size);
-            int rowValue = mContext.getResources().getInteger(R.integer.notification_row_value);
-            int iconSize = mSize + (rowValue + maxCount - count) - (secondRow ? rowValue : 0);
-            mSize = Tools.dpToPx(mContext, iconSize);
-            Tools.USLog("Notification icon size (px): " + mSize + "(dp): " + iconSize);
-        }
-
-    }
-
     @SuppressLint("WrongConstant")
     protected boolean newItem(Tools.TaskInfo taskItem, int mLastItemLayout) {
         PackageManager pkgm = mContext.getPackageManager();

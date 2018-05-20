@@ -62,7 +62,6 @@ public class WatchfulService extends Service {
     TasksDataSource db;
 
     SharedPreferences prefs;
-    SharedPreferences widgetPrefs;
     PackageManager pkgm;
     PowerManager pm;
 
@@ -104,8 +103,6 @@ public class WatchfulService extends Service {
     final int ICON_SIZE_LARGE = 2;
 
     protected static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
-
-    Map<String, Integer> iconMap;
 
     Handler handler = new Handler();
 
@@ -149,28 +146,15 @@ public class WatchfulService extends Service {
         Tools.USLog("starting up.. ");
 
         prefs = getSharedPreferences(getPackageName(), MODE_MULTI_PROCESS);
-        widgetPrefs = getSharedPreferences("AppsWidget", Context.MODE_MULTI_PROCESS);
+
 
         taskPackage = this.getPackageName();
 
         imageButtonLayout = getResources().getIdentifier("imageButton", "id", taskPackage);
         imageContLayout = getResources().getIdentifier("imageCont", "id", taskPackage);
 
-//        IntentFilter filter = new IntentFilter();
-//        filter.addAction(BCAST_CONFIGCHANGED);
-//        registerReceiver(mBroadcastReceiver, filter);
 
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-
-        iconMap = new HashMap<String, Integer>();
-        iconMap.put(Settings.STATUSBAR_ICON_WHITE_WARM, R.drawable.ic_apps_warm);
-        iconMap.put(Settings.STATUSBAR_ICON_WHITE_COLD, R.drawable.ic_apps_cold);
-        iconMap.put(Settings.STATUSBAR_ICON_WHITE_BLUE, R.drawable.ic_apps_blue);
-        iconMap.put(Settings.STATUSBAR_ICON_WHITE, R.drawable.ic_apps_white);
-        iconMap.put(Settings.STATUSBAR_ICON_BLACK_WARM, R.drawable.ic_apps_warm_black);
-        iconMap.put(Settings.STATUSBAR_ICON_BLACK_COLD, R.drawable.ic_apps_cold_black);
-        iconMap.put(Settings.STATUSBAR_ICON_BLACK_BLUE, R.drawable.ic_apps_blue_black);
-        iconMap.put(Settings.STATUSBAR_ICON_TRANSPARENT, R.drawable.ic_apps_transparent);
 
         setRefreshAlarm(getApplicationContext());
     }
@@ -200,7 +184,6 @@ public class WatchfulService extends Service {
         }
 
         prefs = getSharedPreferences(getPackageName(), MODE_MULTI_PROCESS);
-        widgetPrefs = getSharedPreferences("AppsWidget", Context.MODE_MULTI_PROCESS);
         pkgm = getPackageManager();
         launcherPackage = Tools.getLauncher(getApplicationContext());
 

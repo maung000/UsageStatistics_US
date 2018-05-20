@@ -79,12 +79,15 @@ public class Usage extends Fragment {
             arrayListUsage.add(new UsageRowItem(packedName, total, lastime));
 
         }
+        data.close();
         Cursor data1 = dbUsage.GetData("SELECT LASTTIME FROM USAGE_DAY_US GROUP BY LASTTIME ORDER BY LASTTIME DESC");
         while (data1.moveToNext()) {
             String lastime = data1.getString(0);
             arrayListDay.add(new UsageDay(lastime));
 
         }
+        data1.close();
+
         adapter.notifyDataSetChanged();
         return view;
     }

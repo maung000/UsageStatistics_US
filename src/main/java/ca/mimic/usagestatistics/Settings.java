@@ -33,7 +33,6 @@ import android.os.RemoteException;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -44,6 +43,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -57,9 +57,6 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
-
-import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 public class Settings extends Activity implements ActionBar.TabListener {
 
@@ -75,7 +72,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     final static int SETTING_TAB = 1;
     final static int USAGE_TAB = 2;
-    final static int APPEARANCE_TAB = 3;
     final static int APPS_TAB = 0;
 
     final static String DIVIDER_PREFERENCE = "divider_preference";
@@ -86,15 +82,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
     final static String BOOT_PREFERENCE = "boot_preference";
     final static String WEIGHTED_RECENTS_PREFERENCE = "weighted_recents_preference";
     final static String WEIGHT_PRIORITY_PREFERENCE = "weight_priority_preference";
-    final static String COLORIZE_PREFERENCE = "colorize_preference";
-    final static String ICON_COLOR_PREFERENCE = "icon_color_preference";
     final static String STATUSBAR_ICON_PREFERENCE = "statusbar_icon_preference";
-    final static String BACKGROUND_COLOR_PREFERENCE = "background_color_preference";
-    final static String STATS_WIDGET_APPSNO_PREFERENCE = "stats_widget_appsno_preference";
-    final static String STATS_WIDGET_APPSNO_LS_PREFERENCE = "stats_widget_appsno_ls_preference";
-    final static String APPS_BY_WIDGET_SIZE_PREFERENCE = "apps_by_widget_size_preference";
     final static String ICON_SIZE_PREFERENCE = "icon_size_preference";
-    final static String ALIGNMENT_PREFERENCE = "alignment_preference";
     final static String ICON_PACK_PREFERENCE = "icon_pack_preference";
     final static String SECOND_ROW_PREFERENCE = "second_row_preference";
     final static String PINNED_SORT_PREFERENCE = "pinned_sort_preference";
@@ -104,8 +93,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
     final static String SMART_NOTIFICATION_PREFERENCE = "smart_notification_preference";
     final static String MORE_APPS_PREFERENCE = "more_apps_preference";
     final static String MORE_APPS_PAGES_PREFERENCE = "more_apps_pages_preference";
-    final static String ROUNDED_CORNERS_PREFERENCE = "rounded_corners_preference";
-    final static String FLOATING_WINDOWS_PREFERENCE = "floating_windows_preference";
     final static String NOTIFICATION_BG_PREFERENCE = "notification_bg_preference";
 
     protected static Settings mInstance;
@@ -124,7 +111,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
     static ServiceCall myService;
 
     final static String PLAY_STORE_PACKAGENAME = "com.android.vending";
-    final static String PLAY_STORE_SEARCH_URI = "market://search?q=icon+pack";
 
     final static String MORE_APPS_PACKAGE = "ca.mimic.usagestatistics.MoreApps";
     final static String MORE_APPS_ACTION = "ca.mimic.usagestatistics.action.MORE_APPS";
@@ -137,22 +123,15 @@ public class Settings extends Activity implements ActionBar.TabListener {
     final static boolean TOGGLE_DEFAULT = true;
     final static boolean BOOT_DEFAULT = true;
     final static boolean WEIGHTED_RECENTS_DEFAULT = true;
-    final static boolean COLORIZE_DEFAULT = false;
-    final static boolean APPS_BY_WIDGET_SIZE_DEFAULT = true;
     final static boolean SECOND_ROW_DEFAULT = false;
     final static boolean IGNORE_PINNED_DEFAULT = false;
     final static boolean SMART_NOTIFICATION_DEFAULT = true;
     final static boolean MORE_APPS_DEFAULT = false;
-    final static boolean ROUNDED_CORNERS_DEFAULT = false;
-    final static boolean FLOATING_WINDOWS_DEFAULT = false;
 
     final static int WEIGHT_PRIORITY_DEFAULT = 0;
     final static int APPSNO_DEFAULT = 7;
-    final static int PRIORITY_TOP = 2;
     final static int PRIORITY_DEFAULT = 2;
     final static int PRIORITY_ON_L_DEFAULT = -2;
-    final static int PRIORITY_BOTTOM = -2;
-    final static int ICON_COLOR_DEFAULT = 0xffffffff;
     final static int PINNED_SORT_DEFAULT = 0;
     final static int PINNED_PLACEMENT_DEFAULT = 0;
     final static int MORE_APPS_PAGES_DEFAULT = 3;
@@ -167,7 +146,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
     final static String STATUSBAR_ICON_BLACK_COLD = "**black_cold**";
     final static String STATUSBAR_ICON_BLACK_BLUE = "**black_blue**";
     final static String STATUSBAR_ICON_TRANSPARENT = "**transparent**";
-    final static String STATUSBAR_ICON_NONE = "**none**";
     final static String STATUSBAR_ICON_DEFAULT = STATUSBAR_ICON_WHITE;
 
     public static final String ACTION_APP_NOTIFICATION_SETTINGS = "android.settings.APP_NOTIFICATION_SETTINGS";
@@ -181,9 +159,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
     final static int PINNED_PLACEMENT_LEFT = 0;
 
     final static int ICON_SIZE_DEFAULT = 1;
-    final static int NOTIFICATION_BG_DEFAULT = 0;
     final static int CACHED_ICON_SIZE = 72;
-    final static int CACHED_NOTIFICATION_ICON_LIMIT = 20;
     final static String ACTION_ADW_PICK_ICON = "org.adw.launcher.icons.ACTION_PICK_ICON";
 
     final static int SERVICE_BUILD_TASKS = 0;
@@ -224,6 +200,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
         setContentView(R.layout.activity_settings);
 
+
         prefs = new PrefsGet(getSharedPreferences(getPackageName(), Context.MODE_MULTI_PROCESS));
 
         mContext = this;
@@ -247,6 +224,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
         actionBar.setTitle(R.string.title_usage_statistics);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        //actionBar.setCustomView(R.layout.action_spinner);
+        //setUpSpinner((Spinner) actionBar.getCustomView().findViewById(R.id.config_spinner));
         actionBar.setDisplayShowCustomEnabled(true);
 
 
@@ -311,6 +290,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
         isBound = false;
     }
 
+
     @TargetApi(17)
     protected void updateDisplayWidth() {
         Point size = new Point();
@@ -322,31 +302,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
         }
     }
 
-    protected static void launchPriorityWarning(SharedPreferences prefs) {
-        String priority = prefs.getString(PRIORITY_PREFERENCE, Integer.toString(PRIORITY_DEFAULT));
-        if (Integer.parseInt(priority) != PRIORITY_TOP && prefs.getBoolean(SECOND_ROW_PREFERENCE, SECOND_ROW_DEFAULT)) {
-            new AlertDialog.Builder(mContext)
-                    .setTitle(R.string.title_second_row_preference)
-                    .setMessage(R.string.alert_second_row_summary)
-                    .setPositiveButton(R.string.contribute_accept_button, null)
-                    .show();
-        }
-    }
-    protected static void launchPriorityOnL(String priorityPreference) {
-        if (Integer.parseInt(priorityPreference) != PRIORITY_BOTTOM) {
-            new AlertDialog.Builder(mContext)
-                    .setTitle(R.string.title_priority_preference)
-                    .setMessage(R.string.summary_priority_on_l_notification)
-                    .setPositiveButton(R.string.priority_on_l_accept_button, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            launchNotificationSettings();
-                        }
-                    })
-                    .setNegativeButton(R.string.priority_on_l_cancel_button, null)
-                    .show();
-        }
-    }
 
     @TargetApi(21)
     static protected void launchUsPermission(Context context) {
@@ -537,7 +492,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     public static class PrefsFragment extends PreferenceFragment {
         CheckBoxPreference boot_preference;
-        SwitchPreference toggle_preference;
         Preference app_pack_preference;
 
         public static PrefsFragment newInstance(int prefLayout) {
@@ -560,10 +514,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
             final SharedPreferences prefs2 = prefs.prefsGet();
 
             try {
-                // *** General ***
-                toggle_preference = (SwitchPreference)findPreference(TOGGLE_PREFERENCE);
-                toggle_preference.setChecked(prefs2.getBoolean(TOGGLE_PREFERENCE, TOGGLE_DEFAULT));
-                toggle_preference.setOnPreferenceChangeListener(changeListener);
+                // *** SETTING ***
 
                 boot_preference = (CheckBoxPreference)findPreference(BOOT_PREFERENCE);
                 boot_preference.setChecked(prefs2.getBoolean(BOOT_PREFERENCE, BOOT_DEFAULT));
@@ -572,7 +523,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                 String appPackName = Tools.getApplicationName(mContext, prefs2.getString(ICON_PACK_PREFERENCE, null));
                 app_pack_preference = findPreference(ICON_PACK_PREFERENCE);
                 if (appPackName.isEmpty() || appPackName.equals("")) {
-                    appPackName = getResources().getString(R.string.title_app_pack_picker);
+                    appPackName = getResources().getString(R.string.title_add_app_follow);
                 }
 
                 app_pack_preference.setSummary(appPackName);
@@ -620,7 +571,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
         };
     }
 
-
     static void updateIconPackIcon(Context context) {//tạo icon
         String iconPackPackage = prefs.prefsGet().getString(ICON_PACK_PREFERENCE, null);
         Drawable icon;
@@ -634,6 +584,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
         PrefsFragment mGeneralSettings = (PrefsFragment) mGetFragments.getFragmentByPosition(SETTING_TAB);
         mGeneralSettings.app_pack_preference.setIcon(icon);
     }
+
 
 
     private static void launchNotificationSettings() {
@@ -804,6 +755,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
             popup.getMenuInflater().inflate(R.menu.app_action, popup.getMenu());
             MenuItem pinItem = popup.getMenu().getItem(0);
 
+            //if (rowItem.getPinned()) pinItem.setTitle(R.string.action_unpin);
             PopupMenu.OnMenuItemClickListener menuAction = new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -811,9 +763,19 @@ public class Settings extends Activity implements ActionBar.TabListener {
                     db.open();
 
                     switch (item.getItemId()) {
-                       case R.id.action_stat:
+                        case R.id.statitic:
                             String packedName = rowItem.getPackageName();
                             DialogCalculate(packedName);
+                            break;
+                        case R.id.action_reset_stats:
+                            rowItem.setStats(null);
+                            rowItem.setBarContWidth(0);
+                            db.resetTaskStats(rowItem);
+                            dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+                            dbUsage.QueryData("DELETE FROM USAGE_DAY_US WHERE TENPK = '"+rowItem.getPackageName()+"'");
+
+                            dbUsage.close();
+                            db.close();
                             break;
                     }
                     lv.invalidateViews();
@@ -828,13 +790,14 @@ public class Settings extends Activity implements ActionBar.TabListener {
     }
     public static void DialogCalculate(final String packedName){
         Dialog  dialog  = new Dialog(mContext);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_statitics);
 
 
         final EditText edtdayStart = (EditText) dialog.findViewById(R.id.dayStart);
         final EditText edtdayEnd = (EditText) dialog.findViewById(R.id.dayEnd);
         final  EditText edtCalculate = (EditText) dialog.findViewById(R.id.sum_time);
-        final Button btnStatitic = (Button) dialog.findViewById(R.id.btn_statitic);
+        final Button buttonUsage = (Button) dialog.findViewById(R.id.btn_statitic);
 
             edtdayStart.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -850,15 +813,13 @@ public class Settings extends Activity implements ActionBar.TabListener {
                     Select_day(edtdayEnd);
                 }
             });
-
-        btnStatitic.setOnClickListener(new View.OnClickListener() {
+        buttonUsage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 dayStart = Get_day(edtdayStart);
                 dayEnd = Get_day(edtdayEnd);
                 dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
-
                 Cursor data = dbUsage.GetData("SELECT SUM(TIME) FROM USAGE_DAY_US WHERE TENPK ='" + packedName + "' AND LASTTIME >= '" + dayStart + "' AND LASTTIME <= '" + dayEnd + "'");
                 while (data.moveToNext()) {
                     int sum_time = data.getInt(0);
@@ -906,7 +867,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
         try {
             highestSeconds = db.getHighestSeconds();
-
+            //tasks = db.getAllTasks();
+            //
             ArrayList<String> pinnedApps = new ArrayList<String>();
 
             SharedPreferences settingsPrefs = mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_MULTI_PROCESS);
@@ -1030,9 +992,9 @@ public class Settings extends Activity implements ActionBar.TabListener {
             Locale l = Locale.getDefault();
             switch (position) {
                 case SETTING_TAB:
-                    return mContext.getString(R.string.title_general).toUpperCase(l);
+                    return mContext.getString(R.string.title_setting).toUpperCase(l);
                 case USAGE_TAB:
-                    return mContext.getString(R.string.title_usage).toUpperCase(l);
+                    return mContext.getString(R.string.title_statitics_usage).toUpperCase(l);
                 case APPS_TAB:
                     return mContext.getString(R.string.title_apps).toUpperCase(l);
             }

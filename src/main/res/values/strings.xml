@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name" translatable="false">AM</string>
-    <string name="title_general">Hiển Thị</string>
-    <string name="title_usage">Thống kê</string>
+    <string name="app_name" translatable="false">UsageStatistics</string>
+    <string name="title_statitics_usage">Thống kê từng ngày</string>
     <string name="title_appearance">Appearance</string>
     <string name="title_apps">Ứng Dụng</string>
     <string name="title_add_apps">Thêm ứng dụng</string>
@@ -15,16 +14,8 @@
     <string name="title_toggle_preference">Thanh thông báo</string>
     <string name="title_boot_preference">Tự khởi chạy</string>
 
-    <string name="title_icon_pack_preference">Thêm ứng dụng</string>
-    <string name="default_icon_pack">Default Icons</string>
-    <string name="reset_icon">Use default icon</string>
-    <string name="switched_icon_packs_alert">Rebuilding icon cache.  This may take a few seconds!</string>
-    <string name="title_app_pack_picker">Chọn ứng dụng cần theo dõi</string>
-    <string name="title_icon_pack_choose_from">Choose from an icon pack</string>
-    <string name="title_icon_pack_not_found">No icon packs found</string>
-    <string name="title_icon_pack_install">Find an icon pack</string>
-    <string name="title_icon_pack_no_single_ui">Your chosen icon pack (%1$s) does not provide a UI for individual icon selection.\n\nPlease contact the icon pack developer for more information.</string>
-    <string name="title_icon_pack_no_single_picks">You have not selected a base icon pack to apply to all AM icons.\n\nYou may want to select one from the <b>General</b> tab first.</string>
+    <string name="title_add_app">Thêm ứng dụng</string>
+    <string name="title_add_app_follow">Chọn ứng dụng cần theo dõi</string>
 
     <string name="title_pinned_category">Pinned apps</string>
     <string name="title_pinned_sort_preference">Pinned app sorting</string>
@@ -269,7 +260,7 @@
     <string name="action_stat">Thống kê</string>
     <string name="action_blacklist">Bôi đen</string>
     <string name="action_pick_icon">Thay đổi icon</string>
-    <string name="action_reset_stats">Xóa thống kê</string>
+    <string name="action_reset_stats">Đặt lại thời gian</string>
 
     <!-- Action spinner -->
     <string name="title_activity_apps_widget">Apps Widget</string>
