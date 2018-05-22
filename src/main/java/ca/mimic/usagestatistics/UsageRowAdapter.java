@@ -95,7 +95,7 @@ public class UsageRowAdapter extends BaseAdapter {
         }
         final RecyclerView recyclerView = (RecyclerView) convertView.findViewById(R.id.recyclerview_id);
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(mContext,listTempGrid,mDay,listTasks);
-        recyclerView.setLayoutManager(new GridLayoutManager(mContext,5));
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext,3));
 
         recyclerView.setAdapter(recyclerViewAdapter);
 

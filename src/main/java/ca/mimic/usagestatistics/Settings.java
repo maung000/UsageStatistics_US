@@ -220,8 +220,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
         actionBar.setTitle(R.string.title_usage_statistics);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        //actionBar.setCustomView(R.layout.action_spinner);
-        //setUpSpinner((Spinner) actionBar.getCustomView().findViewById(R.id.config_spinner));
         actionBar.setDisplayShowCustomEnabled(true);
 
 

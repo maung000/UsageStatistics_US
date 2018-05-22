@@ -3,6 +3,7 @@ package ca.mimic.usagestatistics;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -104,6 +105,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             usageTime = (TextView) itemView.findViewById(R.id.usage_time);
             usageIcon = (ImageView) itemView.findViewById(R.id.usage_icon);
             cardView = (CardView) itemView.findViewById(R.id.cardview_id);
+
+            cardView.setCardBackgroundColor(Color.GRAY);
         }
     }
 
