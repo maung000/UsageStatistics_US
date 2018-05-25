@@ -19,13 +19,16 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -47,7 +51,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddApp extends Activity implements ActionBar.TabListener {
+public class AddApp extends Activity implements ActionBar.TabListener{
 
     SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -95,6 +99,7 @@ public class AddApp extends Activity implements ActionBar.TabListener {
     static Tools.TaskInfo runningTask;
     static List<ApplicationInfo> list_app= new ArrayList<>();
     static Context context ;
+    private SearchView searchView;
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -125,50 +130,60 @@ public class AddApp extends Activity implements ActionBar.TabListener {
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
+        getActionBar().setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setTitle("Thêm ứng dụng");
-        db1 = TasksDataSource.getInstance(mContext);
-        db1.open();
-        packageManager = getPackageManager();
-        List<ApplicationInfo> list_temp = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
-        ArrayList<ApplicationInfo> applist = new ArrayList<ApplicationInfo>();
-        for (ApplicationInfo info : list_temp) {
-            try {
-                if (null != packageManager.getLaunchIntentForPackage(info.packageName)) {
-                    applist.add(info);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        list_app = new ArrayList<>(applist);
-        for(int i = 0;i<list_app.size();i++){
-            String temp  = list_app.get(i).packageName;
-            runningTask = new Tools.TaskInfo(temp);
-            String className = null;
-            ResolveInfo resolveInfo;
-            Context context = getApplicationContext();
-            resolveInfo = new Tools().cachedImageResolveInfo(context, temp);
-            className = resolveInfo.activityInfo.name;
-            runningTask.className = className;
-            try {
-                ApplicationInfo appInfo = packageManager.getApplicationInfo(temp, 0);
-                runningTask.appName = appInfo.loadLabel(packageManager).toString();
-                if (!runningTask.appName.isEmpty()) {
-                    TasksModel tasksModel = db1.getTask(temp);
-                    if(tasksModel == null)
-                    {
-                        Date date = new Date();
-                        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-                        db1.createTask(runningTask.appName, runningTask.packageName, runningTask.className, dateFormatter.format(date));
+
+        // get list Installed Applications
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                db1 = TasksDataSource.getInstance(mContext);
+                db1.open();
+                packageManager = getPackageManager();
+                List<ApplicationInfo> list_temp = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+                ArrayList<ApplicationInfo> applist = new ArrayList<ApplicationInfo>();
+                for (ApplicationInfo info : list_temp) {
+                    try {
+                        if (null != packageManager.getLaunchIntentForPackage(info.packageName)) {
+                            applist.add(info);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+                list_app = new ArrayList<>(applist);
+                for(int i = 0;i<list_app.size();i++){
+                    String temp  = list_app.get(i).packageName;
+                    runningTask = new Tools.TaskInfo(temp);
+                    String className = null;
+                    ResolveInfo resolveInfo;
+                    Context context = getApplicationContext();
+                    resolveInfo = new Tools().cachedImageResolveInfo(context, temp);
+                    className = resolveInfo.activityInfo.name;
+                    runningTask.className = className;
+                    try {
+                        ApplicationInfo appInfo = packageManager.getApplicationInfo(temp, 0);
+                        runningTask.appName = appInfo.loadLabel(packageManager).toString();
+                        if (!runningTask.appName.isEmpty()) {
+                            TasksModel tasksModel = db1.getTask(temp);
+                            if(tasksModel == null)
+                            {
+                                Date date = new Date();
+                                SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                                db1.createTask(runningTask.appName, runningTask.packageName, runningTask.className, dateFormatter.format(date));
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                db1.close();
             }
-        }
-        db1.close();
+        }).start();
+
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
@@ -179,10 +194,6 @@ public class AddApp extends Activity implements ActionBar.TabListener {
         mGetFragments = new GetFragments();
         mGetFragments.setFm(getFragmentManager());
         mGetFragments.setVp(mViewPager);
-
-        //mViewPager.setOnPageChangeListener(pageChangeListener);
-
-        //pageChangeListener.onPageSelected(APPS_TAB);
 
     }
     @Override
@@ -216,7 +227,6 @@ public class AddApp extends Activity implements ActionBar.TabListener {
         super.onDestroy();
         isBound = false;
     }
-
 
     ServiceConnection mConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className,
@@ -385,6 +395,8 @@ public class AddApp extends Activity implements ActionBar.TabListener {
         };
         mInstance.runOnUiThread(runnable);
     }
+
+
 
 
     public static class AppsFragment extends Fragment implements AdapterView.OnItemClickListener {

@@ -71,7 +71,7 @@
     <string name="apps_loading">Loading apps..</string>
 
     <string name="title_top_spinner">Top</string>
-    <string name="title_sort_spinner">Sắp xếp</string>
+    <string name="title_sort_spinner">Sắp xếp: </string>
     <string name="refresh_button">Làm mới</string>
 
     <string name="top_pinned">Đã ghim</string>

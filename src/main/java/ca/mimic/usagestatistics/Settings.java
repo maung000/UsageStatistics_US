@@ -710,6 +710,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
             ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(mContext,
                     R.array.entries_sort_spinner, R.layout.spinner_item);
             sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
             sortSpin.setAdapter(sortAdapter);
             sortSpin.setOnItemSelectedListener(spinnerListener);
             sortSpin.setSelection(prefs2.getInt(APPLIST_SORT_PREFERENCE, APPLIST_SORT_DEFAULT));

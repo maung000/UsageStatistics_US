@@ -58,7 +58,8 @@
                 android:layout_toRightOf="@+id/sort_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/sort_text" />
+                android:layout_toEndOf="@+id/sort_text"
+                android:theme="@style/Base.V22.Theme.AppCompat.Light"/>
 
         </RelativeLayout>
 
