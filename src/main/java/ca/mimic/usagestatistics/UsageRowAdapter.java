@@ -86,12 +86,17 @@ public class UsageRowAdapter extends BaseAdapter {
         String dayTemp = usageDay.getmDay();
         dbUsage = new DBUsage(convertView.getContext(), "Usage.sqlite", null, 1);
         Cursor data = dbUsage.GetData("SELECT TENPK,(SUM(TIME)) as TIME,LASTTIME  FROM USAGE_DAY_US WHERE LASTTIME = '"+dayTemp +"' GROUP BY TENPK ");
-        while (data.moveToNext()) {
-            String packedName = data.getString(0);
-            long total = data.getLong(1);
-            String day= data.getString(2);
-            Toast.makeText(convertView.getContext(),""+packedName+"",Toast.LENGTH_SHORT);
-            listTempGrid.add(new UsageRowItem(packedName, total, day));
+        try {
+            while (data.moveToNext()) {
+                String packedName = data.getString(0);
+                long total = data.getLong(1);
+                String day = data.getString(2);
+                Toast.makeText(convertView.getContext(), "" + packedName + "", Toast.LENGTH_SHORT);
+                listTempGrid.add(new UsageRowItem(packedName, total, day));
+            }
+        }
+        finally {
+            data.close();
         }
         final RecyclerView recyclerView = (RecyclerView) convertView.findViewById(R.id.recyclerview_id);
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(mContext,listTempGrid,mDay,listTasks);

@@ -29,6 +29,7 @@ import android.database.Cursor;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.CheckBoxPreference;
@@ -228,7 +229,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setOffscreenPageLimit(1);
+        mViewPager.setOffscreenPageLimit(3);
 
         mGetFragments = new GetFragments();
         mGetFragments.setFm(getFragmentManager());
@@ -588,7 +589,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
         };
     }
 
-    static void updateIconPackIcon(Context context) {//tạo icon
+    // Create Icon
+    static void updateIconPackIcon(Context context) {
         String iconPackPackage = prefs.prefsGet().getString(ICON_PACK_PREFERENCE, null);
         Drawable icon;
 
@@ -644,13 +646,24 @@ public class Settings extends Activity implements ActionBar.TabListener {
     }
 
 
+
+//    public static class RefreshData extends AsyncTask<Void, Integer, Void>{
+//
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            return null;
+//        }
+//    }
     public static class AppsFragment extends Fragment implements OnItemClickListener {
 
         public static Fragment newInstance() {
+
             return new AppsFragment();
         }
 
         public AppsFragment() {}
+
 
         public void onResume() {
             super.onResume();
@@ -658,10 +671,24 @@ public class Settings extends Activity implements ActionBar.TabListener {
             if (mAppRowAdapter == null)
                 return;
 
+                List<AppsRowItem> mRowItems = createAppTasks();
+                if (mAppRowAdapter.mRowItems.size() != mRowItems.size()) {
+                    mAppRowAdapter.mRowItems = createAppTasks();
+                    updateListView(true);
+                }
+
             mAppsLoaded = false;
             mAppRowAdapter.reDraw(completeRedraw);
             lv.invalidateViews();
         }
+
+
+        @Override
+        public void onStart() {
+            super.onStart();
+
+        }
+
 
         public void buildList() {
             Runnable runnable = new Runnable() {
@@ -839,14 +866,18 @@ public class Settings extends Activity implements ActionBar.TabListener {
                 dayEnd = Get_day(edtdayEnd);
                 dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
                 Cursor data = dbUsage.GetData("SELECT SUM(TIME) FROM USAGE_DAY_US WHERE TENPK ='" + packedName + "' AND LASTTIME >= '" + dayStart + "' AND LASTTIME <= '" + dayEnd + "'");
-                while (data.moveToNext()) {
-                    int sum_time = data.getInt(0);
-                    int[] statsTime = splitToComponentTimes(sum_time);
-                    String statsString = ((statsTime[0] > 0) ? statsTime[0] + "h " : "") + ((statsTime[1] > 0) ? statsTime[1] + "m " : "") + ((statsTime[2] > 0) ? statsTime[2] + "s " : "");
-                    edtCalculate.setText(statsString);
+                try {
+                    while (data.moveToNext()) {
+                        int sum_time = data.getInt(0);
+                        int[] statsTime = splitToComponentTimes(sum_time);
+                        String statsString = ((statsTime[0] > 0) ? statsTime[0] + "h " : "") + ((statsTime[1] > 0) ? statsTime[1] + "m " : "") + ((statsTime[2] > 0) ? statsTime[2] + "s " : "");
+                        edtCalculate.setText(statsString);
 
+                    }
                 }
-                dbUsage.close();
+                finally {
+                    data.close();
+                }
             }
         });
         dialog.show();
@@ -885,7 +916,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
         try {
             highestSeconds = db.getHighestSeconds();
-            //tasks = db.getAllTasks();
+
             //
             ArrayList<String> pinnedApps = new ArrayList<String>();
 

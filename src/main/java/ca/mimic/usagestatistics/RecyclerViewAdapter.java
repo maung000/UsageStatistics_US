@@ -84,6 +84,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
 
         }
+        db.close();
     }
 
     @Override
