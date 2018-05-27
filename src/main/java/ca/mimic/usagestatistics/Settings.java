@@ -4,8 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -37,6 +39,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -229,7 +232,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(1);
 
         mGetFragments = new GetFragments();
         mGetFragments.setFm(getFragmentManager());
@@ -241,8 +244,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
                 actionBar.setSelectedNavigationItem(position);
             }
         };
-
-        mViewPager.setOnPageChangeListener(pageChangeListener);
 
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
             actionBar.addTab(
@@ -271,6 +272,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
             }
             isBound = false;
         }
+
     }
 
     @Override
@@ -646,15 +648,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
     }
 
 
-
-//    public static class RefreshData extends AsyncTask<Void, Integer, Void>{
-//
-//
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-//            return null;
-//        }
-//    }
     public static class AppsFragment extends Fragment implements OnItemClickListener {
 
         public static Fragment newInstance() {
@@ -671,11 +664,12 @@ public class Settings extends Activity implements ActionBar.TabListener {
             if (mAppRowAdapter == null)
                 return;
 
-                List<AppsRowItem> mRowItems = createAppTasks();
-                if (mAppRowAdapter.mRowItems.size() != mRowItems.size()) {
-                    mAppRowAdapter.mRowItems = createAppTasks();
-                    updateListView(true);
-                }
+            List<AppsRowItem> mRowItems = createAppTasks();
+            if (mAppRowAdapter.mRowItems.size() != mRowItems.size()) {
+                mAppRowAdapter.mRowItems = createAppTasks();
+                updateListView(true);
+            }
+            mAppRowAdapter.notifyDataSetChanged();
 
             mAppsLoaded = false;
             mAppRowAdapter.reDraw(completeRedraw);
@@ -1015,7 +1009,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-
 
         @Override
         public Fragment getItem(final int position) {

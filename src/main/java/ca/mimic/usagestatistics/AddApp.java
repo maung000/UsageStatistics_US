@@ -137,9 +137,8 @@ public class AddApp extends Activity implements ActionBar.TabListener{
 
         // get list Installed Applications
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+
+
                 db1 = TasksDataSource.getInstance(mContext);
                 db1.open();
                 packageManager = getPackageManager();
@@ -181,8 +180,6 @@ public class AddApp extends Activity implements ActionBar.TabListener{
                     }
                 }
                 db1.close();
-            }
-        }).start();
 
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());

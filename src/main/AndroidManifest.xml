@@ -35,7 +35,9 @@
             android:name="ca.mimic.usagestatistics.WatchfulService"
             android:exported="false"
             android:icon="@drawable/ic_launcher"
-            android:process=":appwatch"></service>
+            android:process=":appwatch">
+
+        </service>
 
         <activity
             android:name="ca.mimic.usagestatistics.Settings"

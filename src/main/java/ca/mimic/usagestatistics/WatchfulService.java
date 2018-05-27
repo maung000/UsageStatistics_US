@@ -45,6 +45,7 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -306,6 +307,7 @@ public class WatchfulService extends Service {
 
                     final Context context = getApplicationContext();
 
+
                     String taskClass = "";
                     String taskPackage = "";
                     String lTaskClass = "";
@@ -435,6 +437,7 @@ public class WatchfulService extends Service {
 
                             Tools.USLog("New activity found, seconds in old: " + activityDelta);
                             if (activityDelta > 0) {
+
                                 db.addSeconds(lollipopTaskInfo.lastPackageName, activityDelta);
 
                                 dbUsage.QueryData("CREATE TABLE IF NOT EXISTS USAGE_DAY_US (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME INTEGER,LASTTIME VARCHAR(100))");
