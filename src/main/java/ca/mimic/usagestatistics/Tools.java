@@ -88,6 +88,43 @@ public class Tools {
 
         return !removed;
     }
+    protected boolean isLocked(Context context, String packageName) {
+        ArrayList<String> appList = getLock(context);
+        for (String app : appList) {
+            if (app.equals(packageName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    protected ArrayList<String> getLock(Context context) {
+        SharedPreferences settingsPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS);
+        String lockApps = settingsPrefs.getString(Settings.LOCKED_APPS, "");
+
+        return new ArrayList<String>(Arrays.asList(lockApps.split(" ")));
+    }
+    protected boolean toggleLock(Context context, String packageName, SharedPreferences.Editor settingsEditor) {
+        ArrayList<String> appList = getLock(context);
+
+        Boolean removed = false;
+        String lockApps = "";
+
+        for (String app : appList) {
+            if (app.equals(packageName)) {
+                removed = true;
+                continue;
+            }
+            lockApps += app + " ";
+        }
+        if (!removed) {
+            lockApps += packageName;
+        }
+
+        settingsEditor.putString(Settings.LOCKED_APPS, lockApps.trim());
+        settingsEditor.commit();
+
+        return !removed;
+    }
 
     protected static int getViewBackgroundResource () {
         return mBackgroundResource;

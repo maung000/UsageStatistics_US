@@ -38,12 +38,14 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
+import android.util.Pair;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -57,6 +59,7 @@ import java.util.Map;
 
 import ca.mimic.usagestatistics.Tools.TaskInfo;
 import ca.mimic.usagestatistics.Tools.LollipopTaskInfo;
+import ca.mimic.usagestatistics.Utils.SharedPreference;
 
 public class WatchfulService extends Service {
 
@@ -102,6 +105,7 @@ public class WatchfulService extends Service {
 
     final int ICON_SIZE_SMALL = 0;
     final int ICON_SIZE_LARGE = 2;
+
 
     protected static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
 
@@ -440,15 +444,14 @@ public class WatchfulService extends Service {
 
                                 db.addSeconds(lollipopTaskInfo.lastPackageName, activityDelta);
 
-                                dbUsage.QueryData("CREATE TABLE IF NOT EXISTS USAGE_DAY_US (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME INTEGER,LASTTIME VARCHAR(100))");
 
                                 dbUsage.QueryData("INSERT INTO USAGE_DAY_US VALUES(null,'" + lollipopTaskInfo.lastPackageName+ "','" + activityDelta + "','" + lollipopTaskInfo.lastDay + "')");
 
 
-                                }
+                                //
+                            }
                             }
                         }
-
 
 
                     if (taskClass.equals(getPackageName())) {

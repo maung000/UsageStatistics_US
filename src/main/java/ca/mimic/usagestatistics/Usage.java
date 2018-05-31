@@ -62,6 +62,7 @@ public class Usage extends Fragment {
         // get data app pinned
         db = TasksDataSource.getInstance(view.getContext());
         db.open();
+        try{
         ArrayList<String> pinnedApps = new ArrayList<String>();
 
         SharedPreferences settingsPrefs = view.getContext().getSharedPreferences(view.getContext().getPackageName(), Context.MODE_MULTI_PROCESS);
@@ -71,7 +72,11 @@ public class Usage extends Fragment {
         if (!ignorePinned)
             pinnedApps = new Tools().getPinned(view.getContext());
 
-        listTasks = db.getPinnedTasks(pinnedApps, pinnedSort);
+            listTasks = db.getPinnedTasks(pinnedApps, pinnedSort);
+        } catch (Exception e) {
+            Tools.USLog("createAppTasks exception: " + e);
+            listTasks = new ArrayList<TasksModel>();
+        }
         db.close();
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
