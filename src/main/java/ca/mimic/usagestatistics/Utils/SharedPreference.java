@@ -48,6 +48,14 @@ public class SharedPreference {
         }
     }
 
+    public void removeAllLocked(Context context) {
+        ArrayList<String> locked = getLocked(context);
+        if (locked != null) {
+            locked.removeAll(locked);
+            saveLocked(context, locked);
+        }
+    }
+
     public ArrayList<String> getLocked(Context context) {
         SharedPreferences settings;
         List<String> locked;

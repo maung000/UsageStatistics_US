@@ -109,10 +109,10 @@
 
     <!-- Action menu -->
     <string name="action_pin">Ghim</string>
-    <string name="action_unpin">Bỏ ghim</string>
+    <string name="action_unlock">Bỏ khóa</string>
     <string name="action_stat">Thống kê</string>
     <string name="action_blacklist">Bôi đen</string>
-    <string name="action_pick_icon">Thay đổi icon</string>
+    <string name="action_lock">Khóa</string>
     <string name="action_reset_stats">Đặt lại thời gian</string>
 
     <!-- Action spinner -->

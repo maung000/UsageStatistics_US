@@ -3,9 +3,6 @@
     android:layout_height="fill_parent"
     android:layout_width="fill_parent">
 
-    <!--<SwitchPreference-->
-        <!--android:key="toggle_preference"-->
-        <!--android:title="@string/title_toggle_preference" />-->
 
     <CheckBoxPreference
         android:key="boot_preference"
@@ -20,5 +17,18 @@
 
     </PreferenceScreen>
 
+    <PreferenceCategory android:title="Khóa ứng dụng">
 
+    <PreferenceScreen
+        android:key="password"
+        android:summary="Thiết lập mật khẩu cho việc khóa ứng dụng"
+        android:title="Mật khẩu " >
+    </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="change_password"
+            android:title="Thay đổi mật khẩu" >
+        </PreferenceScreen>
+
+    </PreferenceCategory>
 </PreferenceScreen>

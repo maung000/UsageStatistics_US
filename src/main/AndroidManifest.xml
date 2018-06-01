@@ -12,6 +12,7 @@
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:allowBackup="true"
@@ -63,7 +64,43 @@
         </activity>
         <activity android:name="ca.mimic.usagestatistics.AddApp"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".Utils.PasswordSetActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name=".Utils.PasswordRecoverSetActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
 
+        <activity
+            android:name=".Utils.PasswordRecoveryActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
+        <activity
+            android:name=".Utils.PasswordActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Utils.PasswordOldActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Utils.PasswordChange"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:screenOrientation="portrait"></activity>
+        <service
+            android:name=".services.AppCheckServices"
+            android:exported="false" />
+        <receiver
+            android:name=".services.AlarmReceiver">
+        </receiver>
     </application>
 
 </manifest>

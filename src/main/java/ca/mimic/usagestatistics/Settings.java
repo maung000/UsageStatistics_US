@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -65,6 +66,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import ca.mimic.usagestatistics.Utils.PasswordOldActivity;
 import ca.mimic.usagestatistics.Utils.PasswordSetActivity;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
 import ca.mimic.usagestatistics.services.AlarmReceiver;
@@ -187,10 +189,10 @@ public class Settings extends Activity implements ActionBar.TabListener {
     static DBUsage dbUsage;
     private static String dayStart="";
     private static String dayEnd="";
-    private static String time="";
+    private static String day_old="";
 
 
-    SharedPreference sharedPreference;
+    static SharedPreference sharedPreference;
 
     static List<Pair<String,Integer>> time_lock = new ArrayList<>();
 
@@ -305,15 +307,20 @@ public class Settings extends Activity implements ActionBar.TabListener {
         // Khóa ứng dụng
         dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
 
-//        Calendar c = Calendar.getInstance();
-//
-//        int thisyear = c.get(Calendar.YEAR);
-//        int thismonth = c.get(Calendar.MONTH);
-//        int today = c.get(Calendar.DATE);
-//
-//        String dayTemp = today +"/" +thismonth+"/"+thisyear;
+        Calendar c = Calendar.getInstance();
+        int thisyear = c.get(Calendar.YEAR);
+        int thismonth = (c.get(Calendar.MONTH)+1);
+        int today = c.get(Calendar.DATE);
 
-        String dayTemp = "29/05/2018";
+        sharedPreference = new SharedPreference();
+
+        ArrayList<String> locked = sharedPreference.getLocked(mContext);
+
+        String dayTemp = today +"/0" +thismonth+"/"+thisyear;
+        if(!day_old.equals(dayTemp) && !day_old.equals(""))
+        {
+            sharedPreference.removeAllLocked(mContext);
+        }
         Cursor data = dbUsage.GetData("SELECT TENPK,(SUM(TIME)) as TIME  FROM USAGE_DAY_US WHERE LASTTIME = '"+dayTemp +"' GROUP BY TENPK ");
         try {
             while (data.moveToNext()) {
@@ -326,7 +333,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
                             long lock_time = data2.getLong(2);
                             if (packedName2.equals(packedName1)) {
                                 if (lock_time < total) {
-                                    sharedPreference = new SharedPreference();
                                     sharedPreference.addLocked(mContext, packedName2);
                                 }
                             }
@@ -340,6 +346,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
         finally {
             data.close();
         }
+        day_old = dayTemp;
     }
 
     @Override
@@ -630,35 +637,41 @@ public class Settings extends Activity implements ActionBar.TabListener {
                 );
 
 
-
-                //app_pack_preference.setSummary();
-                //updateIconPackIcon(mContext);
+                sharedPreference = new SharedPreference();
+                String password = sharedPreference.getPassword(mContext);
                 password_firts = findPreference(PASSWORD_FIRST_PREFERENCE);
-                password_firts.setOnPreferenceClickListener(
-                        new Preference.OnPreferenceClickListener() {
-                            @Override
-                            public boolean onPreferenceClick(Preference preference) {
-                                Intent intent = new Intent(mContext, PasswordSetActivity.class);
-                                startActivity(intent);
-                                return false;
+                if(password.equals("")) {
+                    //app_pack_preference.setSummary();
+                    //updateIconPackIcon(mContext);
+                    password_firts.setOnPreferenceClickListener(
+                            new Preference.OnPreferenceClickListener() {
+                                @Override
+                                public boolean onPreferenceClick(Preference preference) {
+                                    Intent intent = new Intent(mContext, PasswordSetActivity.class);
+                                    startActivity(intent);
+                                    return false;
+                                }
                             }
-                        }
-                );
+                    );
+                }else{
+                    password_firts.setEnabled(false);
+                }
 
                 password_change = findPreference(PASSWORD_CHANGE_PREFERENCE);
-                password_change.setOnPreferenceClickListener(
-                        new Preference.OnPreferenceClickListener() {
-                            @Override
-                            public boolean onPreferenceClick(Preference preference) {
-                                Intent intent = new Intent(mContext, PasswordSetActivity.class);
-                                startActivity(intent);
-                                return false;
+                if(!password.equals(""))
+                {
+                    password_change.setOnPreferenceClickListener(
+                            new Preference.OnPreferenceClickListener() {
+                                @Override
+                                public boolean onPreferenceClick(Preference preference) {
+                                    Intent intent = new Intent(mContext, PasswordOldActivity.class);
+                                    startActivity(intent);
+                                    return false;
+                                }
                             }
-                        }
-                );
-
-
-
+                    );
+                }else
+                    password_change.setEnabled(false);
             } catch (NullPointerException e) {
             }
         }
@@ -974,7 +987,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
             @Override
             public void onClick(View v) {
 
-                time = edt_LockTime.getText().toString();
                 String time = edt_LockTime.getText().toString();
                 if(!time.equals("")) {
                     String[] units = time.split(":");
