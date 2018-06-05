@@ -13,18 +13,18 @@ public final class R {
     }
     public static final class string {
         public static final int app_name = 0x7f0e0026;
-        public static final int define_AndroidIconics = 0x7f0e004a;
-        public static final int library_AndroidIconics_author = 0x7f0e005d;
-        public static final int library_AndroidIconics_authorWebsite = 0x7f0e005e;
-        public static final int library_AndroidIconics_isOpenSource = 0x7f0e005f;
-        public static final int library_AndroidIconics_libraryDescription = 0x7f0e0060;
-        public static final int library_AndroidIconics_libraryName = 0x7f0e0061;
-        public static final int library_AndroidIconics_libraryVersion = 0x7f0e0062;
-        public static final int library_AndroidIconics_libraryWebsite = 0x7f0e0063;
-        public static final int library_AndroidIconics_licenseId = 0x7f0e0064;
-        public static final int library_AndroidIconics_owner = 0x7f0e0065;
-        public static final int library_AndroidIconics_repositoryLink = 0x7f0e0066;
-        public static final int library_AndroidIconics_year = 0x7f0e0067;
+        public static final int define_AndroidIconics = 0x7f0e004d;
+        public static final int library_AndroidIconics_author = 0x7f0e0060;
+        public static final int library_AndroidIconics_authorWebsite = 0x7f0e0061;
+        public static final int library_AndroidIconics_isOpenSource = 0x7f0e0062;
+        public static final int library_AndroidIconics_libraryDescription = 0x7f0e0063;
+        public static final int library_AndroidIconics_libraryName = 0x7f0e0064;
+        public static final int library_AndroidIconics_libraryVersion = 0x7f0e0065;
+        public static final int library_AndroidIconics_libraryWebsite = 0x7f0e0066;
+        public static final int library_AndroidIconics_licenseId = 0x7f0e0067;
+        public static final int library_AndroidIconics_owner = 0x7f0e0068;
+        public static final int library_AndroidIconics_repositoryLink = 0x7f0e0069;
+        public static final int library_AndroidIconics_year = 0x7f0e006a;
     }
     public static final class styleable {
         public static final int[] IconicsImageView = { 0x7f0300a7, 0x7f0300a8 };

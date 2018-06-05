@@ -1,5 +1,6 @@
 package ca.mimic.usagestatistics.services;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.app.Service;
@@ -9,9 +10,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -27,13 +31,19 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.takwolf.android.lock9.Lock9View;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
+import ca.mimic.usagestatistics.DBUsage;
 import ca.mimic.usagestatistics.R;
+import ca.mimic.usagestatistics.Tools;
 import ca.mimic.usagestatistics.Utils.AppLockConstants;
 import ca.mimic.usagestatistics.Utils.PasswordRecoveryActivity;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
@@ -51,6 +61,9 @@ public class AppCheckServices extends Service {
     public static String previousApp = "";
     SharedPreference sharedPreference;
     List<String> pakageName;
+    static DBUsage dbUsage;
+    private static String day_old="";
+
 
     @Override
     public void onCreate() {
@@ -63,13 +76,12 @@ public class AppCheckServices extends Service {
         timer = new Timer("AppCheckServices");
         timer.schedule(updateTask, 1000L, 1000L);
 
-//        final Tracker t = ((AppLockApplication) getApplication()).getTracker(AppLockApplication.TrackerName.APP_TRACKER);
-//        t.setScreenName(AppLockConstants.APP_LOCK);
-//        t.send(new HitBuilders.AppViewBuilder().build());
 
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+
         imageView = new ImageView(this);
         imageView.setVisibility(View.GONE);
+
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -81,6 +93,23 @@ public class AppCheckServices extends Service {
         params.x = ((getApplicationContext().getResources().getDisplayMetrics().widthPixels) / 2);
         params.y = ((getApplicationContext().getResources().getDisplayMetrics().heightPixels) / 2);
         windowManager.addView(imageView, params);
+
+//        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+//
+//        final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+//                WindowManager.LayoutParams.WRAP_CONTENT,
+//                WindowManager.LayoutParams.WRAP_CONTENT,
+//                WindowManager.LayoutParams.TYPE_PHONE,
+//                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+//                PixelFormat.TRANSLUCENT);
+//
+//        params.gravity = Gravity.TOP | Gravity.CENTER;
+//        params.x = ((getApplicationContext().getResources().getDisplayMetrics().widthPixels) / 2);
+//        params.y = ((getApplicationContext().getResources().getDisplayMetrics().heightPixels) / 2);
+//
+//
+//
+//        windowManager.addView(imageView, params);
     }
 
     private TimerTask updateTask = new TimerTask() {
@@ -234,7 +263,96 @@ public class AppCheckServices extends Service {
                 }
             }
 
+//      Khóa ứng dụng
+        dbUsage = new DBUsage(context, "Usage.sqlite", null, 1);
+        Calendar c = Calendar.getInstance();
+        int thisyear = c.get(Calendar.YEAR);
+        int thismonth = (c.get(Calendar.MONTH)+1);
+        int today = c.get(Calendar.DATE);
+        List<UsageStats> listStats = Tools.getUsageStats(context);
+        if(listStats.size() != 0) {
+            sharedPreference = new SharedPreference();
+            String dayTemp = "";
+            ArrayList<String> locked = sharedPreference.getLocked(context);
+            if(today <10) {
+                dayTemp = "0" + today + "/0" + thismonth + "/" + thisyear;
+            }
+            else
+                dayTemp = today + "/0" + thismonth + "/" + thisyear;
 
+            if (!day_old.equals(dayTemp) && !day_old.equals("")) {
+                sharedPreference.removeAllLocked(context);
+            }
+            Cursor data = dbUsage.GetData("SELECT TENPK,(SUM(TIME)) as TIME  FROM USAGE_DAY_US WHERE LASTTIME = '" + dayTemp + "' GROUP BY TENPK ");
+            ArrayList<String> getLocked = sharedPreference.getLocked(context);
+            boolean check = false;
+            try {
+                while (data.moveToNext()) {
+                    String packedName1 = data.getString(0);
+                    long total = data.getLong(1);
+                    dbUsage.QueryData("CREATE TABLE IF NOT EXISTS LOCK_TIME (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME_LOCK INTEGER)");
+                    if (getLocked.size() == 0) {
+
+                        Cursor data2 = dbUsage.GetData("SELECT * FROM LOCK_TIME WHERE Id >0");
+                        try {
+                            while (data2.moveToNext()) {
+                                String packedName2 = data2.getString(1);
+                                long lock_time = data2.getLong(2);
+                                if (packedName2.equals(packedName1)) {
+                                    if (lock_time < total) {
+                                        sharedPreference.addLocked(context, packedName2);
+                                        Intent dialogIntent = new Intent(this, ca.mimic.usagestatistics.Settings.class);
+                                        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(dialogIntent);
+                                    }
+                                }
+
+                            }
+                        } finally {
+                            data2.close();
+                        }
+
+                    } else {
+                        for (String s : getLocked) {
+                            if (!packedName1.equals(s)) {
+                                Cursor data2 = dbUsage.GetData("SELECT * FROM LOCK_TIME WHERE Id >0");
+                                try {
+                                    while (data2.moveToNext()) {
+                                        String packedName2 = data2.getString(1);
+                                        long lock_time = data2.getLong(2);
+                                        if (packedName2.equals(packedName1) ) {
+                                            for (String S : getLocked) {
+                                                if (S.equals(packedName2)) {
+                                                    check = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!check) {
+                                                if (lock_time < total) {
+                                                    sharedPreference.addLocked(context, packedName2);
+                                                    Intent dialogIntent = new Intent(this, ca.mimic.usagestatistics.Settings.class);
+                                                    dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(dialogIntent);
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                } finally {
+                                    data2.close();
+                                }
+                            }
+                            else
+                                break;
+                        }
+                    }
+                }
+            } finally {
+                data.close();
+            }
+            day_old = dayTemp;
+        }
+        //
             for (int i = 0; pakageName != null && i < pakageName.size(); i++) {
                 if (mpackageName.equals(pakageName.get(i))) {
                     currentApp = pakageName.get(i);

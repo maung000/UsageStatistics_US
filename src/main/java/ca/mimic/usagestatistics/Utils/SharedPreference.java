@@ -2,6 +2,8 @@ package ca.mimic.usagestatistics.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -31,13 +33,19 @@ public class SharedPreference {
         editor.commit();
     }
 
-    public void addLocked(Context context, String app) {
+    public void addLocked(final Context context, String app) {
         List<String> lockedApp = getLocked(context);
         if (lockedApp == null)
             lockedApp = new ArrayList<String>();
         lockedApp.add(app);
         saveLocked(context, lockedApp);
-        Toast.makeText(context,"App da duoc khoa",Toast.LENGTH_SHORT).show();
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+
+                Toast.makeText(context,"App da duoc khoa",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void removeLocked(Context context, String app) {

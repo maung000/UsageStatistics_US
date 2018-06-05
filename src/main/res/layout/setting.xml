@@ -19,12 +19,6 @@
 
     <PreferenceCategory android:title="Khóa ứng dụng">
 
-    <PreferenceScreen
-        android:key="password"
-        android:summary="Thiết lập mật khẩu cho việc khóa ứng dụng"
-        android:title="Mật khẩu " >
-    </PreferenceScreen>
-
         <PreferenceScreen
             android:key="change_password"
             android:title="Thay đổi mật khẩu" >

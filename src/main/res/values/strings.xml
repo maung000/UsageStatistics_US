@@ -126,6 +126,10 @@
     <string name="us_permission_head">Phần mềm cần phải được cấp quyền theo cách thủ công để có thể giám sát việc sử dụng ứng dụng.</string>
     <string name="us_permission_settings_button">Cấp quyền cho UsageStatistics</string>
 
+    <!-- Usage Stats permission -->
+    <string name="create_password_title">Khóa ứng dụng</string>
+    <string name="create_password_head">Phần mềm cho phép người sử dụng có thể quy định thời gian và khóa ứng dụng lại bằng mật khẩu.</string>
+    <string name="create_password_button">Tạo mật khẩu</string>
 
     <string-array name="entries_stats_widget_appsno_preference" translatable="false">
         <item>2</item>

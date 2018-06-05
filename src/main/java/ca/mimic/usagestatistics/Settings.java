@@ -11,6 +11,7 @@ import java.util.Locale;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -33,6 +34,9 @@ import android.database.Cursor;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.CheckBoxPreference;
@@ -66,6 +70,7 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import ca.mimic.usagestatistics.Utils.AppLockConstants;
 import ca.mimic.usagestatistics.Utils.PasswordOldActivity;
 import ca.mimic.usagestatistics.Utils.PasswordSetActivity;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
@@ -191,6 +196,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
     private static String dayEnd="";
     private static String day_old="";
 
+    private static int SPLASH_TIME_OUT = 5000;
+
 
     static SharedPreference sharedPreference;
 
@@ -217,11 +224,10 @@ public class Settings extends Activity implements ActionBar.TabListener {
         super.onCreate(savedInstanceState);
         mInstance = this;
 
+
         setContentView(R.layout.activity_settings);
 
 
-
-        startService(new Intent(Settings.this, AppCheckServices.class));
 
         prefs = new PrefsGet(getSharedPreferences(getPackageName(), Context.MODE_MULTI_PROCESS));
 
@@ -235,9 +241,42 @@ public class Settings extends Activity implements ActionBar.TabListener {
         showChangelog(prefs);
 
 
+        sharedPreference = new SharedPreference();
+        String password = sharedPreference.getPassword(mContext);
+//
+        if(password.equals(""))
+            launchCreatePassword(mContext);
+
         if (mIsAtLeastLollipop && needsUsPermission()) {
+
             launchUsPermission(mContext);
+
         }
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (!android.provider.Settings.canDrawOverlays(Settings.this)) {
+                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, 1234);
+            }
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startService(new Intent(Settings.this, AppCheckServices.class));
+                }
+            }, SPLASH_TIME_OUT);
+        }
+
+//        } else {
+//            editor = sharedPreferences.edit();
+//            editor.putBoolean(AppLockConstants.IS_PER, true);
+//            editor.commit();
+//            //startService(new Intent(SplashActivity.this, AppCheckServices.class));
+//
+//        }
+
+
+
 
 
         display = getWindowManager().getDefaultDisplay();
@@ -288,7 +327,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
     protected void onResume() {
         super.onResume();
         myService.watchHelper(START_SERVICE);
-
     }
 
     @Override
@@ -302,51 +340,59 @@ public class Settings extends Activity implements ActionBar.TabListener {
             }
             isBound = false;
         }
-
-
-        // Khóa ứng dụng
-        dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
-
-        Calendar c = Calendar.getInstance();
-        int thisyear = c.get(Calendar.YEAR);
-        int thismonth = (c.get(Calendar.MONTH)+1);
-        int today = c.get(Calendar.DATE);
-
-        sharedPreference = new SharedPreference();
-
-        ArrayList<String> locked = sharedPreference.getLocked(mContext);
-
-        String dayTemp = today +"/0" +thismonth+"/"+thisyear;
-        if(!day_old.equals(dayTemp) && !day_old.equals(""))
-        {
-            sharedPreference.removeAllLocked(mContext);
-        }
-        Cursor data = dbUsage.GetData("SELECT TENPK,(SUM(TIME)) as TIME  FROM USAGE_DAY_US WHERE LASTTIME = '"+dayTemp +"' GROUP BY TENPK ");
-        try {
-            while (data.moveToNext()) {
-                String packedName1 = data.getString(0);
-                long total = data.getLong(1);
-                Cursor data2 = dbUsage.GetData("SELECT * FROM LOCK_TIME");
-                    try {
-                        while (data2.moveToNext()) {
-                            String packedName2 = data2.getString(1);
-                            long lock_time = data2.getLong(2);
-                            if (packedName2.equals(packedName1)) {
-                                if (lock_time < total) {
-                                    sharedPreference.addLocked(mContext, packedName2);
-                                }
-                            }
-                        }
-                    } finally {
-                        data2.close();
-                    }
-
-            }
-        }
-        finally {
-            data.close();
-        }
-        day_old = dayTemp;
+//        // Khóa ứng dụng
+//        dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+//        Calendar c = Calendar.getInstance();
+//        int thisyear = c.get(Calendar.YEAR);
+//        int thismonth = (c.get(Calendar.MONTH)+1);
+//        int today = c.get(Calendar.DATE);
+//        List<UsageStats> listStats = Tools.getUsageStats(mContext);
+//        if(listStats.size() != 0) {
+//            sharedPreference = new SharedPreference();
+//            String dayTemp = "";
+//            ArrayList<String> locked = sharedPreference.getLocked(mContext);
+//            if(today <10) {
+//                dayTemp = "0" + today + "/0" + thismonth + "/" + thisyear;
+//            }
+//            else
+//                dayTemp = today + "/0" + thismonth + "/" + thisyear;
+//
+//            if (!day_old.equals(dayTemp) && !day_old.equals("")) {
+//                sharedPreference.removeAllLocked(mContext);
+//            }
+//            Cursor data = dbUsage.GetData("SELECT TENPK,(SUM(TIME)) as TIME  FROM USAGE_DAY_US WHERE LASTTIME = '" + dayTemp + "' GROUP BY TENPK ");
+//
+//            try {
+//                while (data.moveToNext()) {
+//                    String packedName1 = data.getString(0);
+//                    long total = data.getLong(1);
+//                    dbUsage.QueryData("CREATE TABLE IF NOT EXISTS LOCK_TIME (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME_LOCK INTEGER)");
+//
+//                    Cursor data2 = dbUsage.GetData("SELECT * FROM LOCK_TIME WHERE Id >0");
+//                    try {
+//                        while (data2.moveToNext()) {
+//                            String packedName2 = data2.getString(1);
+//                            long lock_time = data2.getLong(2);
+//                            ActivityManager am = (ActivityManager) this.getBaseContext().getSystemService(Activity.ACTIVITY_SERVICE);
+//
+//                            if (packedName2.equals(packedName1)) {
+//                                if (lock_time < total) {
+//                                    sharedPreference.addLocked(mContext, packedName2);
+//                                    am.killBackgroundProcesses(packedName2);
+//                                }
+//                            }
+//                        }
+//                    } finally {
+//                        data2.close();
+//                    }
+//
+//                }
+//            } finally {
+//                data.close();
+//            }
+//            day_old = dayTemp;
+//        }
+//        //
     }
 
     @Override
@@ -399,6 +445,35 @@ public class Settings extends Activity implements ActionBar.TabListener {
         startActivity(new Intent(mContext, Instructions.class));
     }
 
+
+    protected void launchCreatePassword(Context context) {
+
+        UsCreatePassword usCreatePassword = new UsCreatePassword(context);
+        View mUsCreatePassword = usCreatePassword.getView();
+        mUsCreatePassword.refreshDrawableState();
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.us_permission_title)
+                .setIcon(R.drawable.ic_launcher)
+                .setView(mUsCreatePassword)
+                .setPositiveButton(R.string.create_password_button,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(mContext, PasswordSetActivity.class));
+                                finish();
+                            }
+                        })
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        startActivity(new Intent(mContext, PasswordSetActivity.class));
+                        finish();
+                    }
+                })
+                .show();
+
+    }
+
     protected boolean showChangelog(PrefsGet prefs) {
         SharedPreferences mPrefs = prefs.prefsGet();
         SharedPreferences.Editor mEditor = prefs.editorGet();
@@ -424,6 +499,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
         } else {
             mEditor.putString(VERSION_CHECK, USVersion);
             mEditor.commit();
+
             launchInstructions();
             return false;
         }
@@ -601,6 +677,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
         public PrefsFragment() {
         }
 
+
+
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
@@ -639,23 +717,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
                 sharedPreference = new SharedPreference();
                 String password = sharedPreference.getPassword(mContext);
-                password_firts = findPreference(PASSWORD_FIRST_PREFERENCE);
-                if(password.equals("")) {
-                    //app_pack_preference.setSummary();
-                    //updateIconPackIcon(mContext);
-                    password_firts.setOnPreferenceClickListener(
-                            new Preference.OnPreferenceClickListener() {
-                                @Override
-                                public boolean onPreferenceClick(Preference preference) {
-                                    Intent intent = new Intent(mContext, PasswordSetActivity.class);
-                                    startActivity(intent);
-                                    return false;
-                                }
-                            }
-                    );
-                }else{
-                    password_firts.setEnabled(false);
-                }
 
                 password_change = findPreference(PASSWORD_CHANGE_PREFERENCE);
                 if(!password.equals(""))
@@ -926,6 +987,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                                 sharedPreference.removeLocked(mContext, rowItem.getPackageName());
                                 dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
                                 dbUsage.QueryData("DELETE FROM LOCK_TIME WHERE TENPK = '"+rowItem.getPackageName()+"'");
+                                dbUsage.close();
                             }
 
                             break;
@@ -961,42 +1023,67 @@ public class Settings extends Activity implements ActionBar.TabListener {
         dialog.setContentView(R.layout.dialog_time_lock);
 
 
-        final EditText edt_LockTime = (EditText) dialog.findViewById(R.id.lock_time);
+        final EditText edt_hour_LockTime = (EditText) dialog.findViewById(R.id.lock_hour_time);
+        edt_hour_LockTime.setCursorVisible(true);
+        final EditText edt_min_LockTime = (EditText) dialog.findViewById(R.id.lock_min_time);
+        edt_min_LockTime.setCursorVisible(true);
         final Button btn_OK = (Button) dialog.findViewById(R.id.btn_OK);
 
-        edt_LockTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar calendar = Calendar.getInstance();
-                int phut = calendar.get(Calendar.MINUTE);
-                int gio = calendar.get(Calendar.HOUR);
-                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        calendar.set(0,0,0,hourOfDay,minute);
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-                        edt_LockTime.setText(simpleDateFormat.format(calendar.getTime()));
-
-                    }
-                },gio,phut,true);
-
-                timePickerDialog.show();
-            }
-        });
+//        edt_hour_LockTime.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final Calendar calendar = Calendar.getInstance();
+//                int phut = calendar.get(Calendar.MINUTE);
+//                int gio = calendar.get(Calendar.HOUR);
+//                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+//                    @Override
+//                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                        calendar.set(0,0,0,hourOfDay,minute);
+//                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+//                        edt_hour_LockTime.setText(simpleDateFormat.format(calendar.getTime()));
+//
+//                    }
+//                },gio,phut,true);
+//
+//                timePickerDialog.show();
+//            }
+//        });
+//        edt_min_LockTime.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final Calendar calendar = Calendar.getInstance();
+//                int phut = calendar.get(Calendar.MINUTE);
+//                int gio = calendar.get(Calendar.HOUR);
+//                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+//                    @Override
+//                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                        calendar.set(0,0,0,hourOfDay,minute);
+//                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+//                        edt_min_LockTime.setText(simpleDateFormat.format(calendar.getTime()));
+//
+//                    }
+//                },gio,phut,true);
+//
+//                timePickerDialog.show();
+//            }
+//        });
         btn_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String time = edt_LockTime.getText().toString();
-                if(!time.equals("")) {
-                    String[] units = time.split(":");
-                    int hour = Integer.parseInt(units[0]);
-                    int minutes = Integer.parseInt(units[1]);
-                    int seconds = 60 * minutes + hour * 3600;
+                String hour = edt_hour_LockTime.getText().toString();
+                String min = edt_min_LockTime.getText().toString();
+                if(!hour.equals("") && !min.equals("")) {
+
+//                    String[] units = time.split(":");
+//                    int hour = Integer.parseInt(units[0]);
+//                    int minutes = Integer.parseInt(units[1]);
+                    int hour_n = Integer.parseInt(hour);
+                    int minutes = Integer.parseInt(min);
+                    int seconds = 60 * minutes + hour_n * 3600;
 
                     dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
 
-                    dbUsage.QueryData("CREATE TABLE IF NOT EXISTS LOCK_TIME (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME_LOCK INTEGER)");
                     dbUsage.QueryData("INSERT INTO LOCK_TIME VALUES(null,'" + packedName+ "','" + seconds + "')");
 
                     dbUsage.close();

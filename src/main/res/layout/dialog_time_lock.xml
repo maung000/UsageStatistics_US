@@ -1,12 +1,12 @@
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical">
-
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,48 +28,88 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
-                android:padding="8dp"
-                android:textColor="#ffffff"
-                android:textSize="15sp"
                 android:background="#ff3d33"
-                android:text="Thời gian này quy định việc bạn có thể sử dụng ứng dụng bao lâu trong một ngày"/>
+                android:padding="8dp"
+                android:text="Thời gian này quy định việc bạn có thể sử dụng ứng dụng bao lâu trong một ngày"
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:text="Nhập giờ:   "
                     android:textSize="18sp"
-                    android:text="Nhập thời gian:        "
                     android:textColor="#000000"
                     android:textStyle="bold" />
 
+
                 <EditText
-                    android:id="@+id/lock_time"
+                    android:id="@+id/lock_hour_time"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="#e3fdf9"
-                    android:hint="Chọn thời gian"
+                    android:hint="__ "
+                    android:textColor="#000000"
                     android:textSize="18sp"
-                    android:textColor="#000000" />
+                    android:inputType="number"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="giờ"
+                    android:textSize="18sp"
+                    android:textColor="#000000"/>
             </TableRow>
             <TableRow
-                android:gravity="center_horizontal"
-                android:layout_marginBottom="10dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Nhập phút:    "
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/lock_min_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="#e3fdf9"
+                    android:hint="__ "
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:inputType="number"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="phút"
+                    android:textSize="18sp"
+                    android:textColor="#000000" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal">
+
                 <Button
                     android:id="@+id/btn_OK"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="OK"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
             </TableRow>
-
 
 
         </TableLayout>
