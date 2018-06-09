@@ -1029,44 +1029,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
         edt_min_LockTime.setCursorVisible(true);
         final Button btn_OK = (Button) dialog.findViewById(R.id.btn_OK);
 
-//        edt_hour_LockTime.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final Calendar calendar = Calendar.getInstance();
-//                int phut = calendar.get(Calendar.MINUTE);
-//                int gio = calendar.get(Calendar.HOUR);
-//                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-//                    @Override
-//                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//                        calendar.set(0,0,0,hourOfDay,minute);
-//                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-//                        edt_hour_LockTime.setText(simpleDateFormat.format(calendar.getTime()));
-//
-//                    }
-//                },gio,phut,true);
-//
-//                timePickerDialog.show();
-//            }
-//        });
-//        edt_min_LockTime.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final Calendar calendar = Calendar.getInstance();
-//                int phut = calendar.get(Calendar.MINUTE);
-//                int gio = calendar.get(Calendar.HOUR);
-//                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-//                    @Override
-//                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//                        calendar.set(0,0,0,hourOfDay,minute);
-//                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-//                        edt_min_LockTime.setText(simpleDateFormat.format(calendar.getTime()));
-//
-//                    }
-//                },gio,phut,true);
-//
-//                timePickerDialog.show();
-//            }
-//        });
         btn_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -291,7 +291,7 @@ public class AppCheckServices extends Service {
                     String packedName1 = data.getString(0);
                     long total = data.getLong(1);
                     dbUsage.QueryData("CREATE TABLE IF NOT EXISTS LOCK_TIME (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME_LOCK INTEGER)");
-                    if (getLocked.size() == 0) {
+                    if (getLocked == null) {
 
                         Cursor data2 = dbUsage.GetData("SELECT * FROM LOCK_TIME WHERE Id >0");
                         try {

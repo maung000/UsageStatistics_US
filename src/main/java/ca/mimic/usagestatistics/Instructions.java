@@ -83,7 +83,7 @@ public class Instructions extends Activity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
     }
@@ -112,7 +112,7 @@ public class Instructions extends Activity {
             int layout = getResources().getIdentifier("instructions_page_" + page, "layout", "ca.mimic.usagestatistics");
             View rootView = inflater.inflate(layout, container, false);
 
-            if (page == 3) {
+            if (page == 4) {
                 Button button4 = (Button) rootView.findViewById(R.id.button4);
                 button4.setOnClickListener(new View.OnClickListener() {
                     @Override

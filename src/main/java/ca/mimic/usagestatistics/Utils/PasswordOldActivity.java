@@ -37,7 +37,7 @@ public class PasswordOldActivity extends AppCompatActivity {
                     Intent i = new Intent(PasswordOldActivity.this, PasswordChange.class);
                     startActivity(i);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Mật khẩu không đúng. Thử lại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Mật khẩu cũ không đúng. Thử lại", Toast.LENGTH_SHORT).show();
                 }
             }
         });

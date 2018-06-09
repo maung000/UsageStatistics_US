@@ -54,14 +54,20 @@
 
 
                 <EditText
-                    android:id="@+id/lock_hour_time"
-                    android:layout_width="wrap_content"
+                android:id="@+id/lock_hour_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="#e3fdf9"
+                android:hint="__ "
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:inputType="number"/>
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#e3fdf9"
-                    android:hint=" Nhập giờ "
-                    android:textColor="#000000"
+                    android:text="giờ"
                     android:textSize="18sp"
-                    android:inputType="number"/>
+                    android:textColor="#000000"/>
             </TableRow>
             <TableRow
                 android:layout_width="match_parent"
@@ -84,11 +90,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="#e3fdf9"
-                    android:hint="  Nhập phút  "
+                    android:hint="__ "
                     android:textColor="#000000"
                     android:textSize="18sp"
-                    android:inputType="number"/>
-
+                    android:inputType="number"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="phút"
+                    android:textSize="18sp"
+                    android:textColor="#000000" />
             </TableRow>
 
             <TableRow
