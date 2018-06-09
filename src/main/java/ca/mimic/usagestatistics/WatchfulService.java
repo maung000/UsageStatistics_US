@@ -51,6 +51,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -105,7 +106,8 @@ public class WatchfulService extends Service {
 
     final int ICON_SIZE_SMALL = 0;
     final int ICON_SIZE_LARGE = 2;
-
+    SharedPreference sharedPreference;
+    private static String day_old="";
 
     protected static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
 
@@ -447,8 +449,6 @@ public class WatchfulService extends Service {
 
                                 dbUsage.QueryData("INSERT INTO USAGE_DAY_US VALUES(null,'" + lollipopTaskInfo.lastPackageName+ "','" + activityDelta + "','" + lollipopTaskInfo.lastDay + "')");
 
-
-                                //
                             }
                             }
                         }

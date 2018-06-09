@@ -291,7 +291,7 @@ public class AppCheckServices extends Service {
                     String packedName1 = data.getString(0);
                     long total = data.getLong(1);
                     dbUsage.QueryData("CREATE TABLE IF NOT EXISTS LOCK_TIME (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME_LOCK INTEGER)");
-                    if (getLocked == null) {
+                    if (getLocked == null || getLocked.size() == 0) {
 
                         Cursor data2 = dbUsage.GetData("SELECT * FROM LOCK_TIME WHERE Id >0");
                         try {
@@ -301,6 +301,8 @@ public class AppCheckServices extends Service {
                                 if (packedName2.equals(packedName1)) {
                                     if (lock_time < total) {
                                         sharedPreference.addLocked(context, packedName2);
+                                        ActivityManager mActivityManager = (ActivityManager)getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+                                        mActivityManager.killBackgroundProcesses(packedName2);
                                         Intent dialogIntent = new Intent(this, ca.mimic.usagestatistics.Settings.class);
                                         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(dialogIntent);
@@ -330,9 +332,14 @@ public class AppCheckServices extends Service {
                                             if (!check) {
                                                 if (lock_time < total) {
                                                     sharedPreference.addLocked(context, packedName2);
+                                                    ActivityManager mActivityManager = (ActivityManager)getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+                                                    mActivityManager.killBackgroundProcesses(packedName2);
                                                     Intent dialogIntent = new Intent(this, ca.mimic.usagestatistics.Settings.class);
                                                     dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     startActivity(dialogIntent);
+
+//                                                    final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+//                                                    am.forceStopPackage(PACKAGE_NAME);
 
                                                 }
                                             }
@@ -346,6 +353,7 @@ public class AppCheckServices extends Service {
                                 break;
                         }
                     }
+
                 }
             } finally {
                 data.close();

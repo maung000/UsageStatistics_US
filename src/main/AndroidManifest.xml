@@ -2,16 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="ca.mimic.usagestatistics"
-    android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+    >
 
     <uses-permission
         android:name="android.permission.GET_TASKS"
         tools:ignore="" />
-    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"
-        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -98,6 +98,11 @@
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Utils.PasswordSelectLock"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:screenOrientation="portrait"/>
         <service
             android:name=".services.AppCheckServices"
             android:exported="false" />

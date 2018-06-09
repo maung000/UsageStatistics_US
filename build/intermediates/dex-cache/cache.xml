@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\support-core-utils-27.1.1.aar\60e05c7386ce99782accb4c1acdf8150\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="ec657bb192b20229696216bf233779b16bf75a54">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\20.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\cardview-v7-27.0.2.aar\3ffee1ff678f3242f6ce843c8b26b397\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="14bfdbf5594d4d7c320de20831849050788ab1e3">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\play-services-basement-9.0.0.aar\b5da7758bf2219b7ddc631ce1af5e658\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="cc178928721f3222b3b06bdfbd9497378ccb9792">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\15.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\play-services-base-9.0.0.aar\e3b6624910b107b500aab7f835d23a3b\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="6f65c144283b31b4b9a70e6e7aa4c4a1c897d4b8">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\12.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\play-services-iid-9.0.0.aar\f7083a536cb1a6f5ac92e5c82dbfa9b8\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="379d1834afa3c08f43be23a23b103053537b65b5">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\10.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\1b1660bd8481af0450ebccbd7e105af4\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="d968b9bd0011800e0d333d1571b8d34bcb8a0b6e">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\play-services-analytics-9.0.0.aar\5c0776a4b6d9636c3652ac661db884be\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="b8bedab61b3b5238cd9a07d3b04449d7fecdbc3b">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\support-fragment-27.1.1.aar\698ca72818682c20fc068b43eb8a91d9\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="3304d33470ff64cf83bce9189ff3648a42eb2aa7">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\17.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\9eef0e2fe7b3b8acbdb3d479e7208f54\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="71d380aeac037e63bab7bda2ba211777e16a2f42">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\30.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.0.aar\cd5244e8c6ef08e6ef8f33346b563b63\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="8a9fd7c97f1d13f97f3b52f9d2e54cd857d5acf9">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\26.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\ca55fb184baac1d1cbd20991a394c4e6\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="1fd3ceac7f415975323d52c6c6057db409a907f6">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\27.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\play-services-analytics-impl-9.0.0.aar\1e7bc6703bb71645fb6aec5ed9e90e14\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="373cd65725af2781d100ddc193c7d3f14464a774">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\11.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\91719e2c66a1278e2808ccb644c6ddde\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="e2bbe48deed35056023eed2cdc0cc92e5c7d3617">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\28.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-27.1.1.aar\67cc7f7e3066b27ee326c1a3836a22bb\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="c9a721adcd7dbae7a197b0ef81102336539f63ff">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\21.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\firebase-common-9.0.0.aar\a65c38e71c2ec4489e7504f6895ca9de\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="42df48c7305b08b14fa0e84561091b0c24d70d26">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\13.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-27.0.2.aar\06311ac4ca1189294735a384b4ea84ec\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="9296d6f092fcdba4fafb6ac26546a39babdab46a">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.1.1.aar\1facb18c2b69005f2654fc6f3a4ac101\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="88c68e5ef7c5ace393d014c9ec5fe736b1ca55cf">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\22.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\support-compat-27.1.1.aar\584f919d8b792809e0e52d3a13a9eee6\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="23dcb4803d3103bde3f3f5db978a726338fe49ae">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\23.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\play-services-gcm-9.0.0.aar\f588a7b08f2501c5c2768cc42c322680\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="4caf75b2cfb7ec6e80a57d0ee64fc102ad3578b8">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\support-v13-27.1.1.aar\65fab6bcfc0cd637d78ff909a612fc09\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="019d86b31bcd21970d370ca1425cc68ec23f1be7">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\lock9view-0.0.2.aar\ae2106c02c6ac494f642f3423bdcf951\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="9dab1c491e502f72390cc6ebd5427886daf49119">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\library-0.9.1.aar\065408b469db8fd236836eb3e12727dd\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="4054f18e4e7d1c148fa71ded4b17348428273e21">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\25.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-27.1.1.aar\c37d2b48413f6c86c7562944a87ab3f3\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="2feadd535770271ca57b7b431f42151aa4af324a">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\18.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\play-services-tasks-9.0.0.aar\af32ca9397a62bf52eef02bd0e026cd6\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="1941832901fc4e7a93300b53762e9f65d7650b99">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\14.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Program Files\Android\Android Studio\gradle\m2repository\com\google\code\gson\gson\2.2.4\gson-2.2.4.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\library-2.9.1.aar\2c431947a9871bb3a497451617a86278\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="13cfb76553db16f8f5328268598d65b48edf7b54">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ADMIN\.gradle\caches\transforms-1\files-1.1\support-core-ui-27.1.1.aar\baca8b026a2d3917092f7ef0fbb0a544\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="16"
+        optimize="true"
+        revision="26.0.2"
+        sha1="874f1143c11f5d38533efe512bf913e3e847e7df">
+        <dex dex="D:\SOURCE CODE\UsageStatistics_US\build\intermediates\transforms\preDex\release\19.jar" />
+    </item>
+
+</items>

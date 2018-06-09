@@ -35,7 +35,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 77
+        versionCode 78
         versionName "2.7"
 
         project.ext.set("VERSION_NAME", defaultConfig.versionName)
@@ -80,6 +80,7 @@ dependencies {
     compile('com.mikepenz.materialdrawer:library:2.9.1@aar') {
         transitive = true
     }
+    //noinspection GradleCompatible
     compile 'com.google.android.gms:play-services-gcm:9.0.0'
     compile 'com.google.android.gms:play-services-analytics:9.0.0'
 }

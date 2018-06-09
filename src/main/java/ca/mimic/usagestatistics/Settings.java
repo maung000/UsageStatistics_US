@@ -72,6 +72,7 @@ import android.widget.Toast;
 
 import ca.mimic.usagestatistics.Utils.AppLockConstants;
 import ca.mimic.usagestatistics.Utils.PasswordOldActivity;
+import ca.mimic.usagestatistics.Utils.PasswordSelectLock;
 import ca.mimic.usagestatistics.Utils.PasswordSetActivity;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
 import ca.mimic.usagestatistics.services.AlarmReceiver;
@@ -976,6 +977,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
                     switch (item.getItemId()) {
                         case R.id.lock:
+                            Intent i = new Intent(mContext, PasswordSelectLock.class);
+                            startActivity(i);
 
                             Boolean isLock = rowItem.getLocked();
                             rowItem.setLocked(!isLock);
