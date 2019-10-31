@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/UsageStatistics_US.iml" filepath="$PROJECT_DIR$/UsageStatistics_US.iml" />
-      <module fileurl="file://D:\MACOS\UsageStatistics_US.iml" filepath="D:\MACOS\UsageStatistics_US.iml" />
     </modules>
   </component>
 </project>

@@ -39,6 +39,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -69,6 +70,9 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.github.omadahealth.lollipin.lib.managers.AppLock;
+import com.github.omadahealth.lollipin.lib.managers.LockManager;
 
 import ca.mimic.usagestatistics.Utils.AppLockConstants;
 import ca.mimic.usagestatistics.Utils.PasswordOldActivity;
@@ -116,6 +120,9 @@ public class Settings extends Activity implements ActionBar.TabListener {
     final static String MORE_APPS_PREFERENCE = "more_apps_preference";
     final static String MORE_APPS_PAGES_PREFERENCE = "more_apps_pages_preference";
     final static String NOTIFICATION_BG_PREFERENCE = "notification_bg_preference";
+
+    final static int REQUEST_FIRST_RUN_PIN = 0;
+
 
     protected static Settings mInstance;
     protected static AppsRowItem mIconTask;
@@ -193,16 +200,16 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     static int displayWidth;
     static DBUsage dbUsage;
-    private static String dayStart="";
-    private static String dayEnd="";
-    private static String day_old="";
+    private static String dayStart = "";
+    private static String dayEnd = "";
+    private static String day_old = "";
 
     private static int SPLASH_TIME_OUT = 5000;
 
 
     static SharedPreference sharedPreference;
 
-    static List<Pair<String,Integer>> time_lock = new ArrayList<>();
+    static List<Pair<String, Integer>> time_lock = new ArrayList<>();
 
     public static List<Pair<String, Integer>> getTime_lock() {
         return time_lock;
@@ -229,14 +236,11 @@ public class Settings extends Activity implements ActionBar.TabListener {
         setContentView(R.layout.activity_settings);
 
 
-
         prefs = new PrefsGet(getSharedPreferences(getPackageName(), Context.MODE_MULTI_PROCESS));
 
         mContext = this;
         mIsLollipop = Tools.isLollipop(true);
         mIsAtLeastLollipop = Tools.isLollipop(false);
-
-
 
 
         showChangelog(prefs);
@@ -245,7 +249,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
         sharedPreference = new SharedPreference();
         String password = sharedPreference.getPassword(mContext);
 //
-        if(password.equals(""))
+        if (password.equals(""))
             launchCreatePassword(mContext);
 
         if (mIsAtLeastLollipop && needsUsPermission()) {
@@ -260,12 +264,12 @@ public class Settings extends Activity implements ActionBar.TabListener {
                         Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, 1234);
             }
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startService(new Intent(Settings.this, AppCheckServices.class));
-                }
-            }, SPLASH_TIME_OUT);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    startService(new Intent(Settings.this, AppCheckServices.class));
+//                }
+//            }, SPLASH_TIME_OUT);
         }
 
 //        } else {
@@ -277,15 +281,11 @@ public class Settings extends Activity implements ActionBar.TabListener {
 //        }
 
 
-
-
-
         display = getWindowManager().getDefaultDisplay();
         updateDisplayWidth();
 
         myService = new ServiceCall(mContext);
         myService.setConnection(mConnection);
-
 
 
         // Set up the action bar.
@@ -460,14 +460,22 @@ public class Settings extends Activity implements ActionBar.TabListener {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(mContext, PasswordSetActivity.class));
+//                                if (!LockManager.getInstance().getAppLock().isPasscodeSet()) {
+                                Intent intent = new Intent(mContext, PasswordSelectLock.class);
+                                intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
+                                startActivityForResult(intent, REQUEST_FIRST_RUN_PIN);
+//                                }
+//                                startActivity(new Intent(mContext, PasswordSelectLock.class));
                                 finish();
                             }
                         })
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
-                        startActivity(new Intent(mContext, PasswordSetActivity.class));
+                        Intent intent = new Intent(mContext, PasswordSelectLock.class);
+                        intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
+                        startActivityForResult(intent, REQUEST_FIRST_RUN_PIN);
+//                        startActivity(new Intent(mContext, PasswordSetActivity.class));
                         finish();
                     }
                 })
@@ -484,7 +492,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
             USVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
             String[] versionArray = USVersion.split("\\."); // Only get major.minor
             USVersion = versionArray[0] + "." + versionArray[1];
-        } catch (PackageManager.NameNotFoundException e) {}
+        } catch (PackageManager.NameNotFoundException e) {
+        }
 
         String whichVersion = mPrefs.getString(VERSION_CHECK, null);
 
@@ -526,15 +535,18 @@ public class Settings extends Activity implements ActionBar.TabListener {
     }
 
 
-    protected static class ServiceCall  {
+    protected static class ServiceCall {
         Context mContext;
         ServiceConnection mConnection;
+
         ServiceCall(Context context) {
             mContext = context;
         }
+
         protected void setConnection(ServiceConnection connection) {
             mConnection = connection;
         }
+
         protected void watchHelper(int which) {
             Intent intent = new Intent(mContext, WatchfulService.class);
             switch (which) {
@@ -553,9 +565,10 @@ public class Settings extends Activity implements ActionBar.TabListener {
                     break;
             }
         }
+
         protected void execute(int which) {
             try {
-                switch(which) {
+                switch (which) {
                     case SERVICE_BUILD_TASKS:
                         s.buildTasks();
                         return;
@@ -625,20 +638,22 @@ public class Settings extends Activity implements ActionBar.TabListener {
         remainder = remainder - mins * 60;
         int secs = remainder;
 
-        int[] ints = {hours , mins , secs};
+        int[] ints = {hours, mins, secs};
         return ints;
     }
 
 
-
     public static class PrefsGet {
         SharedPreferences realPrefs;
+
         PrefsGet(SharedPreferences prefs) {
             realPrefs = prefs;
         }
+
         SharedPreferences prefsGet() {
             return realPrefs;
         }
+
         SharedPreferences.Editor editorGet() {
             return realPrefs.edit();
         }
@@ -652,9 +667,11 @@ public class Settings extends Activity implements ActionBar.TabListener {
             String tag = "android:switcher:" + vp.getId() + ":" + pos;
             return fm.findFragmentByTag(tag);
         }
+
         public void setVp(ViewPager mViewPager) {
             vp = mViewPager;
         }
+
         public void setFm(FragmentManager mFm) {
             fm = mFm;
         }
@@ -679,7 +696,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
         }
 
 
-
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
@@ -691,7 +707,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
             try {
                 // *** SETTING ***
 
-                boot_preference = (CheckBoxPreference)findPreference(BOOT_PREFERENCE);
+                boot_preference = (CheckBoxPreference) findPreference(BOOT_PREFERENCE);
                 boot_preference.setChecked(prefs2.getBoolean(BOOT_PREFERENCE, BOOT_DEFAULT));
                 boot_preference.setOnPreferenceChangeListener(changeListener);
 
@@ -720,8 +736,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                 String password = sharedPreference.getPassword(mContext);
 
                 password_change = findPreference(PASSWORD_CHANGE_PREFERENCE);
-                if(!password.equals(""))
-                {
+                if (!password.equals("")) {
                     password_change.setOnPreferenceClickListener(
                             new Preference.OnPreferenceClickListener() {
                                 @Override
@@ -732,11 +747,12 @@ public class Settings extends Activity implements ActionBar.TabListener {
                                 }
                             }
                     );
-                }else
+                } else
                     password_change.setEnabled(false);
             } catch (NullPointerException e) {
             }
         }
+
         Preference.OnPreferenceChangeListener changeListener = new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(final Preference preference, Object newValue) {
@@ -749,7 +765,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                     editor.putBoolean(BOOT_PREFERENCE, (Boolean) newValue);
                     editor.commit();
                     return true;
-                }  else if (preference.getKey().equals(PINNED_SORT_PREFERENCE)) {
+                } else if (preference.getKey().equals(PINNED_SORT_PREFERENCE)) {
                     editor.putString(PINNED_SORT_PREFERENCE, (String) newValue);
                     editor.commit();
                     String pinnedApps = prefs2.getString(PINNED_APPS, null);
@@ -780,7 +796,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
     }
 
 
-
     private static void launchNotificationSettings() {
         final Intent intent = new Intent(ACTION_APP_NOTIFICATION_SETTINGS);
         final String packageName = mContext.getPackageName();
@@ -793,7 +808,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     public static void updateRowItem() {
         int start = lv.getFirstVisiblePosition();
-        for (int i=start, j=lv.getLastVisiblePosition(); i<=j; i++) {
+        for (int i = start, j = lv.getLastVisiblePosition(); i <= j; i++) {
             View view = lv.getChildAt(i - start);
             mAppRowAdapter.getView(i, view, lv);
         }
@@ -823,11 +838,13 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     public static class AppsFragment extends Fragment implements OnItemClickListener {
         SharedPreference sharedPreference;
+
         public static Fragment newInstance() {
             return new AppsFragment();
         }
 
-        public AppsFragment() {}
+        public AppsFragment() {
+        }
 
 
         public void onResume() {
@@ -937,6 +954,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
             return appsView;
         }
+
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
@@ -968,31 +986,39 @@ public class Settings extends Activity implements ActionBar.TabListener {
             popup.getMenuInflater().inflate(R.menu.app_action, popup.getMenu());
             final MenuItem lockItem = popup.getMenu().getItem(2);
 
+//            final PasswordSelectLock passwordSelectLock = new PasswordSelectLock();
+
             if (rowItem.getLocked()) lockItem.setTitle(R.string.action_unlock);
             PopupMenu.OnMenuItemClickListener menuAction = new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     db = TasksDataSource.getInstance(mContext);
                     db.open();
-
                     switch (item.getItemId()) {
                         case R.id.lock:
-                            Intent i = new Intent(mContext, PasswordSelectLock.class);
-                            startActivity(i);
-
                             Boolean isLock = rowItem.getLocked();
-                            rowItem.setLocked(!isLock);
-                            new Tools().toggleLock(mContext, rowItem.getPackageName(), prefs.editorGet());
-                            if(lockItem.getTitle().equals("Khóa")) {
-                                DialogLockTime(rowItem.getPackageName());
-                            }
-                            else {
-                                sharedPreference.removeLocked(mContext, rowItem.getPackageName());
-                                dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
-                                dbUsage.QueryData("DELETE FROM LOCK_TIME WHERE TENPK = '"+rowItem.getPackageName()+"'");
-                                dbUsage.close();
-                            }
 
+                            if (lockItem.getTitle().equals("Khóa")) {
+                                DialogLockTime(rowItem.getPackageName());
+                                rowItem.setLocked(!isLock);
+                                new Tools().toggleLock(mContext, rowItem.getPackageName(), prefs.editorGet());
+                            } else {
+
+//                                Intent intent = new Intent(mContext, PasswordSelectLock.class);
+//                                intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
+////                                startActivityForResult(intent, REQUEST_CODE_ENABLE);
+//                                startActivity(intent);
+
+//                                if(passwordSelectLock.isCheck()) {
+//                                    rowItem.setLocked(!isLock);
+//                                    new Tools().toggleLock(mContext, rowItem.getPackageName(), prefs.editorGet());
+//                                    sharedPreference.removeLocked(mContext, rowItem.getPackageName());
+//                                    dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+//                                    dbUsage.QueryData("DELETE FROM LOCK_TIME WHERE TENPK = '" + rowItem.getPackageName() + "'");
+//                                    dbUsage.close();
+//                                }
+                            }
+//                            passwordSelectLock.setCheck(false);
                             break;
                         case R.id.statitic:
                             String packedName = rowItem.getPackageName();
@@ -1003,7 +1029,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                             rowItem.setBarContWidth(0);
                             db.resetTaskStats(rowItem);
                             dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
-                            dbUsage.QueryData("DELETE FROM USAGE_DAY_US WHERE TENPK = '"+rowItem.getPackageName()+"'");
+                            dbUsage.QueryData("DELETE FROM USAGE_DAY_US WHERE TENPK = '" + rowItem.getPackageName() + "'");
 
                             dbUsage.close();
                             db.close();
@@ -1020,8 +1046,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     }
 
-    public static void DialogLockTime(final String packedName){
-        Dialog  dialog  = new Dialog(mContext);
+    public static void DialogLockTime(final String packedName) {
+        Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_time_lock);
 
@@ -1038,7 +1064,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
                 String hour = edt_hour_LockTime.getText().toString();
                 String min = edt_min_LockTime.getText().toString();
-                if(!hour.equals("") && !min.equals("")) {
+                if (!hour.equals("") && !min.equals("")) {
 
 //                    String[] units = time.split(":");
 //                    int hour = Integer.parseInt(units[0]);
@@ -1049,10 +1075,10 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
                     dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
 
-                    dbUsage.QueryData("INSERT INTO LOCK_TIME VALUES(null,'" + packedName+ "','" + seconds + "')");
+                    dbUsage.QueryData("INSERT INTO LOCK_TIME VALUES(null,'" + packedName + "','" + seconds + "')");
 
                     dbUsage.close();
-                    Toast.makeText(mContext,"Thêm thời gian khóa ứng dụng thành công",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Thêm thời gian khóa ứng dụng thành công", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -1060,31 +1086,31 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     }
 
-    public static void DialogCalculate(final String packedName){
-        Dialog  dialog  = new Dialog(mContext);
+    public static void DialogCalculate(final String packedName) {
+        Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_statitics);
 
 
         final EditText edtdayStart = (EditText) dialog.findViewById(R.id.dayStart);
         final EditText edtdayEnd = (EditText) dialog.findViewById(R.id.dayEnd);
-        final  EditText edtCalculate = (EditText) dialog.findViewById(R.id.sum_time);
+        final EditText edtCalculate = (EditText) dialog.findViewById(R.id.sum_time);
         final Button buttonUsage = (Button) dialog.findViewById(R.id.btn_statitic);
 
-            edtdayStart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Select_day(edtdayStart);
+        edtdayStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Select_day(edtdayStart);
 
 
-                }
-            });
-            edtdayEnd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Select_day(edtdayEnd);
-                }
-            });
+            }
+        });
+        edtdayEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Select_day(edtdayEnd);
+            }
+        });
         buttonUsage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1101,8 +1127,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                         edtCalculate.setText(statsString);
 
                     }
-                }
-                finally {
+                } finally {
                     data.close();
                 }
             }
@@ -1111,11 +1136,12 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     }
 
-    public static String Get_day(EditText editText){
+    public static String Get_day(EditText editText) {
 
         return editText.getText().toString();
     }
-    public static void Select_day(final EditText editText){
+
+    public static void Select_day(final EditText editText) {
         final Calendar calendar = Calendar.getInstance();
         int ngay = calendar.get(Calendar.DATE);
         int thang = calendar.get(Calendar.MONTH);
@@ -1123,16 +1149,14 @@ public class Settings extends Activity implements ActionBar.TabListener {
         DatePickerDialog datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                calendar.set(year,month,dayOfMonth);
+                calendar.set(year, month, dayOfMonth);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 editText.setText(simpleDateFormat.format(calendar.getTime()));
             }
-        },nam,thang,ngay);
+        }, nam, thang, ngay);
         datePickerDialog.show();
 
     }
-
-
 
 
     public static List<AppsRowItem> createAppTasks() {
@@ -1204,7 +1228,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
         updateListView(false);
     }
 
-    public static AppsRowItem createAppRowItem(TasksModel task, int highestSeconds){
+    public static AppsRowItem createAppRowItem(TasksModel task, int highestSeconds) {
         AppsRowItem appTask = new AppsRowItem(task);
         float secondsRatio = (float) task.getSeconds() / highestSeconds;
 
@@ -1230,7 +1254,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
         ComponentName componentTask = ComponentName.unflattenFromString(task.getPackageName() + "/" + task.getClassName());
         appTask.setComponentName(componentTask);
         appTask.setPinned(new Tools().isPinned(mContext, task.getPackageName()));
-        appTask.setLocked(new Tools().isLocked(mContext,task.getPackageName()));
+        appTask.setLocked(new Tools().isLocked(mContext, task.getPackageName()));
         appTask.setStats(statsString);
         appTask.setBarColor(barColor);
         appTask.setBarContWidth(Math.round(adjustedWidth));

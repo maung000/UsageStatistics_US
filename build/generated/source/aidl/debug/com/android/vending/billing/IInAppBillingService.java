@@ -59,16 +59,17 @@ return this;
 }
 @Override public boolean onTransact(int code, android.os.Parcel data, android.os.Parcel reply, int flags) throws android.os.RemoteException
 {
+java.lang.String descriptor = DESCRIPTOR;
 switch (code)
 {
 case INTERFACE_TRANSACTION:
 {
-reply.writeString(DESCRIPTOR);
+reply.writeString(descriptor);
 return true;
 }
 case TRANSACTION_isBillingSupported:
 {
-data.enforceInterface(DESCRIPTOR);
+data.enforceInterface(descriptor);
 int _arg0;
 _arg0 = data.readInt();
 java.lang.String _arg1;
@@ -82,7 +83,7 @@ return true;
 }
 case TRANSACTION_getSkuDetails:
 {
-data.enforceInterface(DESCRIPTOR);
+data.enforceInterface(descriptor);
 int _arg0;
 _arg0 = data.readInt();
 java.lang.String _arg1;
@@ -109,7 +110,7 @@ return true;
 }
 case TRANSACTION_getBuyIntent:
 {
-data.enforceInterface(DESCRIPTOR);
+data.enforceInterface(descriptor);
 int _arg0;
 _arg0 = data.readInt();
 java.lang.String _arg1;
@@ -133,7 +134,7 @@ return true;
 }
 case TRANSACTION_getPurchases:
 {
-data.enforceInterface(DESCRIPTOR);
+data.enforceInterface(descriptor);
 int _arg0;
 _arg0 = data.readInt();
 java.lang.String _arg1;
@@ -155,7 +156,7 @@ return true;
 }
 case TRANSACTION_consumePurchase:
 {
-data.enforceInterface(DESCRIPTOR);
+data.enforceInterface(descriptor);
 int _arg0;
 _arg0 = data.readInt();
 java.lang.String _arg1;
@@ -167,8 +168,11 @@ reply.writeNoException();
 reply.writeInt(_result);
 return true;
 }
-}
+default:
+{
 return super.onTransact(code, data, reply, flags);
+}
+}
 }
 private static class Proxy implements com.android.vending.billing.IInAppBillingService
 {

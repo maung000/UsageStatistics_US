@@ -1,8 +1,8 @@
-import com.android.builder.core.DefaultManifestParser
+//import com.android.builder.core.DefaultManifestParser
 
 apply plugin: 'com.android.application'
 
-def manifestParser = new DefaultManifestParser()
+//def manifestParser = new DefaultManifestParser()
 
 buildscript {
     repositories {
@@ -10,12 +10,15 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 allprojects {
     repositories {
+        maven{
+            url "https://github.com/omadahealth/omada-nexus/raw/master/release"
+        }
         jcenter()
     }
 }
@@ -31,7 +34,7 @@ repositories {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
@@ -70,17 +73,20 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v13:27.1.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:support-v13:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:cardview-v7:27.0.2'
     implementation 'com.android.support:recyclerview-v7:27.0.2'
     implementation 'com.takwolf.android:lock9view:0.0.2'
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile('com.mikepenz.materialdrawer:library:2.9.1@aar') {
+    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation('com.mikepenz.materialdrawer:library:2.9.1@aar') {
         transitive = true
     }
     //noinspection GradleCompatible
-    compile 'com.google.android.gms:play-services-gcm:9.0.0'
-    compile 'com.google.android.gms:play-services-analytics:9.0.0'
+    implementation 'com.google.android.gms:play-services-gcm:9.0.0'
+    implementation 'com.google.android.gms:play-services-analytics:9.0.0'
+    implementation ('com.github.omadahealth:lollipin:2.1.0@aar') {
+        transitive = true
+    }
 }

@@ -35,43 +35,47 @@ return this;
 }
 @Override public boolean onTransact(int code, android.os.Parcel data, android.os.Parcel reply, int flags) throws android.os.RemoteException
 {
+java.lang.String descriptor = DESCRIPTOR;
 switch (code)
 {
 case INTERFACE_TRANSACTION:
 {
-reply.writeString(DESCRIPTOR);
+reply.writeString(descriptor);
 return true;
 }
 case TRANSACTION_createNotification:
 {
-data.enforceInterface(DESCRIPTOR);
+data.enforceInterface(descriptor);
 this.createNotification();
 reply.writeNoException();
 return true;
 }
 case TRANSACTION_destroyNotification:
 {
-data.enforceInterface(DESCRIPTOR);
+data.enforceInterface(descriptor);
 this.destroyNotification();
 reply.writeNoException();
 return true;
 }
 case TRANSACTION_buildTasks:
 {
-data.enforceInterface(DESCRIPTOR);
+data.enforceInterface(descriptor);
 this.buildTasks();
 reply.writeNoException();
 return true;
 }
 case TRANSACTION_buildReorderAndLaunch:
 {
-data.enforceInterface(DESCRIPTOR);
+data.enforceInterface(descriptor);
 this.buildReorderAndLaunch();
 reply.writeNoException();
 return true;
 }
-}
+default:
+{
 return super.onTransact(code, data, reply, flags);
+}
+}
 }
 private static class Proxy implements ca.mimic.usagestatistics.IWatchfulService
 {
