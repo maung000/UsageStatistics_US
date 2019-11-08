@@ -132,8 +132,8 @@ public class AddApp extends Activity implements ActionBar.TabListener{
         final ActionBar actionBar = getActionBar();
         getActionBar().setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setTitle("Thêm ứng dụng");
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setTitle("    Thêm ứng dụng");
 
         // get list Installed Applications
 

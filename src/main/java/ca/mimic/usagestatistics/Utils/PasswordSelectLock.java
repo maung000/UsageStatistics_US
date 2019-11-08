@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.github.omadahealth.lollipin.lib.managers.AppLock;
 import com.github.omadahealth.lollipin.lib.managers.AppLockActivity;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.takwolf.android.lock9.Lock9View;
@@ -36,7 +37,7 @@ public class PasswordSelectLock extends AppLockActivity {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
 //        setContentView(R.layout.activity_password_select_lock);
-//        sharedPreference = new SharedPreference();
+        sharedPreference = new SharedPreference();
 //        forgetPassword = (Button) findViewById(R.id.forgetPassword);
 //        lock9View = (Lock9View) findViewById(R.id.lock_9_view);
 //        check = false;
@@ -75,6 +76,7 @@ public class PasswordSelectLock extends AppLockActivity {
 
     @Override
     public void onPinSuccess(int attempts) {
+        sharedPreference.savePinCode(this,true);
         Intent i = new Intent(this, Settings.class);
         startActivity(i);
         finish();

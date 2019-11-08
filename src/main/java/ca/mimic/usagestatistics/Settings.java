@@ -248,14 +248,12 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
         sharedPreference = new SharedPreference();
         String password = sharedPreference.getPassword(mContext);
-//
-        if (password.equals(""))
+        boolean checkSetPinCode = sharedPreference.getCheckSetPinCode(mContext);
+        if (!checkSetPinCode)
             launchCreatePassword(mContext);
 
         if (mIsAtLeastLollipop && needsUsPermission()) {
-
             launchUsPermission(mContext);
-
         }
 
         if (Build.VERSION.SDK_INT >= 23) {
@@ -279,8 +277,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
 //            //startService(new Intent(SplashActivity.this, AppCheckServices.class));
 //
 //        }
-
-
         display = getWindowManager().getDefaultDisplay();
         updateDisplayWidth();
 

@@ -26,9 +26,9 @@
             android:id="@+id/task_name_add_app"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:textSize="20sp" />
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp" />
 
 
     </LinearLayout>
@@ -36,9 +36,10 @@
 
     <ImageView
         android:id="@+id/pin_icon_add_app"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:src="@drawable/check" />
 
 </LinearLayout>
