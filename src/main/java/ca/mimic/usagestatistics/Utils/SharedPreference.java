@@ -108,7 +108,7 @@ public class SharedPreference {
     }
     public boolean getCheckSetPinCode(Context context) {
         SharedPreferences checkSetPinCodePref;
-        checkSetPinCodePref = context.getSharedPreferences(AppLockConstants.PIN_CODE, Context.MODE_PRIVATE);
+       checkSetPinCodePref = context.getSharedPreferences(AppLockConstants.MyPREFERENCES, Context.MODE_PRIVATE);
         return checkSetPinCodePref.getBoolean("checkPinCode", false);
     }
-}
+}d

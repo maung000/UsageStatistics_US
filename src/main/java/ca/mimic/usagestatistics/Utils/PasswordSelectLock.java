@@ -76,7 +76,6 @@ public class PasswordSelectLock extends AppLockActivity {
 
     @Override
     public void onPinSuccess(int attempts) {
-        sharedPreference.savePinCode(this,true);
         Intent i = new Intent(this, Settings.class);
         startActivity(i);
         finish();
@@ -86,6 +85,7 @@ public class PasswordSelectLock extends AppLockActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        sharedPreference.savePinCode(this,true);
         setCheck(true);
     }
 
