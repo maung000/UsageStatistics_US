@@ -15,7 +15,7 @@
         android:persistent="false">
 
 
-    </PreferenceScreen>```
+    </PreferenceScreen>
 
     <PreferenceCategory android:title="Khóa ứng dụng">
 

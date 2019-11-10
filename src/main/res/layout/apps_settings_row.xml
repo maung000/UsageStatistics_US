@@ -47,9 +47,10 @@
         android:id="@+id/task_icon"
         android:layout_width="46dp"
         android:layout_height="46dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="2dp"
-        android:layout_marginBottom="6dp" />
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp" />
 
 
 </LinearLayout>

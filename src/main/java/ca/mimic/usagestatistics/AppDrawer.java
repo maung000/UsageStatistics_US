@@ -26,12 +26,16 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.widget.RemoteViews;
 
 import java.util.Random;
+
+import ca.mimic.usagestatistics.Activity.Settings;
+import ca.mimic.usagestatistics.Utils.Helper.ColorHelper;
+import ca.mimic.usagestatistics.Utils.Helper.IconHelper;
+import ca.mimic.usagestatistics.services.WatchfulService;
 
 public class AppDrawer {
     Context mContext;

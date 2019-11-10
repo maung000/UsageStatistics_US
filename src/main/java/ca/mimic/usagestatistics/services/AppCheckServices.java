@@ -1,6 +1,5 @@
 package ca.mimic.usagestatistics.services;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.app.Service;
@@ -12,10 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.PixelFormat;
-import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -27,12 +24,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.takwolf.android.lock9.Lock9View;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -41,11 +34,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
-import ca.mimic.usagestatistics.DBUsage;
+import ca.mimic.usagestatistics.Activity.Settings;
+import ca.mimic.usagestatistics.database.DBUsage;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Tools;
-import ca.mimic.usagestatistics.Utils.AppLockConstants;
-import ca.mimic.usagestatistics.Utils.PasswordRecoveryActivity;
+import ca.mimic.usagestatistics.Activity.PasswordRecoveryActivity;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
 
 
@@ -303,7 +296,7 @@ public class AppCheckServices extends Service {
                                         sharedPreference.addLocked(context, packedName2);
                                         ActivityManager mActivityManager = (ActivityManager)getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
                                         mActivityManager.killBackgroundProcesses(packedName2);
-                                        Intent dialogIntent = new Intent(this, ca.mimic.usagestatistics.Settings.class);
+                                        Intent dialogIntent = new Intent(this, Settings.class);
                                         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(dialogIntent);
                                     }
@@ -334,7 +327,7 @@ public class AppCheckServices extends Service {
                                                     sharedPreference.addLocked(context, packedName2);
                                                     ActivityManager mActivityManager = (ActivityManager)getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
                                                     mActivityManager.killBackgroundProcesses(packedName2);
-                                                    Intent dialogIntent = new Intent(this, ca.mimic.usagestatistics.Settings.class);
+                                                    Intent dialogIntent = new Intent(this, Settings.class);
                                                     dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     startActivity(dialogIntent);
 

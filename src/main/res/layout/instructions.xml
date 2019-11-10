@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        tools:context="ca.mimic.usagestatistics.Instructions" />
+        tools:context="ca.mimic.usagestatistics.Activity.Instructions" />
 
     <com.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"

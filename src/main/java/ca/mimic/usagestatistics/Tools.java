@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,13 +14,11 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
-import android.widget.RemoteViews;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,25 +28,30 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import ca.mimic.usagestatistics.Activity.Settings;
+import ca.mimic.usagestatistics.database.TasksDataSource;
+import ca.mimic.usagestatistics.models.AppsRowItem;
+import ca.mimic.usagestatistics.models.TasksModel;
+
 public class Tools {
-    final static String TAG = "UsageStatistics";
+    public final static String TAG = "UsageStatistics";
 
-    final static int USAGE_STATS_QUERY_TIMEFRAME = 46800000;
-    final static String USAGE_STATS_SERVICE_NAME = "usagestats";
-    final static int AWAKE_REFRESH = 60000;
+    public final static int USAGE_STATS_QUERY_TIMEFRAME = 46800000;
+    public final static String USAGE_STATS_SERVICE_NAME = "usagestats";
+    public final static int AWAKE_REFRESH = 60000;
 
-    final static String REFRESH_ACTION = "ca.mimic.usagestatistics.SCREEN_ON_REFRESH";
-    final static String REPLACE_ACTION = "android.intent.action.PACKAGE_REPLACED";
-    final static String BOOT_ACTION = "android.intent.action.BOOT_COMPLETED";
+    public final static String REFRESH_ACTION = "ca.mimic.usagestatistics.SCREEN_ON_REFRESH";
+    public final static String REPLACE_ACTION = "android.intent.action.PACKAGE_REPLACED";
+    public final static String BOOT_ACTION = "android.intent.action.BOOT_COMPLETED";
 
     static int mBackgroundResource;
 
-    protected static void USLog(String message) {
+    public static void USLog(String message) {
         if (BuildConfig.BUILD_TYPE.equals("debug"))
             Log.d(TAG, message);
     }
 
-    protected boolean isPinned(Context context, String packageName) {
+    public boolean isPinned(Context context, String packageName) {
         ArrayList<String> appList = getPinned(context);
         for (String app : appList) {
             if (app.equals(packageName)) {
@@ -59,14 +61,14 @@ public class Tools {
         return false;
     }
 
-    protected ArrayList<String> getPinned(Context context) {
+    public ArrayList<String> getPinned(Context context) {
         SharedPreferences settingsPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS);
         String pinnedApps = settingsPrefs.getString(Settings.PINNED_APPS, "");
 
         return new ArrayList<String>(Arrays.asList(pinnedApps.split(" ")));
     }
 
-    protected boolean togglePinned(Context context, String packageName, SharedPreferences.Editor settingsEditor) {
+    public boolean togglePinned(Context context, String packageName, SharedPreferences.Editor settingsEditor) {
         ArrayList<String> appList = getPinned(context);
 
         Boolean removed = false;
@@ -88,7 +90,7 @@ public class Tools {
 
         return !removed;
     }
-    protected boolean isLocked(Context context, String packageName) {
+    public boolean isLocked(Context context, String packageName) {
         ArrayList<String> appList = getLock(context);
         for (String app : appList) {
             if (app.equals(packageName)) {
@@ -97,13 +99,13 @@ public class Tools {
         }
         return false;
     }
-    protected ArrayList<String> getLock(Context context) {
+    private ArrayList<String> getLock(Context context) {
         SharedPreferences settingsPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS);
         String lockApps = settingsPrefs.getString(Settings.LOCKED_APPS, "");
 
         return new ArrayList<String>(Arrays.asList(lockApps.split(" ")));
     }
-    protected boolean toggleLock(Context context, String packageName, SharedPreferences.Editor settingsEditor) {
+    public boolean toggleLock(Context context, String packageName, SharedPreferences.Editor settingsEditor) {
         ArrayList<String> appList = getLock(context);
 
         Boolean removed = false;
@@ -153,7 +155,7 @@ public class Tools {
         return (ai != null ? ai.uid : 0);
     }
 
-    protected static String getLauncher(Context context) {
+    public static String getLauncher(Context context) {
         final Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
         final ResolveInfo res = context.getPackageManager().resolveActivity(intent, 0);
@@ -185,29 +187,29 @@ public class Tools {
         }
     }
 
-    protected static class TaskInfo {
-        protected String appName = "";
-        protected String packageName = "";
-        protected String className = "";
-        protected int launches = 0;
-        protected int seconds = 0;
-        protected int totalseconds = 0;
+    public static class TaskInfo {
+        public String appName = "";
+        public String packageName = "";
+        public String className = "";
+        public int launches = 0;
+        public int seconds = 0;
+        public int totalseconds = 0;
 
-        TaskInfo (String string) {
+        public TaskInfo (String string) {
             packageName = string;
         }
     }
 
-    protected static class LollipopTaskInfo {
-        protected String packageName = "";
-        protected String lastRecentPackageName = "";
-        protected String className = "";
-        protected String lastPackageName = "";
-        protected String lastDay;
-        protected long timeInFGDelta;
-        protected long timeInFG;
+    public static class LollipopTaskInfo {
+        public String packageName = "";
+        public String lastRecentPackageName = "";
+        public String className = "";
+        public String lastPackageName = "";
+        public String lastDay;
+        public long timeInFGDelta;
+        public long timeInFG;
 
-        LollipopTaskInfo (String string) {
+        public LollipopTaskInfo (String string) {
             packageName = string;
         }
     }
@@ -290,13 +292,13 @@ public class Tools {
         return lollipopTaskInfo;
     }
 
-    protected static class AddAppComparator implements Comparator<AppsRowItem> {
+    public static class AddAppComparator implements Comparator<AppsRowItem> {
         final int ALPHABETICAL = 1;
 
         final int PINNED = 0;
         int mAddAppType;
 
-        AddAppComparator (int AddAppType){
+        public AddAppComparator (int AddAppType){
             mAddAppType = AddAppType;
         }
         @Override
@@ -311,13 +313,13 @@ public class Tools {
                 return firstCompare;
         }
     }
-    protected static class AppRowComparator implements Comparator<AppsRowItem> {
+    public static class AppRowComparator implements Comparator<AppsRowItem> {
         final int TIME_SPENT = 0;
         final int ALPHABETICAL = 1;
 
         int mAppRowType;
 
-        AppRowComparator (int AppRowType) {
+        public AppRowComparator (int AppRowType) {
             mAppRowType = AppRowType;
         }
         @Override
@@ -428,7 +430,7 @@ public class Tools {
         return false;
     }
 
-    protected ResolveInfo cachedImageResolveInfo(Context mContext, String packageName) {
+    public ResolveInfo cachedImageResolveInfo(Context mContext, String packageName) {
         ResolveInfo rInfo = null;
         try {
             Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(packageName);
@@ -442,7 +444,7 @@ public class Tools {
         return rInfo;
     }
 
-    protected synchronized ArrayList<TaskInfo> reorderTasks(ArrayList<TaskInfo> taskList, TasksDataSource db, int weightPriority, boolean widget) {
+    public synchronized ArrayList<TaskInfo> reorderTasks(ArrayList<TaskInfo> taskList, TasksDataSource db, int weightPriority, boolean widget) {
         Tools.USLog("reorderTasks: " + taskList.size() + " widget? " + widget);
         int highestSeconds = db.getHighestSeconds();
         int highestLaunch = db.getHighestLaunch();
@@ -491,11 +493,11 @@ public class Tools {
         return taskList;
     }
 
-    protected ArrayList<TaskInfo> reorderTasks(ArrayList<TaskInfo> taskList, TasksDataSource db, int weightPriority) {
+    public ArrayList<TaskInfo> reorderTasks(ArrayList<TaskInfo> taskList, TasksDataSource db, int weightPriority) {
         return reorderTasks(taskList, db, weightPriority, false);
     }
 
-    protected synchronized static void reorderWidgetTasks(TasksDataSource db, Context context) {
+    public synchronized static void reorderWidgetTasks(TasksDataSource db, Context context) {
         SharedPreferences settingsPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS);
         SharedPreferences widgetPrefs = context.getSharedPreferences("AppsWidget", Context.MODE_MULTI_PROCESS);
 
@@ -530,7 +532,7 @@ public class Tools {
         return blPNames;
     }
 
-    protected static boolean isBlacklistedOrBad(String packageName, Context context, TasksDataSource db) {
+    public static boolean isBlacklistedOrBad(String packageName, Context context, TasksDataSource db) {
         try {
             PackageManager pkgm = context.getPackageManager();
             Intent intent = pkgm.getLaunchIntentForPackage(packageName);
@@ -548,7 +550,7 @@ public class Tools {
         return false;
     }
 
-    protected synchronized static ArrayList<Tools.TaskInfo> buildTaskList(Context context, TasksDataSource db,
+    public synchronized static ArrayList<Tools.TaskInfo> buildTaskList(Context context, TasksDataSource db,
                                                              int queueSize, boolean weighted,
                                                              boolean widget) {
         ArrayList<Tools.TaskInfo> taskList = new ArrayList<Tools.TaskInfo>();
@@ -600,15 +602,15 @@ public class Tools {
         }
         return taskList;
     }
-    protected static ArrayList<Tools.TaskInfo> buildTaskList(Context context, TasksDataSource db, int queueSize) {
+    public  static ArrayList<Tools.TaskInfo> buildTaskList(Context context, TasksDataSource db, int queueSize) {
         return buildTaskList(context, db, queueSize, false, false);
     }
 
-    protected static ArrayList<Tools.TaskInfo> buildPinnedList(Context context, TasksDataSource db) {
+    public  static ArrayList<Tools.TaskInfo> buildPinnedList(Context context, TasksDataSource db) {
         return buildTaskList(context, db, 0, false, false);
     }
 
-    protected ArrayList<Tools.TaskInfo> addMoreAppsButton(ArrayList<Tools.TaskInfo> taskList, int count) {
+    public  ArrayList<Tools.TaskInfo> addMoreAppsButton(ArrayList<Tools.TaskInfo> taskList, int count) {
         USLog("addMoreAppsButton: taskList.size(): " + taskList.size() + " count: " + count);
 
         Tools.TaskInfo moreAppsTask = new TaskInfo(Settings.MORE_APPS_PACKAGE);

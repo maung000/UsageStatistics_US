@@ -1,3 +1,5 @@
+package ca.mimic.usagestatistics.Activity;
+
 /*
  * Copyright © 2014 Jeff Corcoran
  *
@@ -18,26 +20,27 @@
  *
  */
 
-package ca.mimic.usagestatistics;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
-public class UsPermission {
-    Context context;
-    View mUsPermission;
+import ca.mimic.usagestatistics.R;
 
-    public UsPermission(Context context) {
+public class UsCreatePassword {
+    Context context;
+    View mUsCreatePassword;
+
+    public UsCreatePassword(Context context) {
         this.context = context;
     }
 
     @SuppressLint("InflateParams")
     public View getView() {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mUsPermission = inflater.inflate(R.layout.us_permission, null);
+        mUsCreatePassword = inflater.inflate(R.layout.us_create_password, null);
 
-        return mUsPermission;
+        return mUsCreatePassword;
     }
 }
+
