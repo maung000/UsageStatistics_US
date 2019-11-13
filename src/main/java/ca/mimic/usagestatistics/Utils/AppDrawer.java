@@ -18,7 +18,7 @@
  *
  */
 
-package ca.mimic.usagestatistics;
+package ca.mimic.usagestatistics.Utils;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
@@ -33,9 +33,10 @@ import android.widget.RemoteViews;
 import java.util.Random;
 
 import ca.mimic.usagestatistics.Activity.Settings;
+import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Utils.Helper.ColorHelper;
 import ca.mimic.usagestatistics.Utils.Helper.IconHelper;
-import ca.mimic.usagestatistics.services.WatchfulService;
+import ca.mimic.usagestatistics.Services.WatchfulService;
 
 public class AppDrawer {
     Context mContext;

@@ -26,8 +26,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import ca.mimic.usagestatistics.Activity.Settings;
-import ca.mimic.usagestatistics.Tools;
-import ca.mimic.usagestatistics.services.WatchfulService;
+import ca.mimic.usagestatistics.Utils.Tools;
+import ca.mimic.usagestatistics.Services.WatchfulService;
 
 public class BootStartBroadcastReceiver extends BroadcastReceiver {
     SharedPreferences prefs;

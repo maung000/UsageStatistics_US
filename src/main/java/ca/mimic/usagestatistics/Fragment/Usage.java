@@ -20,12 +20,12 @@ import java.util.List;
 import ca.mimic.usagestatistics.Adapter.UsageRowAdapter;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Activity.Settings;
-import ca.mimic.usagestatistics.Tools;
-import ca.mimic.usagestatistics.database.DBUsage;
-import ca.mimic.usagestatistics.database.TasksDataSource;
-import ca.mimic.usagestatistics.models.TasksModel;
-import ca.mimic.usagestatistics.models.UsageDay;
-import ca.mimic.usagestatistics.models.UsageRowItem;
+import ca.mimic.usagestatistics.Utils.Tools;
+import ca.mimic.usagestatistics.Database.DBUsage;
+import ca.mimic.usagestatistics.Database.TasksDataSource;
+import ca.mimic.usagestatistics.Models.TasksModel;
+import ca.mimic.usagestatistics.Models.UsageDay;
+import ca.mimic.usagestatistics.Models.UsageRowItem;
 
 
 public class Usage extends Fragment {

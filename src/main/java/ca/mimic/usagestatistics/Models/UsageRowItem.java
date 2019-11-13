@@ -1,7 +1,5 @@
-package ca.mimic.usagestatistics.models;
+package ca.mimic.usagestatistics.Models;
 
-
-import android.content.ComponentName;
 
 public class UsageRowItem  {
     private String mDay;

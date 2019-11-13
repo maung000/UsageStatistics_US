@@ -1,4 +1,4 @@
-package ca.mimic.usagestatistics.services;
+package ca.mimic.usagestatistics.Services;
 
 import android.app.ActivityManager;
 import android.app.Dialog;
@@ -35,9 +35,9 @@ import java.util.TimerTask;
 import java.util.TreeMap;
 
 import ca.mimic.usagestatistics.Activity.Settings;
-import ca.mimic.usagestatistics.database.DBUsage;
+import ca.mimic.usagestatistics.Database.DBUsage;
 import ca.mimic.usagestatistics.R;
-import ca.mimic.usagestatistics.Tools;
+import ca.mimic.usagestatistics.Utils.Tools;
 import ca.mimic.usagestatistics.Activity.PasswordRecoveryActivity;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
 

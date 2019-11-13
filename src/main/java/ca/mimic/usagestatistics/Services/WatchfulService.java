@@ -18,7 +18,7 @@
  *
  */
 
-package ca.mimic.usagestatistics.services;
+package ca.mimic.usagestatistics.Services;
 
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
@@ -47,14 +47,14 @@ import java.util.List;
 import java.util.Locale;
 
 import ca.mimic.usagestatistics.Adapter.BootStartBroadcastReceiver;
-import ca.mimic.usagestatistics.database.DBUsage;
+import ca.mimic.usagestatistics.Database.DBUsage;
 import ca.mimic.usagestatistics.IWatchfulService;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Activity.Settings;
-import ca.mimic.usagestatistics.database.TasksDataSource;
-import ca.mimic.usagestatistics.Tools;
-import ca.mimic.usagestatistics.Tools.TaskInfo;
-import ca.mimic.usagestatistics.Tools.LollipopTaskInfo;
+import ca.mimic.usagestatistics.Database.TasksDataSource;
+import ca.mimic.usagestatistics.Utils.Tools;
+import ca.mimic.usagestatistics.Utils.Tools.TaskInfo;
+import ca.mimic.usagestatistics.Utils.Tools.LollipopTaskInfo;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
 
 public class WatchfulService extends Service {

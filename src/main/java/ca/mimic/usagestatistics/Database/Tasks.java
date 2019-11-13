@@ -18,7 +18,7 @@
  *
  */
 
-package ca.mimic.usagestatistics.database;
+package ca.mimic.usagestatistics.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

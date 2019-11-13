@@ -18,11 +18,9 @@
  *
  */
 
-package ca.mimic.usagestatistics.models;
+package ca.mimic.usagestatistics.Models;
 
 import android.content.ComponentName;
-
-import ca.mimic.usagestatistics.models.TasksModel;
 
 public class AppsRowItem extends TasksModel {
     public Boolean mPinned;

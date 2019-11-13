@@ -1,4 +1,4 @@
-package ca.mimic.usagestatistics.models;
+package ca.mimic.usagestatistics.Models;
 
 
 public class UsageDay {

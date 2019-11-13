@@ -18,7 +18,7 @@
  *
  */
 
-package ca.mimic.usagestatistics.database;
+package ca.mimic.usagestatistics.Database;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -34,8 +34,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import ca.mimic.usagestatistics.models.TasksModel;
-import ca.mimic.usagestatistics.Tools;
+import ca.mimic.usagestatistics.Models.TasksModel;
+import ca.mimic.usagestatistics.Utils.Tools;
 
 public class TasksDataSource {
 

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ca.mimic.usagestatistics.models.AppsRowItem;
+import ca.mimic.usagestatistics.Models.AppsRowItem;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Utils.Helper.IconHelper;
 

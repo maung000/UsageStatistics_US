@@ -17,10 +17,10 @@ import java.util.List;
 
 import ca.mimic.usagestatistics.Utils.Helper.IconHelper;
 import ca.mimic.usagestatistics.R;
-import ca.mimic.usagestatistics.database.TasksDataSource;
-import ca.mimic.usagestatistics.models.TasksModel;
-import ca.mimic.usagestatistics.models.UsageDay;
-import ca.mimic.usagestatistics.models.UsageRowItem;
+import ca.mimic.usagestatistics.Database.TasksDataSource;
+import ca.mimic.usagestatistics.Models.TasksModel;
+import ca.mimic.usagestatistics.Models.UsageDay;
+import ca.mimic.usagestatistics.Models.UsageRowItem;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     private List<UsageRowItem> listDayUsed;

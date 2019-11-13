@@ -1,5 +1,5 @@
 
-package ca.mimic.usagestatistics;
+package ca.mimic.usagestatistics.Utils;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -29,9 +29,10 @@ import java.util.Date;
 import java.util.List;
 
 import ca.mimic.usagestatistics.Activity.Settings;
-import ca.mimic.usagestatistics.database.TasksDataSource;
-import ca.mimic.usagestatistics.models.AppsRowItem;
-import ca.mimic.usagestatistics.models.TasksModel;
+import ca.mimic.usagestatistics.BuildConfig;
+import ca.mimic.usagestatistics.Database.TasksDataSource;
+import ca.mimic.usagestatistics.Models.AppsRowItem;
+import ca.mimic.usagestatistics.Models.TasksModel;
 
 public class Tools {
     public final static String TAG = "UsageStatistics";

@@ -30,7 +30,7 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import ca.mimic.usagestatistics.Activity.Settings;
-import ca.mimic.usagestatistics.Tools;
+import ca.mimic.usagestatistics.Utils.Tools;
 
 public class IconHelper {
 

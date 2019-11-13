@@ -1,4 +1,4 @@
-package ca.mimic.usagestatistics.services;
+package ca.mimic.usagestatistics.Services;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

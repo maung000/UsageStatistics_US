@@ -36,7 +36,7 @@
         </receiver>
 
         <service
-            android:name="ca.mimic.usagestatistics.services.WatchfulService"
+            android:name="ca.mimic.usagestatistics.Services.WatchfulService"
             android:exported="false"
             android:icon="@drawable/ic_launcher"
             android:process=":appwatch">
@@ -104,10 +104,10 @@
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:screenOrientation="portrait"/>
         <service
-            android:name=".services.AppCheckServices"
+            android:name=".Services.AppCheckServices"
             android:exported="false" />
         <receiver
-            android:name=".services.AlarmReceiver">
+            android:name=".Services.AlarmReceiver">
         </receiver>
     </application>
 

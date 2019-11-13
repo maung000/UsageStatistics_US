@@ -42,7 +42,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 import ca.mimic.usagestatistics.Activity.Settings;
-import ca.mimic.usagestatistics.Tools;
+import ca.mimic.usagestatistics.Utils.Tools;
 
 public class IconCacheHelper {
     private static final String RESOURCE_FILE_PREFIX = "icon_";

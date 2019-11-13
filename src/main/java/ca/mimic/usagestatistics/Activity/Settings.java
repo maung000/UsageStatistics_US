@@ -69,15 +69,15 @@ import ca.mimic.usagestatistics.Adapter.AppsRowAdapter;
 import ca.mimic.usagestatistics.Fragment.Usage;
 import ca.mimic.usagestatistics.IWatchfulService;
 import ca.mimic.usagestatistics.R;
-import ca.mimic.usagestatistics.Tools;
+import ca.mimic.usagestatistics.Utils.Tools;
 import ca.mimic.usagestatistics.UsPermission;
 import ca.mimic.usagestatistics.Utils.Helper.IconHelper;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
-import ca.mimic.usagestatistics.database.DBUsage;
-import ca.mimic.usagestatistics.database.TasksDataSource;
-import ca.mimic.usagestatistics.models.AppsRowItem;
-import ca.mimic.usagestatistics.models.TasksModel;
-import ca.mimic.usagestatistics.services.WatchfulService;
+import ca.mimic.usagestatistics.Database.DBUsage;
+import ca.mimic.usagestatistics.Database.TasksDataSource;
+import ca.mimic.usagestatistics.Models.AppsRowItem;
+import ca.mimic.usagestatistics.Models.TasksModel;
+import ca.mimic.usagestatistics.Services.WatchfulService;
 
 public class Settings extends Activity implements ActionBar.TabListener {
 
@@ -727,9 +727,11 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
                 sharedPreference = new SharedPreference();
                 String password = sharedPreference.getPassword(mContext);
+                boolean checkSetPinCode = sharedPreference.getCheckSetPinCode(mContext);
 
                 password_change = findPreference(PASSWORD_CHANGE_PREFERENCE);
-                if (!password.equals("")) {
+//                if (!password.equals("")) {
+                if(sharedPreference.getCheckSetPinCode(mContext)){
                     password_change.setOnPreferenceClickListener(
                             new Preference.OnPreferenceClickListener() {
                                 @Override

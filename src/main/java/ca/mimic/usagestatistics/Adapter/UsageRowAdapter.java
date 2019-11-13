@@ -34,11 +34,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.mimic.usagestatistics.database.DBUsage;
+import ca.mimic.usagestatistics.Database.DBUsage;
 import ca.mimic.usagestatistics.R;
-import ca.mimic.usagestatistics.models.TasksModel;
-import ca.mimic.usagestatistics.models.UsageDay;
-import ca.mimic.usagestatistics.models.UsageRowItem;
+import ca.mimic.usagestatistics.Models.TasksModel;
+import ca.mimic.usagestatistics.Models.UsageDay;
+import ca.mimic.usagestatistics.Models.UsageRowItem;
 import ca.mimic.usagestatistics.Utils.Helper.IconHelper;
 
 public class UsageRowAdapter extends BaseAdapter {

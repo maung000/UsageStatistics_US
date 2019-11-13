@@ -18,7 +18,7 @@
  *
  */
 
-package ca.mimic.usagestatistics.models;
+package ca.mimic.usagestatistics.Models;
 
 import java.sql.Timestamp;
 

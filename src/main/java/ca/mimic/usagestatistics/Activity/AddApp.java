@@ -39,13 +39,13 @@ import java.util.List;
 import java.util.Locale;
 
 import ca.mimic.usagestatistics.Adapter.ProcessListAdapter;
-import ca.mimic.usagestatistics.models.AppsRowItem;
+import ca.mimic.usagestatistics.Models.AppsRowItem;
 import ca.mimic.usagestatistics.IWatchfulService;
 import ca.mimic.usagestatistics.R;
-import ca.mimic.usagestatistics.Tools;
-import ca.mimic.usagestatistics.database.TasksDataSource;
-import ca.mimic.usagestatistics.models.TasksModel;
-import ca.mimic.usagestatistics.services.WatchfulService;
+import ca.mimic.usagestatistics.Utils.Tools;
+import ca.mimic.usagestatistics.Database.TasksDataSource;
+import ca.mimic.usagestatistics.Models.TasksModel;
+import ca.mimic.usagestatistics.Services.WatchfulService;
 
 public class AddApp extends Activity implements ActionBar.TabListener{
 

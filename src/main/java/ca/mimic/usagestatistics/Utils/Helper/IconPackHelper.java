@@ -54,10 +54,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import ca.mimic.usagestatistics.models.AppsRowItem;
+import ca.mimic.usagestatistics.Models.AppsRowItem;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Activity.Settings;
-import ca.mimic.usagestatistics.Tools;
+import ca.mimic.usagestatistics.Utils.Tools;
 
 public class IconPackHelper {
 
