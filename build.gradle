@@ -16,9 +16,6 @@ buildscript {
 }
 allprojects {
     repositories {
-        maven{
-            url "https://github.com/omadahealth/omada-nexus/raw/master/release"
-        }
         jcenter()
     }
 }
@@ -86,7 +83,9 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.google.android.gms:play-services-gcm:9.0.0'
     implementation 'com.google.android.gms:play-services-analytics:9.0.0'
-    implementation ('com.github.omadahealth:lollipin:2.1.0@aar') {
-        transitive = true
-    }
-}
+//    implementation ('com.github.omadahealth:lollipin:2.1.0@aar') {
+//        transitive = true
+//    }
+    implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'
+    // Optional, for RxJava2 adapter
+    implementation 'com.andrognito.patternlockview:patternlockview-reactive:1.0.0'}
