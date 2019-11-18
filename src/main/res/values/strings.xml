@@ -270,4 +270,9 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="draw_password">Xác nhận mật khẩu của bạn</string>
+    <string name="draw_password_again">Vẽ lại hình để xác nhận</string>
+    <string name="draw_password_note">Hãy nhớ mật khẩu của mình. Nếu bạn quên, bạn không thể phục hồi.</string>
+
+
 </resources>

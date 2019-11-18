@@ -63,7 +63,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.github.omadahealth.lollipin.lib.managers.AppLock;
+//import com.github.omadahealth.lollipin.lib.managers.AppLock;
 
 import ca.mimic.usagestatistics.Adapter.AppsRowAdapter;
 import ca.mimic.usagestatistics.Fragment.Usage;
@@ -454,20 +454,20 @@ public class Settings extends Activity implements ActionBar.TabListener {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 //                                if (!LockManager.getInstance().getAppLock().isPasscodeSet()) {
-                                Intent intent = new Intent(mContext, PasswordSelectLock.class);
-                                intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
-                                startActivityForResult(intent, REQUEST_FIRST_RUN_PIN);
+//                                Intent intent = new Intent(mContext, PasswordSelectLock.class);
+//                                intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
+//                                startActivityForResult(intent, REQUEST_FIRST_RUN_PIN);
 //                                }
-//                                startActivity(new Intent(mContext, PasswordSelectLock.class));
+                                startActivity(new Intent(mContext, PasswordSelectLock.class));
                                 finish();
                             }
                         })
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
-                        Intent intent = new Intent(mContext, PasswordSelectLock.class);
-                        intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
-                        startActivityForResult(intent, REQUEST_FIRST_RUN_PIN);
+//                        Intent intent = new Intent(mContext, PasswordSelectLock.class);
+//                        intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
+//                        startActivityForResult(intent, REQUEST_FIRST_RUN_PIN);
 //                        startActivity(new Intent(mContext, PasswordSetActivity.class));
                         finish();
                     }
