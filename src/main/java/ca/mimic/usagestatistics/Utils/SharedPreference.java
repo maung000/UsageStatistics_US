@@ -34,14 +34,14 @@ public class SharedPreference {
     }
 
     // This four methods are used for maintaining favorites.
-    public void savePinCode(Context context, boolean checkPinCode) {
+    public void savePasswordApp(Context context, String password) {
         SharedPreferences settings;
         SharedPreferences.Editor editor;
 
         settings = context.getSharedPreferences(AppLockConstants.MyPREFERENCES,
                 Context.MODE_PRIVATE);
         editor = settings.edit();
-        editor.putBoolean("checkPinCode", checkPinCode);
+        editor.putString(AppLockConstants.PASSWORD_APP, password);
 
         // Save.
         editor.apply();
@@ -106,9 +106,9 @@ public class SharedPreference {
         }
         return "";
     }
-    public boolean getCheckSetPinCode(Context context) {
+    public String getPasswordApp(Context context) {
         SharedPreferences checkSetPinCodePref;
        checkSetPinCodePref = context.getSharedPreferences(AppLockConstants.MyPREFERENCES, Context.MODE_PRIVATE);
-        return checkSetPinCodePref.getBoolean("checkPinCode", false);
+        return checkSetPinCodePref.getString(AppLockConstants.PASSWORD_APP, "");
     }
 }

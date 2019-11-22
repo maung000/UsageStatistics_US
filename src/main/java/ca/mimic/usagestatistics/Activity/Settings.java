@@ -245,8 +245,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
         sharedPreference = new SharedPreference();
         String password = sharedPreference.getPassword(mContext);
-        boolean checkSetPinCode = sharedPreference.getCheckSetPinCode(mContext);
-        if (!checkSetPinCode)
+//        boolean checkSetPinCode = sharedPreference.getCheckSetPinCode(mContext);
+//        if (!checkSetPinCode)
             launchCreatePassword(mContext);
 
         if (mIsAtLeastLollipop && needsUsPermission()) {
@@ -459,7 +459,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 //                                startActivityForResult(intent, REQUEST_FIRST_RUN_PIN);
 //                                }
                                 startActivity(new Intent(mContext, PasswordSelectLock.class));
-                                finish();
+//                                finish();
                             }
                         })
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -727,11 +727,11 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
                 sharedPreference = new SharedPreference();
                 String password = sharedPreference.getPassword(mContext);
-                boolean checkSetPinCode = sharedPreference.getCheckSetPinCode(mContext);
+//                boolean checkSetPinCode = sharedPreference.getCheckSetPinCode(mContext);
 
                 password_change = findPreference(PASSWORD_CHANGE_PREFERENCE);
 //                if (!password.equals("")) {
-                if(sharedPreference.getCheckSetPinCode(mContext)){
+                if(true){
                     password_change.setOnPreferenceClickListener(
                             new Preference.OnPreferenceClickListener() {
                                 @Override

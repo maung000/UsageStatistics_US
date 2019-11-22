@@ -274,5 +274,8 @@
     <string name="draw_password_again">Vẽ lại hình để xác nhận</string>
     <string name="draw_password_note">Hãy nhớ mật khẩu của mình. Nếu bạn quên, bạn không thể phục hồi.</string>
 
+    <string name="btn_cancel">Xóa</string>
+    <string name="btn_ok">Xác nhận</string>
+
 
 </resources>

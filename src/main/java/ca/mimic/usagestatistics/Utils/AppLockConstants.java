@@ -25,6 +25,9 @@ public class AppLockConstants {
     public static final String NEW_APP_INSTALL_DIALOG_BOX = "new_app_install_dialog_box";
     public static final String IS_PER = "is_per_set";
     public static final String PIN_CODE = "pin_code";
+    public static final String PASSWORD_APP = "password_app";
+    public static final String EXTRA_PASSWORD_APP = "extra_password_app";
+
 
 
 }

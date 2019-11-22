@@ -103,6 +103,11 @@
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activity.PasswordSelectLockAgain"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:screenOrientation="portrait"/>
         <service
             android:name=".Services.AppCheckServices"
             android:exported="false" />

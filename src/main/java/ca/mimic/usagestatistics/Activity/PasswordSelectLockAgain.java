@@ -101,10 +101,10 @@
 package ca.mimic.usagestatistics.Activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -113,6 +113,7 @@ import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.takwolf.android.lock9.Lock9View;
 
 import java.util.List;
 
@@ -120,13 +121,13 @@ import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Utils.AppLockConstants;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
 
-public class PasswordSelectLock extends AppCompatActivity {
+public class PasswordSelectLockAgain extends AppCompatActivity {
     SharedPreference sharedPreference;
     Context context;
     Button forgetPassword;
     TextView tvDrawPassword;
 
-    PatternLockView patternLockView;
+    PatternLockView patternLockViewAgain;
     String password;
     public static boolean check = true;
 
@@ -142,16 +143,20 @@ public class PasswordSelectLock extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
-        setContentView(R.layout.activity_password_select_lock);
+        setContentView(R.layout.activity_password_select_lock_again);
         sharedPreference = new SharedPreference();
         forgetPassword = (Button) findViewById(R.id.forgetPassword);
-        patternLockView = findViewById(R.id.patternView);
+        patternLockViewAgain = findViewById(R.id.patternViewAgain);
         tvDrawPassword = findViewById(R.id.tvDrawPassword);
         getSupportActionBar().hide();
 
+        if(getIntent()!=null){
+            password = getIntent().getStringExtra(AppLockConstants.EXTRA_PASSWORD_APP);
+        }
+
 
         check = false;
-        patternLockView.addPatternLockListener(new PatternLockViewListener() {
+        patternLockViewAgain.addPatternLockListener(new PatternLockViewListener() {
             @Override
             public void onStarted() {
                 
@@ -164,11 +169,14 @@ public class PasswordSelectLock extends AppCompatActivity {
 
             @Override
             public void onComplete(List<PatternLockView.Dot> pattern) {
-                password = PatternLockUtils.patternToString(patternLockView, pattern);
-                Intent intent =  new Intent(PasswordSelectLock.this,PasswordSelectLockAgain.class);
-                intent.putExtra(AppLockConstants.EXTRA_PASSWORD_APP,password);
-                startActivity(intent);
-                finish();
+                password = PatternLockUtils.patternToString(patternLockViewAgain, pattern);
+                if(PatternLockUtils.patternToString(patternLockViewAgain, pattern).equals(password)){
+                    finish();
+                }
+//                patternLockViewAgain.setVisibility(View.VISIBLE);
+//                tvDrawPassword.setText(R.string.draw_password_again);
+//                //                sharedPreference.savePasswordApp(PasswordSelectLock.this, password);
+
             }
 
             @Override
