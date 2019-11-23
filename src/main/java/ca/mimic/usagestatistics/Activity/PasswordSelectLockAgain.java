@@ -101,8 +101,10 @@
 package ca.mimic.usagestatistics.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -121,11 +123,13 @@ import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Utils.AppLockConstants;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
 
-public class PasswordSelectLockAgain extends AppCompatActivity {
+public class PasswordSelectLockAgain extends AppCompatActivity implements View.OnClickListener {
     SharedPreference sharedPreference;
     Context context;
     Button forgetPassword;
     TextView tvDrawPassword;
+    Button btnConfirmPassword;
+    Button btnDeletePassword;
 
     PatternLockView patternLockViewAgain;
     String password;
@@ -148,6 +152,13 @@ public class PasswordSelectLockAgain extends AppCompatActivity {
         forgetPassword = (Button) findViewById(R.id.forgetPassword);
         patternLockViewAgain = findViewById(R.id.patternViewAgain);
         tvDrawPassword = findViewById(R.id.tvDrawPassword);
+        btnConfirmPassword = findViewById(R.id.btnConfirmPassword);
+        btnDeletePassword = findViewById(R.id.btnDeletePassword);
+
+        /* Set event click for button */
+        btnConfirmPassword.setOnClickListener(this);
+        btnDeletePassword.setOnClickListener(this);
+
         getSupportActionBar().hide();
 
         if(getIntent()!=null){
@@ -171,12 +182,8 @@ public class PasswordSelectLockAgain extends AppCompatActivity {
             public void onComplete(List<PatternLockView.Dot> pattern) {
                 password = PatternLockUtils.patternToString(patternLockViewAgain, pattern);
                 if(PatternLockUtils.patternToString(patternLockViewAgain, pattern).equals(password)){
-                    finish();
+                    btnConfirmPassword.setTextColor(ContextCompat.getColor(context,R.color.colorBlack));
                 }
-//                patternLockViewAgain.setVisibility(View.VISIBLE);
-//                tvDrawPassword.setText(R.string.draw_password_again);
-//                //                sharedPreference.savePasswordApp(PasswordSelectLock.this, password);
-
             }
 
             @Override
@@ -203,5 +210,29 @@ public class PasswordSelectLockAgain extends AppCompatActivity {
     protected void onStop() {
         GoogleAnalytics.getInstance(context).reportActivityStop(this);
         super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        Intent intent =  new Intent(PasswordSelectLockAgain.this,PasswordSelectLock.class);
+        intent.putExtra(AppLockConstants.EXTRA_PASSWORD_APP,password);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btnConfirmPassword:
+                Intent intent = new Intent(this,Settings.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                sharedPreference.savePasswordApp(PasswordSelectLockAgain.this, password);
+                finish();
+                break;
+            case R.id.btnDeletePassword:
+                this.onBackPressed();
+                break;
+        }
     }
 }

@@ -115,6 +115,7 @@ import com.andrognito.patternlockview.utils.PatternLockUtils;
 import com.google.android.gms.analytics.GoogleAnalytics;
 
 import java.util.List;
+import java.util.Set;
 
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Utils.AppLockConstants;
@@ -195,5 +196,12 @@ public class PasswordSelectLock extends AppCompatActivity {
     protected void onStop() {
         GoogleAnalytics.getInstance(context).reportActivityStop(this);
         super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent =  new Intent(PasswordSelectLock.this, Settings.class);
+        startActivity(intent);
+        finish();
     }
 }

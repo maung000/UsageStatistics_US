@@ -6,7 +6,7 @@
     <!--My color-->
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
-    <color name="colorGray">#505050</color>
+    <color name="colorGray">#D3D3D3</color>
     <color name="colorOpacity">#00000000</color>
     <color name="colorStatusBar">#00000000</color>
     <color name="colorTextPK">#1F85CF</color>
