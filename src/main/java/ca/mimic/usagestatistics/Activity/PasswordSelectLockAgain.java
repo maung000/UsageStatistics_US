@@ -128,6 +128,7 @@ public class PasswordSelectLockAgain extends AppCompatActivity implements View.O
     Context context;
     Button forgetPassword;
     TextView tvDrawPassword;
+    TextView tvDrawPasswordNote;
     Button btnConfirmPassword;
     Button btnDeletePassword;
 
@@ -152,6 +153,8 @@ public class PasswordSelectLockAgain extends AppCompatActivity implements View.O
         forgetPassword = (Button) findViewById(R.id.forgetPassword);
         patternLockViewAgain = findViewById(R.id.patternViewAgain);
         tvDrawPassword = findViewById(R.id.tvDrawPassword);
+        tvDrawPasswordNote = findViewById(R.id.tvDrawPasswordNote);
+
         btnConfirmPassword = findViewById(R.id.btnConfirmPassword);
         btnDeletePassword = findViewById(R.id.btnDeletePassword);
 
@@ -180,9 +183,13 @@ public class PasswordSelectLockAgain extends AppCompatActivity implements View.O
 
             @Override
             public void onComplete(List<PatternLockView.Dot> pattern) {
-                password = PatternLockUtils.patternToString(patternLockViewAgain, pattern);
+//                password = PatternLockUtils.patternToString(patternLockViewAgain, pattern);
                 if(PatternLockUtils.patternToString(patternLockViewAgain, pattern).equals(password)){
                     btnConfirmPassword.setTextColor(ContextCompat.getColor(context,R.color.colorBlack));
+                } else {
+                    tvDrawPasswordNote.setText("Hãy thử lại:");
+                    pattern.clear();
+                    patternLockViewAgain.clearPattern();
                 }
             }
 
@@ -192,7 +199,6 @@ public class PasswordSelectLockAgain extends AppCompatActivity implements View.O
             }
         });
     }
-
 
     @Override
     protected void onDestroy() {

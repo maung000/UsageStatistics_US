@@ -39,6 +39,7 @@ import android.preference.PreferenceFragment;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Pair;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -107,7 +108,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
     public final static String ICON_SIZE_PREFERENCE = "icon_size_preference";
     public final static String ICON_PACK_PREFERENCE = "icon_pack_preference";
     public final static String PASSWORD_FIRST_PREFERENCE = "password";
-    public final static String PASSWORD_CHANGE_PREFERENCE = "change_password";
+    public final static String PASSWORD_CREATE_CHANGE_PREFERENCE = "create_change_password";
     public final static String SECOND_ROW_PREFERENCE = "second_row_preference";
     public final static String PINNED_SORT_PREFERENCE = "pinned_sort_preference";
     public final static String PINNED_PLACEMENT_PREFERENCE = "pinned_placement_preference";
@@ -247,7 +248,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
         String password = sharedPreference.getPassword(mContext);
 //        boolean checkSetPinCode = sharedPreference.getCheckSetPinCode(mContext);
 //        if (!checkSetPinCode)
-            launchCreatePassword(mContext);
+        launchCreatePassword(mContext);
 
         if (mIsAtLeastLollipop && needsUsPermission()) {
             launchUsPermission(mContext);
@@ -446,37 +447,33 @@ public class Settings extends Activity implements ActionBar.TabListener {
         View mUsCreatePassword = usCreatePassword.getView();
         mUsCreatePassword.refreshDrawableState();
         new AlertDialog.Builder(context)
-                .setTitle(R.string.us_permission_title)
+                .setTitle(R.string.create_password_title)
                 .setIcon(R.drawable.ic_launcher)
                 .setView(mUsCreatePassword)
                 .setPositiveButton(R.string.create_password_button,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-//                                if (!LockManager.getInstance().getAppLock().isPasscodeSet()) {
-//                                Intent intent = new Intent(mContext, PasswordSelectLock.class);
-//                                intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
-//                                startActivityForResult(intent, REQUEST_FIRST_RUN_PIN);
-//                                }
                                 startActivity(new Intent(mContext, PasswordSelectLock.class));
-//                                finish();
                             }
                         })
+                .setNegativeButton(R.string.btn_ignore, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
-//                        Intent intent = new Intent(mContext, PasswordSelectLock.class);
-//                        intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
-//                        startActivityForResult(intent, REQUEST_FIRST_RUN_PIN);
-//                        startActivity(new Intent(mContext, PasswordSetActivity.class));
-                        finish();
+                        dialog.dismiss();
                     }
                 })
                 .show();
 
     }
 
-    protected boolean showChangelog(PrefsGet prefs) {
+    protected void showChangelog(PrefsGet prefs) {
         SharedPreferences mPrefs = prefs.prefsGet();
         SharedPreferences.Editor mEditor = prefs.editorGet();
 
@@ -493,18 +490,15 @@ public class Settings extends Activity implements ActionBar.TabListener {
         Tools.USLog("savedVer: " + whichVersion + " hangarVersion: " + USVersion);
         if (whichVersion != null) {
             if (whichVersion.equals(USVersion)) {
-                return false;
             } else {
                 mEditor.putString(VERSION_CHECK, USVersion);
                 mEditor.commit();
-                return true;
             }
         } else {
             mEditor.putString(VERSION_CHECK, USVersion);
             mEditor.commit();
 
             launchInstructions();
-            return false;
         }
     }
 
@@ -729,14 +723,19 @@ public class Settings extends Activity implements ActionBar.TabListener {
                 String password = sharedPreference.getPassword(mContext);
 //                boolean checkSetPinCode = sharedPreference.getCheckSetPinCode(mContext);
 
-                password_change = findPreference(PASSWORD_CHANGE_PREFERENCE);
+                password_change = findPreference(PASSWORD_CREATE_CHANGE_PREFERENCE);
+                if(!TextUtils.isEmpty(password)){
+                    password_change.setTitle(getString(R.string.preference_screen_title_change_password));
+                } else {
+                    password_change.setTitle(getString(R.string.preference_screen_title_create_password));
+                }
 //                if (!password.equals("")) {
-                if(true){
+                if (true) {
                     password_change.setOnPreferenceClickListener(
                             new Preference.OnPreferenceClickListener() {
                                 @Override
                                 public boolean onPreferenceClick(Preference preference) {
-                                    Intent intent = new Intent(mContext, PasswordOldActivity.class);
+                                    Intent intent = new Intent(mContext, PasswordSelectLock.class);
                                     startActivity(intent);
                                     return false;
                                 }

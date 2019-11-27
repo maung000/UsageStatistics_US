@@ -20,8 +20,8 @@
     <PreferenceCategory android:title="Khóa ứng dụng">
 
         <PreferenceScreen
-            android:key="change_password"
-            android:title="Thay đổi mật khẩu" >
+            android:key="create_change_password"
+            android:title= "@string/preference_screen_title_create_password" >
         </PreferenceScreen>
 
     </PreferenceCategory>

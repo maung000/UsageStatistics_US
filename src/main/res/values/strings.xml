@@ -119,7 +119,8 @@
     <string name="title_activity_apps_widget">Apps Widget</string>
     <string name="title_activity_stats_widget">Stats Widget</string>
 
-
+    <string name="preference_screen_title_create_password">Tạo mật khẩu</string>
+    <string name="preference_screen_title_change_password">Thay đổi mật khẩu</string>
 
     <!-- Usage Stats permission -->
     <string name="us_permission_title">Cấp quyền truy cập</string>
@@ -130,6 +131,7 @@
     <string name="create_password_title">Khóa ứng dụng</string>
     <string name="create_password_head">Phần mềm cho phép người sử dụng có thể quy định thời gian và khóa ứng dụng lại bằng mật khẩu.</string>
     <string name="create_password_button">Tạo mật khẩu</string>
+    <string name="btn_ignore">Bỏ qua</string>
 
     <string-array name="entries_stats_widget_appsno_preference" translatable="false">
         <item>2</item>
