@@ -21,7 +21,7 @@
 
         <PreferenceScreen
             android:key="create_change_password"
-            android:title= "@string/preference_screen_title_create_password" >
+            android:title= "@string/preference_screen_title_change_password" >
         </PreferenceScreen>
 
     </PreferenceCategory>
