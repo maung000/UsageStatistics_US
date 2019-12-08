@@ -245,12 +245,10 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
 
         sharedPreference = new SharedPreference();
-        String password = sharedPreference.getPasswordApp(mContext);
-        if (TextUtils.isEmpty(password)) {
-            launchCreatePassword(mContext);
-        } else {
-
-        }
+        String password = sharedPreference.getPassword(mContext);
+//        boolean checkSetPinCode = sharedPreference.getCheckSetPinCode(mContext);
+//        if (!checkSetPinCode)
+        launchCreatePassword(mContext);
 
         if (mIsAtLeastLollipop && needsUsPermission()) {
             launchUsPermission(mContext);
@@ -459,7 +457,18 @@ public class Settings extends Activity implements ActionBar.TabListener {
                                 startActivity(new Intent(mContext, PasswordSelectLock.class));
                             }
                         })
-                .setCancelable(false)
+                .setNegativeButton(R.string.btn_ignore, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+                })
                 .show();
 
     }

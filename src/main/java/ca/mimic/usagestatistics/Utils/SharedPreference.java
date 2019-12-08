@@ -108,7 +108,7 @@ public class SharedPreference {
     }
     public String getPasswordApp(Context context) {
         SharedPreferences checkSetPinCodePref;
-        checkSetPinCodePref = context.getSharedPreferences(AppLockConstants.MyPREFERENCES, Context.MODE_PRIVATE);
+       checkSetPinCodePref = context.getSharedPreferences(AppLockConstants.MyPREFERENCES, Context.MODE_PRIVATE);
         return checkSetPinCodePref.getString(AppLockConstants.PASSWORD_APP, "");
     }
 }
