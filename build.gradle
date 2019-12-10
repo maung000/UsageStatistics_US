@@ -88,4 +88,6 @@ dependencies {
 //    }
     implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'
     // Optional, for RxJava2 adapter
-    implementation 'com.andrognito.patternlockview:patternlockview-reactive:1.0.0'}
+    implementation 'com.hanks:passcodeview:0.1.2'
+
+}
