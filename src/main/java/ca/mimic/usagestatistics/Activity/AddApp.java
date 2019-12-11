@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -248,7 +249,11 @@ public class AddApp extends Activity implements ActionBar.TabListener{
             Intent intent = new Intent(mContext, WatchfulService.class);
             switch (which) {
                 case 0:
-                    mContext.startService(intent);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        mContext.startForegroundService(intent);
+                    } else {
+                        mContext.startService(intent);
+                    }
                     if (!isBound) {
                         mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
                     }

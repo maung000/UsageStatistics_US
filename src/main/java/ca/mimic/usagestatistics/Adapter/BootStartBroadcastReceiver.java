@@ -24,6 +24,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import ca.mimic.usagestatistics.Activity.Settings;
 import ca.mimic.usagestatistics.Utils.Tools;
@@ -42,7 +43,11 @@ public class BootStartBroadcastReceiver extends BroadcastReceiver {
         if ((action.equals(Tools.BOOT_ACTION) && prefs.getBoolean(Settings.BOOT_PREFERENCE, Settings.BOOT_DEFAULT)) ||
                 action.equals(Tools.REPLACE_ACTION) || action.equals(Tools.REFRESH_ACTION)) {
             Intent intent = new Intent(context, WatchfulService.class);
-            context.startService(intent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(intent);
+            } else {
+                context.startService(intent);
+            }
         } else {
             Tools.USLog("Start on boot [" + prefs.getBoolean(Settings.BOOT_PREFERENCE, Settings.BOOT_DEFAULT)  + "] or Notification disabled [" + prefs.getBoolean(Settings.TOGGLE_PREFERENCE, Settings.TOGGLE_DEFAULT) + "]");
         }

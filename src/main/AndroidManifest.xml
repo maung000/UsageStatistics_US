@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"
         tools:ignore="ProtectedPermissions" />
     <uses-permission
@@ -100,11 +101,6 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".Activity.PasswordSelectLock"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".Activity.PasswordSelectLockAgain"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:screenOrientation="portrait"/>

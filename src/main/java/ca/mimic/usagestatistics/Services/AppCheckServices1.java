@@ -20,12 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hanks.passcodeview.PasscodeView;
-import com.takwolf.android.lock9.Lock9View;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,12 +36,11 @@ import java.util.TreeMap;
 import ca.mimic.usagestatistics.Activity.Settings;
 import ca.mimic.usagestatistics.Database.DBUsage;
 import ca.mimic.usagestatistics.R;
-import ca.mimic.usagestatistics.Utils.Tools;
-import ca.mimic.usagestatistics.Activity.PasswordRecoveryActivity;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
+import ca.mimic.usagestatistics.Utils.Tools;
 
 
-public class AppCheckServices extends Service {
+public class AppCheckServices1 extends Service {
 
     public static final String TAG = "AppCheckServices";
     private Context context = null;

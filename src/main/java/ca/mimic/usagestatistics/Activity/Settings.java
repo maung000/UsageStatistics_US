@@ -10,6 +10,7 @@ import java.util.Locale;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -337,59 +338,59 @@ public class Settings extends Activity implements ActionBar.TabListener {
             }
             isBound = false;
         }
-//        // Khóa ứng dụng
-//        dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
-//        Calendar c = Calendar.getInstance();
-//        int thisyear = c.get(Calendar.YEAR);
-//        int thismonth = (c.get(Calendar.MONTH)+1);
-//        int today = c.get(Calendar.DATE);
-//        List<UsageStats> listStats = Tools.getUsageStats(mContext);
-//        if(listStats.size() != 0) {
-//            sharedPreference = new SharedPreference();
-//            String dayTemp = "";
-//            ArrayList<String> locked = sharedPreference.getLocked(mContext);
-//            if(today <10) {
-//                dayTemp = "0" + today + "/0" + thismonth + "/" + thisyear;
-//            }
-//            else
-//                dayTemp = today + "/0" + thismonth + "/" + thisyear;
-//
-//            if (!day_old.equals(dayTemp) && !day_old.equals("")) {
-//                sharedPreference.removeAllLocked(mContext);
-//            }
-//            Cursor data = dbUsage.GetData("SELECT TENPK,(SUM(TIME)) as TIME  FROM USAGE_DAY_US WHERE LASTTIME = '" + dayTemp + "' GROUP BY TENPK ");
-//
-//            try {
-//                while (data.moveToNext()) {
-//                    String packedName1 = data.getString(0);
-//                    long total = data.getLong(1);
-//                    dbUsage.QueryData("CREATE TABLE IF NOT EXISTS LOCK_TIME (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME_LOCK INTEGER)");
-//
-//                    Cursor data2 = dbUsage.GetData("SELECT * FROM LOCK_TIME WHERE Id >0");
-//                    try {
-//                        while (data2.moveToNext()) {
-//                            String packedName2 = data2.getString(1);
-//                            long lock_time = data2.getLong(2);
-//                            ActivityManager am = (ActivityManager) this.getBaseContext().getSystemService(Activity.ACTIVITY_SERVICE);
-//
-//                            if (packedName2.equals(packedName1)) {
-//                                if (lock_time < total) {
-//                                    sharedPreference.addLocked(mContext, packedName2);
-//                                    am.killBackgroundProcesses(packedName2);
-//                                }
-//                            }
-//                        }
-//                    } finally {
-//                        data2.close();
-//                    }
-//
-//                }
-//            } finally {
-//                data.close();
-//            }
-//            day_old = dayTemp;
-//        }
-//        //
+        // Khóa ứng dụng
+        dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+        Calendar c = Calendar.getInstance();
+        int thisyear = c.get(Calendar.YEAR);
+        int thismonth = (c.get(Calendar.MONTH)+1);
+        int today = c.get(Calendar.DATE);
+        List<UsageStats> listStats = Tools.getUsageStats(mContext);
+        if(listStats.size() != 0) {
+            sharedPreference = new SharedPreference();
+            String dayTemp = "";
+            ArrayList<String> locked = sharedPreference.getLocked(mContext);
+            if(today <10) {
+                dayTemp = "0" + today + "/0" + thismonth + "/" + thisyear;
+            }
+            else
+                dayTemp = today + "/0" + thismonth + "/" + thisyear;
+
+            if (!day_old.equals(dayTemp) && !day_old.equals("")) {
+                sharedPreference.removeAllLocked(mContext);
+            }
+            Cursor data = dbUsage.GetData("SELECT TENPK,(SUM(TIME)) as TIME  FROM USAGE_DAY_US WHERE LASTTIME = '" + dayTemp + "' GROUP BY TENPK ");
+
+            try {
+                while (data.moveToNext()) {
+                    String packedName1 = data.getString(0);
+                    long total = data.getLong(1);
+                    dbUsage.QueryData("CREATE TABLE IF NOT EXISTS LOCK_TIME (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME_LOCK INTEGER)");
+
+                    Cursor data2 = dbUsage.GetData("SELECT * FROM LOCK_TIME WHERE Id >0");
+                    try {
+                        while (data2.moveToNext()) {
+                            String packedName2 = data2.getString(1);
+                            long lock_time = data2.getLong(2);
+                            ActivityManager am = (ActivityManager) this.getBaseContext().getSystemService(Activity.ACTIVITY_SERVICE);
+
+                            if (packedName2.equals(packedName1)) {
+                                if (lock_time < total) {
+                                    sharedPreference.addLocked(mContext, packedName2);
+                                    am.killBackgroundProcesses(packedName2);
+                                }
+                            }
+                        }
+                    } finally {
+                        data2.close();
+                    }
+
+                }
+            } finally {
+                data.close();
+            }
+            day_old = dayTemp;
+        }
+        //
     }
 
     @Override
@@ -1060,6 +1061,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
                     dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
 
+                    dbUsage.QueryData("CREATE TABLE IF NOT EXISTS LOCK_TIME (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME_LOCK INTEGER)");
                     dbUsage.QueryData("INSERT INTO LOCK_TIME VALUES(null,'" + packedName + "','" + seconds + "')");
 
                     dbUsage.close();

@@ -20,10 +20,6 @@ import java.util.List;
 import ca.mimic.usagestatistics.Activity.Settings;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
-import me.zhanghai.android.patternlock.BasePatternActivity;
-import me.zhanghai.android.patternlock.PatternUtils;
-import me.zhanghai.android.patternlock.PatternView;
-import me.zhanghai.android.patternlock.SetPatternActivity;
 
 public class PasswordSelectLock extends AppCompatActivity {
     SharedPreference sharedPreference;
@@ -66,17 +62,6 @@ public class PasswordSelectLock extends AppCompatActivity {
             }
         });
     }
-
-    //    @Override
-//    public int getContentView() {
-//        return R.layout.activity_pin;
-//    }
-
-    protected void onSetPattern(List<PatternView.Cell> pattern) {
-        String patternSha1 = PatternUtils.patternToSha1String(pattern);
-        // TODO: Save patternSha1 in SharedPreferences.
-    }
-
 
     @Override
     protected void onDestroy() {
