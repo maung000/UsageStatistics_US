@@ -36,13 +36,13 @@
             </intent-filter>
         </receiver>
 
-        <service
-            android:name="ca.mimic.usagestatistics.Services.WatchfulService"
-            android:exported="false"
-            android:icon="@drawable/ic_launcher"
-            android:process=":appwatch">
+<!--        <service-->
+<!--            android:name="ca.mimic.usagestatistics.Services.WatchfulService"-->
+<!--            android:exported="false"-->
+<!--            android:icon="@drawable/ic_launcher"-->
+<!--            android:process=":appwatch">-->
 
-        </service>
+<!--        </service>-->
 
         <activity
             android:name="ca.mimic.usagestatistics.Activity.Settings"
@@ -110,6 +110,8 @@
         <receiver
             android:name=".Services.AlarmReceiver">
         </receiver>
+        <service android:name=".Services.WatchfulService" >
+        </service>
     </application>
 
 </manifest>
