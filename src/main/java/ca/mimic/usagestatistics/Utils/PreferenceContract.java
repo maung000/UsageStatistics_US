@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package ca.mimic.usagestatistics.util;
+package ca.mimic.usagestatistics.Utils;
 
 public class PreferenceContract {
 

@@ -13,7 +13,7 @@
 //import java.util.List;
 //
 //import ca.mimic.usagestatistics.Activity.Settings;
-//import ca.mimic.usagestatistics.Utils.SharedPreference;
+//import ca.mimic.usagestatistics.util.SharedPreference;
 //import me.zhanghai.android.patternlock.ConfirmPatternActivity;
 //import me.zhanghai.android.patternlock.PatternUtils;
 //import me.zhanghai.android.patternlock.PatternView;
@@ -119,8 +119,8 @@
 //import java.util.List;
 //
 //import ca.mimic.usagestatistics.R;
-//import ca.mimic.usagestatistics.Utils.AppLockConstants;
-//import ca.mimic.usagestatistics.Utils.SharedPreference;
+//import ca.mimic.usagestatistics.util.AppLockConstants;
+//import ca.mimic.usagestatistics.util.SharedPreference;
 //
 //public class PasswordSelectLockAgain extends AppCompatActivity implements View.OnClickListener {
 //    SharedPreference sharedPreference;

@@ -1,23 +1,15 @@
 package ca.mimic.usagestatistics.Activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.GoogleAnalytics;
 import com.hanks.passcodeview.PasscodeView;
-import com.takwolf.android.lock9.Lock9View;
 
-import java.util.List;
-
-import ca.mimic.usagestatistics.Activity.Settings;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Utils.SharedPreference;
 
@@ -103,8 +95,8 @@ public class PasswordSelectLock extends AppCompatActivity {
 //import java.util.Set;
 //
 //import ca.mimic.usagestatistics.R;
-//import ca.mimic.usagestatistics.Utils.AppLockConstants;
-//import ca.mimic.usagestatistics.Utils.SharedPreference;
+//import ca.mimic.usagestatistics.util.AppLockConstants;
+//import ca.mimic.usagestatistics.util.SharedPreference;
 //
 //public class PasswordSelectLock extends AppCompatActivity {
 //    SharedPreference sharedPreference;

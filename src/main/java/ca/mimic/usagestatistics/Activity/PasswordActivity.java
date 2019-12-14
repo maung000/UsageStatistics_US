@@ -1,18 +1,15 @@
 package ca.mimic.usagestatistics.Activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.hanks.passcodeview.PasscodeView;
-import com.takwolf.android.lock9.Lock9View;
 
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Utils.AppLockConstants;

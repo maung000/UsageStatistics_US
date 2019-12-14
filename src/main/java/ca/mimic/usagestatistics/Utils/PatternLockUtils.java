@@ -3,11 +3,10 @@
  * All Rights Reserved.
  */
 
-package ca.mimic.usagestatistics.util;
+package ca.mimic.usagestatistics.Utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 
 
