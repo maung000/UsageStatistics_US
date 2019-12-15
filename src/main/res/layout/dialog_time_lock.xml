@@ -44,7 +44,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Nhập giờ:   "
+                    android:text="Chọn thời gian khóa app:   "
                     android:textSize="18sp"
                     android:textColor="#000000"
                     android:textStyle="bold" />
@@ -55,16 +55,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="#e3fdf9"
-                    android:hint="__ "
+                    android:hint="-- : --"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:inputType="number"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="giờ"
-                    android:textSize="18sp"
-                    android:textColor="#000000"/>
             </TableRow>
             <TableRow
                 android:layout_width="match_parent"

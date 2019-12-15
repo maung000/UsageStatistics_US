@@ -125,10 +125,6 @@ public class AddApp extends Activity implements ActionBar.TabListener{
         myService = new ServiceCall(mContext);
         myService.setConnection(mConnection);
 
-        Intent startIntent = new Intent(AddApp.this, WatchfulService.class);
-        startIntent.setAction("STARTFOREGROUND_ACTION ");
-        startService(startIntent);
-
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
         getActionBar().setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
@@ -254,6 +250,8 @@ public class AddApp extends Activity implements ActionBar.TabListener{
             switch (which) {
                 case 0:
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        intent.setAction("STARTFOREGROUND_ACTION ");
+                        mContext.startService(intent);
                         mContext.startForegroundService(intent);
                     } else {
                         mContext.startService(intent);

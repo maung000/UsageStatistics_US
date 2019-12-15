@@ -17,6 +17,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.TimePickerDialog;
 import android.app.usage.UsageStats;
 import android.content.ComponentName;
 import android.content.Context;
@@ -41,6 +42,7 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -63,9 +65,12 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 //import com.github.omadahealth.lollipin.lib.managers.AppLock;
+
+import com.mikepenz.iconics.utils.Utils;
 
 import ca.mimic.usagestatistics.Adapter.AppsRowAdapter;
 import ca.mimic.usagestatistics.Fragment.Usage;
@@ -317,6 +322,33 @@ public class Settings extends Activity implements ActionBar.TabListener {
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Locale l = Locale.getDefault();
+                switch (position) {
+                    case SETTING_TAB:
+                        actionBar.getTabAt(position).setText(getString(R.string.title_setting).toUpperCase(l));
+                        break;
+                    case USAGE_TAB:
+                        actionBar.getTabAt(position).setText(getString(R.string.title_statitics_usage).toUpperCase(l));
+//                        actionBar.setTitle(getString(R.string.title_statitics_usage).toUpperCase(l));
+                        break;
+                    case APPS_TAB:
+                        actionBar.getTabAt(position).setText(getString(R.string.title_apps).toUpperCase(l));
+//                        actionBar.setTitle(getString(R.string.title_apps).toUpperCase(l));
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
         pageChangeListener.onPageSelected(SETTING_TAB);
 
     }
@@ -342,17 +374,16 @@ public class Settings extends Activity implements ActionBar.TabListener {
         dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
         Calendar c = Calendar.getInstance();
         int thisyear = c.get(Calendar.YEAR);
-        int thismonth = (c.get(Calendar.MONTH)+1);
+        int thismonth = (c.get(Calendar.MONTH) + 1);
         int today = c.get(Calendar.DATE);
         List<UsageStats> listStats = Tools.getUsageStats(mContext);
-        if(listStats.size() != 0) {
+        if (listStats.size() != 0) {
             sharedPreference = new SharedPreference();
             String dayTemp = "";
             ArrayList<String> locked = sharedPreference.getLocked(mContext);
-            if(today <10) {
+            if (today < 10) {
                 dayTemp = "0" + today + "/0" + thismonth + "/" + thisyear;
-            }
-            else
+            } else
                 dayTemp = today + "/0" + thismonth + "/" + thisyear;
 
             if (!day_old.equals(dayTemp) && !day_old.equals("")) {
@@ -530,7 +561,13 @@ public class Settings extends Activity implements ActionBar.TabListener {
             Intent intent = new Intent(mContext, WatchfulService.class);
             switch (which) {
                 case 0:
-                    mContext.startService(intent);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        intent.setAction("STARTFOREGROUND_ACTION ");
+                        mContext.startService(intent);
+                        mContext.startForegroundService(intent);
+                    } else {
+                        mContext.startService(intent);
+                    }
                     if (!isBound) {
                         mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
                     }
@@ -716,7 +753,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 //                boolean checkSetPinCode = sharedPreference.getCheckSetPinCode(mContext);
 
                 password_change = findPreference(PASSWORD_CREATE_CHANGE_PREFERENCE);
-                if(!TextUtils.isEmpty(password)){
+                if (!TextUtils.isEmpty(password)) {
                     password_change.setTitle(getString(R.string.preference_screen_title_change_password));
                 } else {
                     password_change.setTitle(getString(R.string.preference_screen_title_create_password));
@@ -1039,7 +1076,28 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
 
         final EditText edt_hour_LockTime = (EditText) dialog.findViewById(R.id.lock_hour_time);
-        edt_hour_LockTime.setCursorVisible(true);
+        edt_hour_LockTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get Current Time
+                final Calendar c = Calendar.getInstance();
+                int mHour = c.get(Calendar.HOUR_OF_DAY);
+                int mMinute = c.get(Calendar.MINUTE);
+                // Launch Time Picker Dialog
+                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext,
+                        new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+
+                                edt_hour_LockTime.setText(hourOfDay + ": " + minute);
+                            }
+                        }, 0, 0, false);
+                timePickerDialog.show();
+            }
+        });
+//        edt_hour_LockTime.setCursorVisible(true);
         final EditText edt_min_LockTime = (EditText) dialog.findViewById(R.id.lock_min_time);
         edt_min_LockTime.setCursorVisible(true);
         final Button btn_OK = (Button) dialog.findViewById(R.id.btn_OK);
