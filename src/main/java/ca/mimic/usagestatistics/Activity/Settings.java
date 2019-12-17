@@ -76,6 +76,7 @@ import ca.mimic.usagestatistics.Adapter.AppsRowAdapter;
 import ca.mimic.usagestatistics.Fragment.Usage;
 import ca.mimic.usagestatistics.IWatchfulService;
 import ca.mimic.usagestatistics.R;
+import ca.mimic.usagestatistics.Utils.CustomTimePickerDialog;
 import ca.mimic.usagestatistics.Utils.Tools;
 import ca.mimic.usagestatistics.UsPermission;
 import ca.mimic.usagestatistics.Utils.Helper.IconHelper;
@@ -322,33 +323,24 @@ public class Settings extends Activity implements ActionBar.TabListener {
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Locale l = Locale.getDefault();
-                switch (position) {
-                    case SETTING_TAB:
-                        actionBar.getTabAt(position).setText(getString(R.string.title_setting).toUpperCase(l));
-                        break;
-                    case USAGE_TAB:
-                        actionBar.getTabAt(position).setText(getString(R.string.title_statitics_usage).toUpperCase(l));
-//                        actionBar.setTitle(getString(R.string.title_statitics_usage).toUpperCase(l));
-                        break;
-                    case APPS_TAB:
-                        actionBar.getTabAt(position).setText(getString(R.string.title_apps).toUpperCase(l));
-//                        actionBar.setTitle(getString(R.string.title_apps).toUpperCase(l));
-                        break;
-                }
-            }
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
+                // on changing the page
+                // make respected tab selected
+                actionBar.setSelectedNavigationItem(position);
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
             }
         });
+
         pageChangeListener.onPageSelected(SETTING_TAB);
 
     }
@@ -1085,21 +1077,48 @@ public class Settings extends Activity implements ActionBar.TabListener {
             @Override
             public void onClick(View view) {
                 // Get Current Time
+
                 final Calendar c = Calendar.getInstance();
                 int mHour = c.get(Calendar.HOUR_OF_DAY);
                 int mMinute = c.get(Calendar.MINUTE);
                 // Launch Time Picker Dialog
-                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext,
-                        new TimePickerDialog.OnTimeSetListener() {
+                int hour_custom ;
+                int minute_custom ;
+//                if(App.getInstance().getUser().getNotificationInfusionTime()!=null) {
+//                    /* Get infusionTime of user and set*/
+//                    String infusionTime = App.getInstance().getTimeNotificationUseHemlibra(Constants.INFUSION_TIME);
+//                    if(infusionTime.equals("")){
+//                        infusionTime = App.getInstance().getUser().getNotificationInfusionTime();
+//                    }
+//                    String[] time = infusionTime.split(":");
+//                    hour_custom = Integer.valueOf(time[0]);
+//                    minute_custom = Integer.valueOf(time[1]);
+//                } else {
+//                    hour_custom = Integer.valueOf(stringSetTime.substring(0,2));
+//                    minute_custom = Integer.valueOf(stringSetTime.substring(3,5));
+//                }
 
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-
-                                edt_hour_LockTime.setText(hourOfDay + ": " + minute);
-                            }
-                        }, 0, 0, false);
+                CustomTimePickerDialog timePickerDialog = new CustomTimePickerDialog(mContext,0, 0, true);
+                timePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, mContext.getResources().getString(R.string.btn_ok), timePickerDialog);
+                timePickerDialog.onClick();
+                timePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, mContext.getResources().getString(R.string.btn_cancel), timePickerDialog);
                 timePickerDialog.show();
+//                /*Function dismiss listener time dialog*/
+//                timePickerDialog.setOnDismissListener(dialog -> {
+//                    setCheckIsShowing(false);
+//                });
+
+//                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext,
+//                        new TimePickerDialog.OnTimeSetListener() {
+//
+//                            @Override
+//                            public void onTimeSet(TimePicker view, int hourOfDay,
+//                                                  int minute) {
+//
+//                                edt_hour_LockTime.setText(hourOfDay + ": " + minute);
+//                            }
+//                        }, 0, 0, false);
+//                timePickerDialog.show();
             }
         });
 //        edt_hour_LockTime.setCursorVisible(true);
