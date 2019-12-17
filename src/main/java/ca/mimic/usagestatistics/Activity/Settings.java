@@ -749,17 +749,16 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
 
                 sharedPreference = new SharedPreference();
-                String password = sharedPreference.getPassword(mContext);
+                String password = sharedPreference.getPasswordApp(mContext);
 //                boolean checkSetPinCode = sharedPreference.getCheckSetPinCode(mContext);
 
                 password_change = findPreference(PASSWORD_CREATE_CHANGE_PREFERENCE);
+//                if (!TextUtils.isEmpty(password)) {
+//                    password_change.setTitle(getString(R.string.preference_screen_title_change_password));
+//                } else {
+//                    password_change.setTitle(getString(R.string.preference_screen_title_create_password));
+//                }
                 if (!TextUtils.isEmpty(password)) {
-                    password_change.setTitle(getString(R.string.preference_screen_title_change_password));
-                } else {
-                    password_change.setTitle(getString(R.string.preference_screen_title_create_password));
-                }
-//                if (!password.equals("")) {
-                if (true) {
                     password_change.setOnPreferenceClickListener(
                             new Preference.OnPreferenceClickListener() {
                                 @Override
@@ -1011,7 +1010,11 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
 //            final PasswordSelectLock passwordSelectLock = new PasswordSelectLock();
 
-            if (rowItem.getLocked()) lockItem.setTitle(R.string.action_unlock);
+            if (rowItem.getLocked()) {
+                lockItem.setTitle(R.string.action_unlock);
+            } else {
+                lockItem.setTitle(R.string.action_lock);
+            }
             PopupMenu.OnMenuItemClickListener menuAction = new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -1026,7 +1029,9 @@ public class Settings extends Activity implements ActionBar.TabListener {
                                 rowItem.setLocked(!isLock);
                                 new Tools().toggleLock(mContext, rowItem.getPackageName(), prefs.editorGet());
                             } else {
-
+                                dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+                                dbUsage.QueryData("DELETE FROM LOCK_TIME WHERE TENPK = '" + rowItem.getPackageName() + "'");
+                                dbUsage.close();
 //                                Intent intent = new Intent(mContext, PasswordSelectLock.class);
 //                                intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
 ////                                startActivityForResult(intent, REQUEST_CODE_ENABLE);
