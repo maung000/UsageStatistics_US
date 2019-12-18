@@ -182,7 +182,7 @@ public class WatchfulService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
+            String NOTIFICATION_CHANNEL_ID = "ca.mimic.usagestatistics";
             String channelName = "My Background Service";
             NotificationChannel chan = null;
             chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
@@ -191,7 +191,7 @@ public class WatchfulService extends Service {
             manager.createNotificationChannel(chan);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
             Notification notification = notificationBuilder.setOngoing(true)
-                    .setSmallIcon(R.drawable.pin_icon)
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("App is running in background")
                     .setPriority(NotificationManager.IMPORTANCE_MIN)
                     .setCategory(Notification.CATEGORY_SERVICE)

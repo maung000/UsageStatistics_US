@@ -60,37 +60,7 @@
                     android:textSize="18sp"
                     android:inputType="number"/>
             </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center_horizontal">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Nhập phút:    "
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-                <EditText
-                    android:id="@+id/lock_min_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="#e3fdf9"
-                    android:hint="__ "
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:inputType="number"
-                    />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="phút"
-                    android:textSize="18sp"
-                    android:textColor="#000000" />
 
-            </TableRow>
 
             <TableRow
                 android:layout_marginBottom="10dp"

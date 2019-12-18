@@ -1017,9 +1017,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                             Boolean isLock = rowItem.getLocked();
 
                             if (lockItem.getTitle().equals("Khóa")) {
-                                DialogLockTime(rowItem.getPackageName());
-                                rowItem.setLocked(!isLock);
-                                new Tools().toggleLock(mContext, rowItem.getPackageName(), prefs.editorGet());
+                                DialogLockTime(rowItem.getPackageName(),rowItem,isLock);
                             } else {
                                 dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
                                 dbUsage.QueryData("DELETE FROM LOCK_TIME WHERE TENPK = '" + rowItem.getPackageName() + "'");
@@ -1066,14 +1064,15 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     }
 
-    public static void DialogLockTime(final String packedName) {
-        Dialog dialog = new Dialog(mContext);
+    static TimePickerDialog picker;
+
+    public static void DialogLockTime(final String packedName, final AppsRowItem rowItem, final boolean isLock) {
+        final Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_time_lock);
 
-
-        final EditText edt_hour_LockTime = (EditText) dialog.findViewById(R.id.lock_hour_time);
-        edt_hour_LockTime.setOnClickListener(new View.OnClickListener() {
+        final EditText edtAppLockTime = (EditText) dialog.findViewById(R.id.lock_hour_time);
+        edtAppLockTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Get Current Time
@@ -1082,8 +1081,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
                 int mHour = c.get(Calendar.HOUR_OF_DAY);
                 int mMinute = c.get(Calendar.MINUTE);
                 // Launch Time Picker Dialog
-                int hour_custom ;
-                int minute_custom ;
+                int hour_custom;
+                int minute_custom;
 //                if(App.getInstance().getUser().getNotificationInfusionTime()!=null) {
 //                    /* Get infusionTime of user and set*/
 //                    String infusionTime = App.getInstance().getTimeNotificationUseHemlibra(Constants.INFUSION_TIME);
@@ -1098,48 +1097,52 @@ public class Settings extends Activity implements ActionBar.TabListener {
 //                    minute_custom = Integer.valueOf(stringSetTime.substring(3,5));
 //                }
 
-                CustomTimePickerDialog timePickerDialog = new CustomTimePickerDialog(mContext,0, 0, true);
-                timePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, mContext.getResources().getString(R.string.btn_ok), timePickerDialog);
-                timePickerDialog.onClick();
-                timePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, mContext.getResources().getString(R.string.btn_cancel), timePickerDialog);
-                timePickerDialog.show();
+                final Calendar cldr = Calendar.getInstance();
+                int hour = cldr.get(Calendar.HOUR_OF_DAY);
+                int minutes = cldr.get(Calendar.MINUTE);
+                // time picker dialog
+                picker = new TimePickerDialog(mContext,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                                String hour = String.valueOf(sHour);
+                                String minutes = String.valueOf(sMinute);
+                                if (sHour < 10) {
+                                    hour = "0" + sHour;
+                                }
+                                if (sMinute < 10) {
+                                    minutes = "0" + sMinute;
+                                }
+                                edtAppLockTime.setText(hour + ":" + minutes);
+                            }
+                        }, 0, 0, true);
+                picker.show();
+            }
 //                /*Function dismiss listener time dialog*/
 //                timePickerDialog.setOnDismissListener(dialog -> {
 //                    setCheckIsShowing(false);
 //                });
-
-//                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext,
-//                        new TimePickerDialog.OnTimeSetListener() {
-//
-//                            @Override
-//                            public void onTimeSet(TimePicker view, int hourOfDay,
-//                                                  int minute) {
-//
-//                                edt_hour_LockTime.setText(hourOfDay + ": " + minute);
-//                            }
-//                        }, 0, 0, false);
-//                timePickerDialog.show();
-            }
         });
 //        edt_hour_LockTime.setCursorVisible(true);
-        final EditText edt_min_LockTime = (EditText) dialog.findViewById(R.id.lock_min_time);
-        edt_min_LockTime.setCursorVisible(true);
+//        final EditText edt_min_LockTime = (EditText) dialog.findViewById(R.id.lock_min_time);
+//        edt_min_LockTime.setCursorVisible(true);
         final Button btn_OK = (Button) dialog.findViewById(R.id.btn_OK);
 
         btn_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String hour = edt_hour_LockTime.getText().toString();
-                String min = edt_min_LockTime.getText().toString();
-                if (!hour.equals("") && !min.equals("")) {
+                String timeLockApp = edtAppLockTime.getText().toString();
+//                String min = edt_min_LockTime.getText().toString();
+                if (!timeLockApp.equals("")) {
 
-//                    String[] units = time.split(":");
-//                    int hour = Integer.parseInt(units[0]);
-//                    int minutes = Integer.parseInt(units[1]);
-                    int hour_n = Integer.parseInt(hour);
-                    int minutes = Integer.parseInt(min);
-                    int seconds = 60 * minutes + hour_n * 3600;
+                    String[] units = timeLockApp.split(":");
+                    int hour = Integer.parseInt(units[0]);
+                    int minutes = Integer.parseInt(units[1]);
+                    int seconds = 60*minutes + hour * 3600;
+
+                    rowItem.setLocked(!isLock);
+                    new Tools().toggleLock(mContext, rowItem.getPackageName(), prefs.editorGet());
 
                     dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
 
@@ -1148,6 +1151,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
                     dbUsage.close();
                     Toast.makeText(mContext, "Thêm thời gian khóa ứng dụng thành công", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                 }
             }
         });
