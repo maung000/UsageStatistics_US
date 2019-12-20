@@ -42,6 +42,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class WatchfulService extends Service {
     final int ICON_SIZE_SMALL = 0;
     final int ICON_SIZE_LARGE = 2;
     SharedPreference sharedPreference;
-    private static String day_old="";
+    private static String day_old = "";
 
     protected static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
 
@@ -118,14 +119,17 @@ public class WatchfulService extends Service {
             public void createNotification() {
                 WatchfulService.this.createNotification();
             }
+
             @Override
             public void destroyNotification() {
                 WatchfulService.this.destroyNotification();
             }
+
             @Override
             public void buildTasks() {
                 WatchfulService.this.buildTasks();
             }
+
             @Override
             public void buildReorderAndLaunch() {
                 pinnedList = null;
@@ -271,6 +275,7 @@ public class WatchfulService extends Service {
             buildTaskInfo(taskClass, taskPackage);
         }
     }
+
     protected void buildBaseTasks() {
         // taskList is blank!  Populating db from apps in memory.
         final ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -460,13 +465,13 @@ public class WatchfulService extends Service {
                             if (activityDelta > 0) {
 
                                 db.addSeconds(lollipopTaskInfo.lastPackageName, activityDelta);
+                                Log.d("<<<<<<<<<<<<", "Insert OK");
 
+                                dbUsage.QueryData("INSERT INTO USAGE_DAY_US VALUES(null,'" + lollipopTaskInfo.lastPackageName + "','" + activityDelta + "','" + lollipopTaskInfo.lastDay + "')");
 
-                                dbUsage.QueryData("INSERT INTO USAGE_DAY_US VALUES(null,'" + lollipopTaskInfo.lastPackageName+ "','" + activityDelta + "','" + lollipopTaskInfo.lastDay + "')");
-
-                            }
                             }
                         }
+                    }
 
 
                     if (taskClass.equals(getPackageName())) {
@@ -504,8 +509,8 @@ public class WatchfulService extends Service {
         new Thread(runnable).start();
     }
 
-    protected final Runnable scanApps = new Runnable(){
-        public void run(){
+    protected final Runnable scanApps = new Runnable() {
+        public void run() {
             // Tools.USLog("scanApps running..");
             buildTasks();
             handler.postDelayed(this, LOOP_SECONDS * 1000);

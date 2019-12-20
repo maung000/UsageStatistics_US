@@ -75,13 +75,21 @@ public class TasksModel {
         this.classname = classname;
     }
 
-    public int getSeconds() { return seconds; }
+    public int getSeconds() {
+        return seconds;
+    }
 
-    public void setSeconds(int seconds) { this.seconds = seconds; }
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
+    }
 
-    public int getLaunches() { return launches; }
+    public int getLaunches() {
+        return launches;
+    }
 
-    public void setLaunches(int launches) { this.launches = launches; }
+    public void setLaunches(int launches) {
+        this.launches = launches;
+    }
 
     public Timestamp getTimestamp() {
         return timestamp;
@@ -91,17 +99,29 @@ public class TasksModel {
         this.timestamp = timestamp;
     }
 
-    public Boolean getBlacklisted() { return blacklisted; }
+    public Boolean getBlacklisted() {
+        return blacklisted;
+    }
 
-    public void setBlacklisted(Boolean blacklisted) { this.blacklisted = blacklisted; }
+    public void setBlacklisted(Boolean blacklisted) {
+        this.blacklisted = blacklisted;
+    }
 
-    public void setOrder(int order) { this.order = order; }
+    public void setOrder(int order) {
+        this.order = order;
+    }
 
-    public int getOrder() { return order; }
+    public int getOrder() {
+        return order;
+    }
 
-    public void setWidgetOrder(int widget_order) { this.widget_order = widget_order; }
+    public void setWidgetOrder(int widget_order) {
+        this.widget_order = widget_order;
+    }
 
-    public int getWidgetOrder() { return widget_order; }
+    public int getWidgetOrder() {
+        return widget_order;
+    }
 
 
     @Override

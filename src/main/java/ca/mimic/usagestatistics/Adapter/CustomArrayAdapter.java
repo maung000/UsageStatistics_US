@@ -37,7 +37,7 @@ class CustomArrayAdapter extends ArrayAdapter<SparseArray<String>> {
 
     Context mContext;
     List<SparseArray<String>> items;
-    Integer[] icons = new Integer[] {R.drawable.ic_action_settings, R.drawable.ic_action_apps_widget, R.drawable.ic_action_stats_widget};
+    Integer[] icons = new Integer[]{R.drawable.ic_action_settings, R.drawable.ic_action_apps_widget, R.drawable.ic_action_stats_widget};
 
     public CustomArrayAdapter(Context context, int resId, List<SparseArray<String>> objects) {
         super(context, resId, objects);
@@ -60,7 +60,7 @@ class CustomArrayAdapter extends ArrayAdapter<SparseArray<String>> {
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View v = layoutInflater.inflate(R.layout.action_spinner_item, parent, false);
-        TextView tv = (TextView)v.findViewById(R.id.spinner_text);
+        TextView tv = (TextView) v.findViewById(R.id.spinner_text);
         ImageView iv = (ImageView) v.findViewById(R.id.spinner_icon);
         iv.setImageDrawable(mContext.getResources().getDrawable(icons[position]));
         iv.setAlpha(0.8f);

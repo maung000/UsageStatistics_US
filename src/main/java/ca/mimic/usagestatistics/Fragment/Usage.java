@@ -69,15 +69,15 @@ public class Usage extends Fragment {
         // get data app pinned
         db = TasksDataSource.getInstance(view.getContext());
         db.open();
-        try{
-        ArrayList<String> pinnedApps = new ArrayList<String>();
+        try {
+            ArrayList<String> pinnedApps = new ArrayList<String>();
 
-        SharedPreferences settingsPrefs = view.getContext().getSharedPreferences(view.getContext().getPackageName(), Context.MODE_MULTI_PROCESS);
-        int pinnedSort = Integer.parseInt(settingsPrefs.getString(Settings.PINNED_SORT_PREFERENCE, Integer.toString(Settings.PINNED_SORT_DEFAULT)));
-        boolean ignorePinned = settingsPrefs.getBoolean(Settings.IGNORE_PINNED_PREFERENCE, Settings.IGNORE_PINNED_DEFAULT);
+            SharedPreferences settingsPrefs = view.getContext().getSharedPreferences(view.getContext().getPackageName(), Context.MODE_MULTI_PROCESS);
+            int pinnedSort = Integer.parseInt(settingsPrefs.getString(Settings.PINNED_SORT_PREFERENCE, Integer.toString(Settings.PINNED_SORT_DEFAULT)));
+            boolean ignorePinned = settingsPrefs.getBoolean(Settings.IGNORE_PINNED_PREFERENCE, Settings.IGNORE_PINNED_DEFAULT);
 
-        if (!ignorePinned)
-            pinnedApps = new Tools().getPinned(view.getContext());
+            if (!ignorePinned)
+                pinnedApps = new Tools().getPinned(view.getContext());
 
             listTasks = db.getPinnedTasks(pinnedApps, pinnedSort);
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class Usage extends Fragment {
             data1.close();
         }
         db.close();
-        adapter = new UsageRowAdapter(view.getContext(), arrayListUsage, arrayListDay,listTasks);
+        adapter = new UsageRowAdapter(view.getContext(), arrayListUsage, arrayListDay, listTasks);
         lvThongKe.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
@@ -123,6 +123,7 @@ public class Usage extends Fragment {
     public void onResume() {
         super.onResume();
     }
+
     @Override
     public void onStop() {
         super.onStop();

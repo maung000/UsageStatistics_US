@@ -23,15 +23,15 @@ package ca.mimic.usagestatistics.Models;
 import android.content.ComponentName;
 
 public class AppsRowItem extends TasksModel {
-    public Boolean mPinned;
-    public Boolean mLocked = false;
-    public String mStats;
-    public int mBarColor;
-    public int mBarContWidth;
-    public ComponentName mComponentName;
+    private Boolean mPinned;
+    private Boolean mLocked = false;
+    private String mStats;
+    private int mBarColor;
+    private int mBarContWidth;
+    private ComponentName mComponentName;
     private boolean active;
 
-    public AppsRowItem (TasksModel task) {
+    public AppsRowItem(TasksModel task) {
         setId(task.getId());
         setName(task.getName());
         setPackageName(task.getPackageName());
@@ -55,6 +55,7 @@ public class AppsRowItem extends TasksModel {
     public Boolean getPinned() {
         return mPinned;
     }
+
     public void setLocked(Boolean locked) {
         mLocked = locked;
     }

@@ -552,20 +552,14 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
         protected void watchHelper(int which) {
             Intent intent = new Intent(mContext, WatchfulService.class);
-//            Intent intentAppCheckServices = new Intent(mContext, AppCheckServices.class);
-
             switch (which) {
                 case 0:
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         intent.setAction("STARTFOREGROUND_ACTION ");
-//                        intentAppCheckServices.setAction("STARTFOREGROUND_ACTION ");
                         mContext.startService(intent);
                         mContext.startForegroundService(intent);
-//                        mContext.startService(intentAppCheckServices);
-//                        mContext.startForegroundService(intentAppCheckServices);
                     } else {
                         mContext.startService(intent);
-//                        mContext.startService(intentAppCheckServices);
                     }
                     if (!isBound) {
                         mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
@@ -749,14 +743,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
                 sharedPreference = new SharedPreference();
                 String password = sharedPreference.getPasswordApp(mContext);
-//                boolean checkSetPinCode = sharedPreference.getCheckSetPinCode(mContext);
-
                 password_change = findPreference(PASSWORD_CREATE_CHANGE_PREFERENCE);
-//                if (!TextUtils.isEmpty(password)) {
-//                    password_change.setTitle(getString(R.string.preference_screen_title_change_password));
-//                } else {
-//                    password_change.setTitle(getString(R.string.preference_screen_title_create_password));
-//                }
                 if (!TextUtils.isEmpty(password)) {
                     password_change.setOnPreferenceClickListener(
                             new Preference.OnPreferenceClickListener() {
@@ -1022,10 +1009,11 @@ public class Settings extends Activity implements ActionBar.TabListener {
                     switch (item.getItemId()) {
                         case R.id.lock:
                             Boolean isLock = rowItem.getLocked();
+                            Intent intentAppCheckServices = new Intent(mContext, AppCheckServices.class);
 
                             if (lockItem.getTitle().equals("Khóa")) {
                                 lockItem.setTitle(R.string.action_unlock);
-                                DialogLockTime(rowItem.getPackageName(), rowItem, isLock);
+                                DialogLockTime(rowItem.getPackageName(), rowItem, isLock, intentAppCheckServices);
                             } else {
                                 rowItem.setLocked(!isLock);
                                 new Tools().toggleLock(mContext, rowItem.getPackageName(), prefs.editorGet());
@@ -1034,6 +1022,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                                 dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
                                 dbUsage.QueryData("DELETE FROM LOCK_TIME WHERE TENPK = '" + rowItem.getPackageName() + "'");
                                 dbUsage.close();
+                                mContext.stopService(intentAppCheckServices);
 //                                Intent intent = new Intent(mContext, PasswordSelectLock.class);
 //                                intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
 ////                                startActivityForResult(intent, REQUEST_CODE_ENABLE);
@@ -1077,7 +1066,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     static TimePickerDialog picker;
 
-    public static void DialogLockTime(final String packedName, final AppsRowItem rowItem, final boolean isLock) {
+    public static void DialogLockTime(final String packedName, final AppsRowItem rowItem, final boolean isLock, final Intent intentAppCheckServices) {
         final Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_time_lock);
@@ -1086,31 +1075,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
         edtAppLockTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Get Current Time
-
-                final Calendar c = Calendar.getInstance();
-                int mHour = c.get(Calendar.HOUR_OF_DAY);
-                int mMinute = c.get(Calendar.MINUTE);
-                // Launch Time Picker Dialog
-                int hour_custom;
-                int minute_custom;
-//                if(App.getInstance().getUser().getNotificationInfusionTime()!=null) {
-//                    /* Get infusionTime of user and set*/
-//                    String infusionTime = App.getInstance().getTimeNotificationUseHemlibra(Constants.INFUSION_TIME);
-//                    if(infusionTime.equals("")){
-//                        infusionTime = App.getInstance().getUser().getNotificationInfusionTime();
-//                    }
-//                    String[] time = infusionTime.split(":");
-//                    hour_custom = Integer.valueOf(time[0]);
-//                    minute_custom = Integer.valueOf(time[1]);
-//                } else {
-//                    hour_custom = Integer.valueOf(stringSetTime.substring(0,2));
-//                    minute_custom = Integer.valueOf(stringSetTime.substring(3,5));
-//                }
-
-                final Calendar cldr = Calendar.getInstance();
-                int hour = cldr.get(Calendar.HOUR_OF_DAY);
-                int minutes = cldr.get(Calendar.MINUTE);
                 // time picker dialog
                 picker = new TimePickerDialog(mContext,
                         new TimePickerDialog.OnTimeSetListener() {
@@ -1129,14 +1093,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                         }, 0, 0, true);
                 picker.show();
             }
-//                /*Function dismiss listener time dialog*/
-//                timePickerDialog.setOnDismissListener(dialog -> {
-//                    setCheckIsShowing(false);
-//                });
         });
-//        edt_hour_LockTime.setCursorVisible(true);
-//        final EditText edt_min_LockTime = (EditText) dialog.findViewById(R.id.lock_min_time);
-//        edt_min_LockTime.setCursorVisible(true);
         final Button btn_OK = (Button) dialog.findViewById(R.id.btn_OK);
 
         btn_OK.setOnClickListener(new View.OnClickListener() {
@@ -1163,7 +1120,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
                     dbUsage.close();
                     Toast.makeText(mContext, "Thêm thời gian khóa ứng dụng thành công", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
-                    Intent intentAppCheckServices = new Intent(mContext, AppCheckServices.class);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         intentAppCheckServices.setAction("STARTFOREGROUND_ACTION ");
                         mContext.startService(intentAppCheckServices);
@@ -1171,226 +1127,226 @@ public class Settings extends Activity implements ActionBar.TabListener {
                     } else {
                         mContext.startService(intentAppCheckServices);
                     }
-                    }
                 }
-            });
+            }
+        });
         dialog.show();
 
-        }
+    }
 
-        public static void DialogCalculate ( final String packedName){
-            Dialog dialog = new Dialog(mContext);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dialog_statitics);
-
-
-            final EditText edtdayStart = (EditText) dialog.findViewById(R.id.dayStart);
-            final EditText edtdayEnd = (EditText) dialog.findViewById(R.id.dayEnd);
-            final EditText edtCalculate = (EditText) dialog.findViewById(R.id.sum_time);
-            final Button buttonUsage = (Button) dialog.findViewById(R.id.btn_statitic);
-
-            edtdayStart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Select_day(edtdayStart);
+    public static void DialogCalculate(final String packedName) {
+        Dialog dialog = new Dialog(mContext);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_statitics);
 
 
-                }
-            });
-            edtdayEnd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Select_day(edtdayEnd);
-                }
-            });
-            buttonUsage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        final EditText edtdayStart = (EditText) dialog.findViewById(R.id.dayStart);
+        final EditText edtdayEnd = (EditText) dialog.findViewById(R.id.dayEnd);
+        final EditText edtCalculate = (EditText) dialog.findViewById(R.id.sum_time);
+        final Button buttonUsage = (Button) dialog.findViewById(R.id.btn_statitic);
 
-                    dayStart = Get_day(edtdayStart);
-                    dayEnd = Get_day(edtdayEnd);
-                    dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
-                    Cursor data = dbUsage.GetData("SELECT SUM(TIME) FROM USAGE_DAY_US WHERE TENPK ='" + packedName + "' AND LASTTIME >= '" + dayStart + "' AND LASTTIME <= '" + dayEnd + "'");
-                    try {
-                        while (data.moveToNext()) {
-                            int sum_time = data.getInt(0);
-                            int[] statsTime = splitToComponentTimes(sum_time);
-                            String statsString = ((statsTime[0] > 0) ? statsTime[0] + "h " : "") + ((statsTime[1] > 0) ? statsTime[1] + "m " : "") + ((statsTime[2] > 0) ? statsTime[2] + "s " : "");
-                            edtCalculate.setText(statsString);
-
-                        }
-                    } finally {
-                        data.close();
-                    }
-                }
-            });
-            dialog.show();
-
-        }
-
-        public static String Get_day (EditText editText){
-
-            return editText.getText().toString();
-        }
-
-        public static void Select_day ( final EditText editText){
-            final Calendar calendar = Calendar.getInstance();
-            int ngay = calendar.get(Calendar.DATE);
-            int thang = calendar.get(Calendar.MONTH);
-            int nam = calendar.get(Calendar.YEAR);
-            DatePickerDialog datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    calendar.set(year, month, dayOfMonth);
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    editText.setText(simpleDateFormat.format(calendar.getTime()));
-                }
-            }, nam, thang, ngay);
-            datePickerDialog.show();
-
-        }
+        edtdayStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Select_day(edtdayStart);
 
 
-        public static List<AppsRowItem> createAppTasks () {
-            db = TasksDataSource.getInstance(mContext);
-            db.open();
-            int highestSeconds;
-            List<TasksModel> tasks;
-
-            try {
-                highestSeconds = db.getHighestSeconds();
-
-                //
-                ArrayList<String> pinnedApps = new ArrayList<String>();
-
-                SharedPreferences settingsPrefs = mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_MULTI_PROCESS);
-                int pinnedSort = Integer.parseInt(settingsPrefs.getString(Settings.PINNED_SORT_PREFERENCE, Integer.toString(Settings.PINNED_SORT_DEFAULT)));
-                boolean ignorePinned = settingsPrefs.getBoolean(Settings.IGNORE_PINNED_PREFERENCE, Settings.IGNORE_PINNED_DEFAULT);
-
-                if (!ignorePinned)
-                    pinnedApps = new Tools().getPinned(mContext);
-
-                tasks = db.getPinnedTasks(pinnedApps, pinnedSort);
-                //
-            } catch (Exception e) {
-                Tools.USLog("createAppTasks exception: " + e);
-                return new ArrayList<AppsRowItem>();
             }
+        });
+        edtdayEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Select_day(edtdayEnd);
+            }
+        });
+        buttonUsage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            List<AppsRowItem> appTasks = new ArrayList<AppsRowItem>();
-
-            for (TasksModel task : tasks) {
+                dayStart = Get_day(edtdayStart);
+                dayEnd = Get_day(edtdayEnd);
+                dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+                Cursor data = dbUsage.GetData("SELECT SUM(TIME) FROM USAGE_DAY_US WHERE TENPK ='" + packedName + "' AND LASTTIME >= '" + dayStart + "' AND LASTTIME <= '" + dayEnd + "'");
                 try {
-                    try {
-                        ComponentName.unflattenFromString(task.getPackageName() + "/" + task.getClassName());
-                    } catch (Exception e) {
-                        Tools.USLog("Could not find Application info for [" + task.getName() + "]");
-                        db.deleteTask(task);
-                        continue;
+                    while (data.moveToNext()) {
+                        int sum_time = data.getInt(0);
+                        int[] statsTime = splitToComponentTimes(sum_time);
+                        String statsString = ((statsTime[0] > 0) ? statsTime[0] + "h " : "") + ((statsTime[1] > 0) ? statsTime[1] + "m " : "") + ((statsTime[2] > 0) ? statsTime[2] + "s " : "");
+                        edtCalculate.setText(statsString);
+
                     }
-                    if (new Tools().cachedImageResolveInfo(mContext, task.getPackageName()) != null)
-                        appTasks.add(createAppRowItem(task, highestSeconds));
+                } finally {
+                    data.close();
+                }
+            }
+        });
+        dialog.show();
+
+    }
+
+    public static String Get_day(EditText editText) {
+
+        return editText.getText().toString();
+    }
+
+    public static void Select_day(final EditText editText) {
+        final Calendar calendar = Calendar.getInstance();
+        int ngay = calendar.get(Calendar.DATE);
+        int thang = calendar.get(Calendar.MONTH);
+        int nam = calendar.get(Calendar.YEAR);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar.set(year, month, dayOfMonth);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                editText.setText(simpleDateFormat.format(calendar.getTime()));
+            }
+        }, nam, thang, ngay);
+        datePickerDialog.show();
+
+    }
+
+
+    public static List<AppsRowItem> createAppTasks() {
+        db = TasksDataSource.getInstance(mContext);
+        db.open();
+        int highestSeconds;
+        List<TasksModel> tasks;
+
+        try {
+            highestSeconds = db.getHighestSeconds();
+
+            //
+            ArrayList<String> pinnedApps = new ArrayList<String>();
+
+            SharedPreferences settingsPrefs = mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_MULTI_PROCESS);
+            int pinnedSort = Integer.parseInt(settingsPrefs.getString(Settings.PINNED_SORT_PREFERENCE, Integer.toString(Settings.PINNED_SORT_DEFAULT)));
+            boolean ignorePinned = settingsPrefs.getBoolean(Settings.IGNORE_PINNED_PREFERENCE, Settings.IGNORE_PINNED_DEFAULT);
+
+            if (!ignorePinned)
+                pinnedApps = new Tools().getPinned(mContext);
+
+            tasks = db.getPinnedTasks(pinnedApps, pinnedSort);
+            //
+        } catch (Exception e) {
+            Tools.USLog("createAppTasks exception: " + e);
+            return new ArrayList<AppsRowItem>();
+        }
+
+        List<AppsRowItem> appTasks = new ArrayList<AppsRowItem>();
+
+        for (TasksModel task : tasks) {
+            try {
+                try {
+                    ComponentName.unflattenFromString(task.getPackageName() + "/" + task.getClassName());
                 } catch (Exception e) {
-                    Tools.USLog("could not add taskList item " + e);
+                    Tools.USLog("Could not find Application info for [" + task.getName() + "]");
+                    db.deleteTask(task);
+                    continue;
                 }
-
-                SharedPreferences prefs2 = prefs.prefsGet();
-                Collections.sort(appTasks, new Tools.AppRowComparator(prefs2.getInt(APPLIST_SORT_PREFERENCE, APPLIST_SORT_DEFAULT)));
-
+                if (new Tools().cachedImageResolveInfo(mContext, task.getPackageName()) != null)
+                    appTasks.add(createAppRowItem(task, highestSeconds));
+            } catch (Exception e) {
+                Tools.USLog("could not add taskList item " + e);
             }
-            db.close();
-            return appTasks;
+
+            SharedPreferences prefs2 = prefs.prefsGet();
+            Collections.sort(appTasks, new Tools.AppRowComparator(prefs2.getInt(APPLIST_SORT_PREFERENCE, APPLIST_SORT_DEFAULT)));
+
+        }
+        db.close();
+        return appTasks;
+    }
+
+    public void updateRowItems() {
+        List<AppsRowItem> appList = mAppRowAdapter.mRowItems;
+        List<AppsRowItem> newAppList = new ArrayList<AppsRowItem>();
+
+        db = TasksDataSource.getInstance(mContext);
+        db.open();
+        int highestSeconds = db.getHighestSeconds();
+        db.close();
+
+        for (AppsRowItem item : appList) {
+            AppsRowItem newItem = createAppRowItem(item, highestSeconds);
+            newAppList.add(newItem);
         }
 
-        public void updateRowItems () {
-            List<AppsRowItem> appList = mAppRowAdapter.mRowItems;
-            List<AppsRowItem> newAppList = new ArrayList<AppsRowItem>();
+        mAppRowAdapter.mRowItems = newAppList;
+        updateListView(false);
+    }
 
-            db = TasksDataSource.getInstance(mContext);
-            db.open();
-            int highestSeconds = db.getHighestSeconds();
-            db.close();
+    public static AppsRowItem createAppRowItem(TasksModel task, int highestSeconds) {
+        AppsRowItem appTask = new AppsRowItem(task);
+        float secondsRatio = (float) task.getSeconds() / highestSeconds;
 
-            for (AppsRowItem item : appList) {
-                AppsRowItem newItem = createAppRowItem(item, highestSeconds);
-                newAppList.add(newItem);
-            }
+        int barColor;
+        int secondsColor = (Math.round(secondsRatio * 100));
+        if (secondsColor >= 80) {
+            barColor = 0xFF34B5E2;
+        } else if (secondsColor >= 60) {
+            barColor = 0xFFAA66CC;
+        } else if (secondsColor >= 40) {
+            barColor = 0xFF74C353;
+        } else if (secondsColor >= 20) {
+            barColor = 0xFFFFBB33;
+        } else {
+            barColor = 0xFFFF4444;
+        }
+        int[] statsTime = splitToComponentTimes(task.getSeconds());
+        String statsString = ((statsTime[0] > 0) ? statsTime[0] + "h " : "") + ((statsTime[1] > 0) ? statsTime[1] + "m " : "") + ((statsTime[2] > 0) ? statsTime[2] + "s " : "");
 
-            mAppRowAdapter.mRowItems = newAppList;
-            updateListView(false);
+        int maxWidth = displayWidth - Tools.dpToPx(mContext, 46 + 14 + 90);
+        float adjustedWidth = maxWidth * secondsRatio;
+
+        ComponentName componentTask = ComponentName.unflattenFromString(task.getPackageName() + "/" + task.getClassName());
+        appTask.setComponentName(componentTask);
+        appTask.setPinned(new Tools().isPinned(mContext, task.getPackageName()));
+        appTask.setLocked(new Tools().isLocked(mContext, task.getPackageName()));
+        appTask.setStats(statsString);
+        appTask.setBarColor(barColor);
+        appTask.setBarContWidth(Math.round(adjustedWidth));
+
+        return appTask;
+    }
+
+
+    public static class SectionsPagerAdapter extends FragmentPagerAdapter {
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
         }
 
-        public static AppsRowItem createAppRowItem (TasksModel task,int highestSeconds){
-            AppsRowItem appTask = new AppsRowItem(task);
-            float secondsRatio = (float) task.getSeconds() / highestSeconds;
-
-            int barColor;
-            int secondsColor = (Math.round(secondsRatio * 100));
-            if (secondsColor >= 80) {
-                barColor = 0xFF34B5E2;
-            } else if (secondsColor >= 60) {
-                barColor = 0xFFAA66CC;
-            } else if (secondsColor >= 40) {
-                barColor = 0xFF74C353;
-            } else if (secondsColor >= 20) {
-                barColor = 0xFFFFBB33;
-            } else {
-                barColor = 0xFFFF4444;
+        @Override
+        public Fragment getItem(final int position) {
+            switch (position) {
+                case SETTING_TAB:
+                    return PrefsFragment.newInstance(R.layout.setting);
+                case USAGE_TAB:
+                    return Usage.newInstance();
+                case APPS_TAB: {
+                    return AppsFragment.newInstance();
+                }
             }
-            int[] statsTime = splitToComponentTimes(task.getSeconds());
-            String statsString = ((statsTime[0] > 0) ? statsTime[0] + "h " : "") + ((statsTime[1] > 0) ? statsTime[1] + "m " : "") + ((statsTime[2] > 0) ? statsTime[2] + "s " : "");
-
-            int maxWidth = displayWidth - Tools.dpToPx(mContext, 46 + 14 + 90);
-            float adjustedWidth = maxWidth * secondsRatio;
-
-            ComponentName componentTask = ComponentName.unflattenFromString(task.getPackageName() + "/" + task.getClassName());
-            appTask.setComponentName(componentTask);
-            appTask.setPinned(new Tools().isPinned(mContext, task.getPackageName()));
-            appTask.setLocked(new Tools().isLocked(mContext, task.getPackageName()));
-            appTask.setStats(statsString);
-            appTask.setBarColor(barColor);
-            appTask.setBarContWidth(Math.round(adjustedWidth));
-
-            return appTask;
+            return null;
         }
 
+        @Override
+        public int getCount() {
+            return 3;
+        }
 
-        public static class SectionsPagerAdapter extends FragmentPagerAdapter {
-            public SectionsPagerAdapter(FragmentManager fm) {
-                super(fm);
+        @Override
+        public CharSequence getPageTitle(int position) {
+            Locale l = Locale.getDefault();
+            switch (position) {
+                case SETTING_TAB:
+                    return mContext.getString(R.string.title_setting).toUpperCase(l);
+                case USAGE_TAB:
+                    return mContext.getString(R.string.title_statitics_usage).toUpperCase(l);
+                case APPS_TAB:
+                    return mContext.getString(R.string.title_apps).toUpperCase(l);
             }
-
-            @Override
-            public Fragment getItem(final int position) {
-                switch (position) {
-                    case SETTING_TAB:
-                        return PrefsFragment.newInstance(R.layout.setting);
-                    case USAGE_TAB:
-                        return Usage.newInstance();
-                    case APPS_TAB: {
-                        return AppsFragment.newInstance();
-                    }
-                }
-                return null;
-            }
-
-            @Override
-            public int getCount() {
-                return 3;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                Locale l = Locale.getDefault();
-                switch (position) {
-                    case SETTING_TAB:
-                        return mContext.getString(R.string.title_setting).toUpperCase(l);
-                    case USAGE_TAB:
-                        return mContext.getString(R.string.title_statitics_usage).toUpperCase(l);
-                    case APPS_TAB:
-                        return mContext.getString(R.string.title_apps).toUpperCase(l);
-                }
-                return null;
-            }
+            return null;
         }
     }
+}

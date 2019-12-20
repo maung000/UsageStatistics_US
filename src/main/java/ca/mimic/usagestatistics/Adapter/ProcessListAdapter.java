@@ -58,8 +58,7 @@ public class ProcessListAdapter extends BaseAdapter {
             holder.taskName = (TextView) convertView.findViewById(R.id.task_name_add_app);
 
             convertView.setTag(holder);
-        }
-        else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
@@ -77,7 +76,6 @@ public class ProcessListAdapter extends BaseAdapter {
 
         return convertView;
     }
-
 
 
     @Override

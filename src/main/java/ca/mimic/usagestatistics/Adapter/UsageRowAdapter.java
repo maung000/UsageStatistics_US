@@ -51,6 +51,7 @@ public class UsageRowAdapter extends BaseAdapter {
     DBUsage dbUsage;
 
 
+
     public UsageRowAdapter(Context context, List<UsageRowItem> rowItems,List<UsageDay> mDay,List<TasksModel> listTasks) {
         mContext = context;
         this.mDay = mDay;

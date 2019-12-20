@@ -27,17 +27,17 @@ import android.util.Log;
 
 public class Tasks extends SQLiteOpenHelper {
 
-    public static final String TABLE_TASKS = "tasks";
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_CLASSNAME = "classname";
-    public static final String COLUMN_PACKAGENAME = "packagename";
-    public static final String COLUMN_SECONDS = "seconds";
-    public static final String COLUMN_LAUNCHES = "launches";
-    public static final String COLUMN_TIMESTAMP = "timestamp";
-    public static final String COLUMN_BLACKLISTED = "blacklisted";
-    public static final String COLUMN_ORDER = "sort_order";
-    public static final String COLUMN_WIDGET_ORDER = "sort_widget_order";
+    static final String TABLE_TASKS = "tasks";
+    static final String COLUMN_ID = "_id";
+    static final String COLUMN_NAME = "name";
+    static final String COLUMN_CLASSNAME = "classname";
+    static final String COLUMN_PACKAGENAME = "packagename";
+    static final String COLUMN_SECONDS = "seconds";
+    static final String COLUMN_LAUNCHES = "launches";
+    static final String COLUMN_TIMESTAMP = "timestamp";
+    static final String COLUMN_BLACKLISTED = "blacklisted";
+    static final String COLUMN_ORDER = "sort_order";
+    static final String COLUMN_WIDGET_ORDER = "sort_widget_order";
     public static final String COLUMN_TIME_USED = "time_used";
 
     private static final String DATABASE_NAME = "tasks.db";
@@ -57,7 +57,7 @@ public class Tasks extends SQLiteOpenHelper {
             + " integer not null default 0, " + COLUMN_WIDGET_ORDER
             + " integer not null default 0);";
 
-    public Tasks(Context context) {
+    Tasks(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

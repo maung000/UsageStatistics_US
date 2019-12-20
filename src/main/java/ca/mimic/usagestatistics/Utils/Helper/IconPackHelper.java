@@ -61,15 +61,15 @@ import ca.mimic.usagestatistics.Utils.Tools;
 
 public class IconPackHelper {
 
-    public final static String[] sSupportedActions = new String[] {
-        "org.adw.launcher.THEMES",
-        "com.gau.go.launcherex.theme"
+    public final static String[] sSupportedActions = new String[]{
+            "org.adw.launcher.THEMES",
+            "com.gau.go.launcherex.theme"
     };
 
-    public static final String[] sSupportedCategories = new String[] {
-        "com.fede.launcher.THEME_ICONPACK",
-        "com.anddoes.launcher.THEME",
-        "com.teslacoilsw.launcher.THEME"
+    public static final String[] sSupportedCategories = new String[]{
+            "com.fede.launcher.THEME_ICONPACK",
+            "com.anddoes.launcher.THEME",
+            "com.teslacoilsw.launcher.THEME"
     };
 
     // Holds package/class -> drawable
@@ -132,7 +132,7 @@ public class IconPackHelper {
     }
 
     private static void loadResourcesFromXmlParser(XmlPullParser parser,
-            Map<String, String> iconPackResources) throws XmlPullParserException, IOException {
+                                                   Map<String, String> iconPackResources) throws XmlPullParserException, IOException {
         int eventType = parser.getEventType();
         do {
 
@@ -176,14 +176,14 @@ public class IconPackHelper {
     }
 
     private static void loadApplicationResources(Context context,
-            Map<String, String> iconPackResources, String packageName) {
+                                                 Map<String, String> iconPackResources, String packageName) {
         Field[] drawableItems;
         try {
             Context appContext = context.createPackageContext(packageName,
                     Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
-            drawableItems = Class.forName(packageName+".R$drawable",
+            drawableItems = Class.forName(packageName + ".R$drawable",
                     true, appContext.getClassLoader()).getFields();
-        } catch (Exception e){
+        } catch (Exception e) {
             return;
         }
 
@@ -261,8 +261,8 @@ public class IconPackHelper {
 
         if (parser != null) {
             try {
-                  loadResourcesFromXmlParser(parser, iconPackResources);
-                  return iconPackResources;
+                loadResourcesFromXmlParser(parser, iconPackResources);
+                return iconPackResources;
             } catch (XmlPullParserException e) {
                 e.printStackTrace();
             } catch (IOException e) {

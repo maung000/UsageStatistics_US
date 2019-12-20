@@ -200,7 +200,7 @@ public class IconCacheHelper {
             byte[] buffer = new byte[1024];
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             int bytesRead = 0;
-            while(bytesRead >= 0) {
+            while (bytesRead >= 0) {
                 bytes.write(buffer, 0, bytesRead);
                 bytesRead = resourceFile.read(buffer, 0, buffer.length);
             }
@@ -213,7 +213,7 @@ public class IconCacheHelper {
         } catch (IOException e) {
             Tools.USLog("failed to read pre-load icon for: " + resourceName);
         } finally {
-            if(resourceFile != null) {
+            if (resourceFile != null) {
                 try {
                     resourceFile.close();
                 } catch (IOException e) {
@@ -236,7 +236,7 @@ public class IconCacheHelper {
             icon = b;
         }
 
-        return  icon;
+        return icon;
     }
 
     protected static Bitmap getPreloadedComponent(Context context, ComponentName componentName) {

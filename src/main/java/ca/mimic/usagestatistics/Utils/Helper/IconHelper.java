@@ -38,7 +38,7 @@ public class IconHelper {
     public Context mContext;
     private int mCount;
 
-    public IconHelper (Context context) {
+    public IconHelper(Context context) {
         mContext = context;
         mCount = 0;
     }

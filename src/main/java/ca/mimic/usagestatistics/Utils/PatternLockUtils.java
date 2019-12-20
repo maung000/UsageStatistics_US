@@ -12,9 +12,10 @@ import android.text.TextUtils;
 
 public class PatternLockUtils {
 
-    public static final int REQUEST_CODE_CONFIRM_PATTERN = 1214;
+    private static final int REQUEST_CODE_CONFIRM_PATTERN = 1214;
 
-    private PatternLockUtils() {}
+    private PatternLockUtils() {
+    }
 
 //    public static void setPattern(List<PatternView.Cell> pattern, Context context) {
 //        PreferenceUtils.putString(PreferenceContract.KEY_PATTERN_SHA1,
@@ -59,7 +60,7 @@ public class PatternLockUtils {
 //    }
 
     public static <ActivityType extends Activity & OnConfirmPatternResultListener> boolean
-            checkConfirmPatternResult(ActivityType activity, int requestCode, int resultCode) {
+    checkConfirmPatternResult(ActivityType activity, int requestCode, int resultCode) {
         if (requestCode == REQUEST_CODE_CONFIRM_PATTERN) {
             activity.onConfirmPatternResult(resultCode == Activity.RESULT_OK);
             return true;

@@ -1,4 +1,5 @@
 package ca.mimic.usagestatistics.Activity;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -48,7 +49,7 @@ import ca.mimic.usagestatistics.Database.TasksDataSource;
 import ca.mimic.usagestatistics.Models.TasksModel;
 import ca.mimic.usagestatistics.Services.WatchfulService;
 
-public class AddApp extends Activity implements ActionBar.TabListener{
+public class AddApp extends Activity implements ActionBar.TabListener {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -94,9 +95,10 @@ public class AddApp extends Activity implements ActionBar.TabListener{
 
     static PackageManager packageManager = null;
     static Tools.TaskInfo runningTask;
-    static List<ApplicationInfo> list_app= new ArrayList<>();
-    static Context context ;
+    static List<ApplicationInfo> list_app = new ArrayList<>();
+    static Context context;
     private SearchView searchView;
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -133,50 +135,46 @@ public class AddApp extends Activity implements ActionBar.TabListener{
         actionBar.setTitle("    Thêm ứng dụng");
 
         // get list Installed Applications
-
-
-
-                db1 = TasksDataSource.getInstance(mContext);
-                db1.open();
-                packageManager = getPackageManager();
-                List<ApplicationInfo> list_temp = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
-                ArrayList<ApplicationInfo> applist = new ArrayList<ApplicationInfo>();
-                for (ApplicationInfo info : list_temp) {
-                    try {
-                        if (null != packageManager.getLaunchIntentForPackage(info.packageName)) {
-                            applist.add(info);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        db1 = TasksDataSource.getInstance(mContext);
+        db1.open();
+        packageManager = getPackageManager();
+        List<ApplicationInfo> list_temp = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+        ArrayList<ApplicationInfo> applist = new ArrayList<ApplicationInfo>();
+        for (ApplicationInfo info : list_temp) {
+            try {
+                if (null != packageManager.getLaunchIntentForPackage(info.packageName)) {
+                    applist.add(info);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        list_app = new ArrayList<>(applist);
+        for (int i = 0; i < list_app.size(); i++) {
+            String temp = list_app.get(i).packageName;
+            runningTask = new Tools.TaskInfo(temp);
+            String className = null;
+            ResolveInfo resolveInfo;
+            Context context = getApplicationContext();
+            resolveInfo = new Tools().cachedImageResolveInfo(context, temp);
+            className = resolveInfo.activityInfo.name;
+            runningTask.className = className;
+            try {
+                ApplicationInfo appInfo = packageManager.getApplicationInfo(temp, 0);
+                runningTask.appName = appInfo.loadLabel(packageManager).toString();
+                if (!runningTask.appName.isEmpty()) {
+                    TasksModel tasksModel = db1.getTask(temp);
+                    if (tasksModel == null) {
+                        Date date = new Date();
+                        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                        db1.createTask(runningTask.appName, runningTask.packageName, runningTask.className, dateFormatter.format(date));
                     }
                 }
-                list_app = new ArrayList<>(applist);
-                for(int i = 0;i<list_app.size();i++){
-                    String temp  = list_app.get(i).packageName;
-                    runningTask = new Tools.TaskInfo(temp);
-                    String className = null;
-                    ResolveInfo resolveInfo;
-                    Context context = getApplicationContext();
-                    resolveInfo = new Tools().cachedImageResolveInfo(context, temp);
-                    className = resolveInfo.activityInfo.name;
-                    runningTask.className = className;
-                    try {
-                        ApplicationInfo appInfo = packageManager.getApplicationInfo(temp, 0);
-                        runningTask.appName = appInfo.loadLabel(packageManager).toString();
-                        if (!runningTask.appName.isEmpty()) {
-                            TasksModel tasksModel = db1.getTask(temp);
-                            if(tasksModel == null)
-                            {
-                                Date date = new Date();
-                                SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-                                db1.createTask(runningTask.appName, runningTask.packageName, runningTask.className, dateFormatter.format(date));
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                db1.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        db1.close();
 
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
@@ -190,6 +188,7 @@ public class AddApp extends Activity implements ActionBar.TabListener{
         mGetFragments.setVp(mViewPager);
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -236,15 +235,18 @@ public class AddApp extends Activity implements ActionBar.TabListener{
         }
     };
 
-    protected static class ServiceCall  {
+    protected static class ServiceCall {
         Context mContext;
         ServiceConnection mConnection;
+
         ServiceCall(Context context) {
             mContext = context;
         }
+
         protected void setConnection(ServiceConnection connection) {
             mConnection = connection;
         }
+
         protected void watchHelper(int which) {
             Intent intent = new Intent(mContext, WatchfulService.class);
             switch (which) {
@@ -269,9 +271,10 @@ public class AddApp extends Activity implements ActionBar.TabListener{
                     break;
             }
         }
+
         protected void execute(int which) {
             try {
-                switch(which) {
+                switch (which) {
                     case SERVICE_BUILD_TASKS:
                         s.buildTasks();
                         return;
@@ -340,12 +343,15 @@ public class AddApp extends Activity implements ActionBar.TabListener{
 
     public static class PrefsGet {
         SharedPreferences realPrefs;
+
         PrefsGet(SharedPreferences prefs) {
             realPrefs = prefs;
         }
+
         SharedPreferences prefsGet() {
             return realPrefs;
         }
+
         SharedPreferences.Editor editorGet() {
             return realPrefs.edit();
         }
@@ -359,9 +365,11 @@ public class AddApp extends Activity implements ActionBar.TabListener{
             String tag = "android:switcher:" + vp.getId() + ":" + pos;
             return fm.findFragmentByTag(tag);
         }
+
         public void setVp(ViewPager mViewPager) {
             vp = mViewPager;
         }
+
         public void setFm(FragmentManager mFm) {
             fm = mFm;
         }
@@ -369,7 +377,7 @@ public class AddApp extends Activity implements ActionBar.TabListener{
 
     public static void updateRowItem() {
         int start = lv.getFirstVisiblePosition();
-        for (int i=start, j=lv.getLastVisiblePosition(); i<=j; i++) {
+        for (int i = start, j = lv.getLastVisiblePosition(); i <= j; i++) {
             View view = lv.getChildAt(i - start);
             mProcessListAdapter.getView(i, view, lv);
         }
@@ -397,15 +405,14 @@ public class AddApp extends Activity implements ActionBar.TabListener{
     }
 
 
-
-
     public static class AppsFragment extends Fragment implements AdapterView.OnItemClickListener {
 
         public static Fragment newInstance() {
             return new AppsFragment();
         }
 
-        public AppsFragment() {}
+        public AppsFragment() {
+        }
 
         public void onResume() {
             super.onResume();
@@ -473,6 +480,7 @@ public class AddApp extends Activity implements ActionBar.TabListener{
 
             return appsView;
         }
+
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
@@ -564,7 +572,7 @@ public class AddApp extends Activity implements ActionBar.TabListener{
         updateListView(false);
     }
 
-    public static AppsRowItem createAppRowItem(TasksModel task, int highestSeconds){
+    public static AppsRowItem createAppRowItem(TasksModel task, int highestSeconds) {
         AppsRowItem appTask = new AppsRowItem(task);
         float secondsRatio = (float) task.getSeconds() / highestSeconds;
 

@@ -12,7 +12,8 @@ import android.support.v4.app.FragmentManager;
 
 public class FragmentUtils {
 
-    private FragmentUtils() {}
+    private FragmentUtils() {
+    }
 
     public static Bundle ensureArguments(Fragment fragment) {
         Bundle arguments = fragment.getArguments();

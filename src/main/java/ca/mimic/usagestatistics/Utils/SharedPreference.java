@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SharedPreference {
-    public static final String LOCKED_APP = "locked_app";
+    private static final String LOCKED_APP = "locked_app";
 
     public SharedPreference() {
         super();
@@ -57,7 +57,7 @@ public class SharedPreference {
             @Override
             public void run() {
 
-                Toast.makeText(context,"App da duoc khoa",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "App da duoc khoa", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -106,6 +106,7 @@ public class SharedPreference {
         }
         return "";
     }
+
     public String getPasswordApp(Context context) {
         SharedPreferences checkSetPinCodePref;
         checkSetPinCodePref = context.getSharedPreferences(AppLockConstants.MyPREFERENCES, Context.MODE_PRIVATE);

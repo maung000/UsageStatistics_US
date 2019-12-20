@@ -24,15 +24,15 @@ import ca.mimic.usagestatistics.Models.UsageRowItem;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     private List<UsageRowItem> listDayUsed;
-    List<UsageDay> mDay;
-    boolean completeRedraw = false;
-    Context mContext;
-    IconHelper ih;
-    TasksDataSource db;
-    List<TasksModel> listTasks;
+    private List<UsageDay> mDay;
+    private boolean completeRedraw = false;
+    private Context mContext;
+    private IconHelper ih;
+    private TasksDataSource db;
+    private List<TasksModel> listTasks;
 
 
-    public RecyclerViewAdapter(Context context, List<UsageRowItem> usageList, List<UsageDay> mDay,List<TasksModel> listTasks) {
+    RecyclerViewAdapter(Context context, List<UsageRowItem> usageList, List<UsageDay> mDay, List<TasksModel> listTasks) {
         listDayUsed = usageList;
         mContext = context;
         this.mDay = mDay;
@@ -44,9 +44,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view ;
+        View view;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
-        view = mInflater.inflate(R.layout.cardview_item_usage,parent,false);
+        view = mInflater.inflate(R.layout.cardview_item_usage, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -58,8 +58,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.usageIcon.setImageBitmap(null);
         }
         db.open();
-        for(int i = 0;i<listDayUsed.size();i++){
-            if(listTasks.get(position).getPackageName().equals(listDayUsed.get(i).getPackedName())){
+        for (int i = 0; i < listDayUsed.size(); i++) {
+            if (listTasks.get(position).getPackageName().equals(listDayUsed.get(i).getPackedName())) {
                 TasksModel task = db.getTask(listDayUsed.get(i).getPackedName());
                 try {
                     Drawable d = mContext.getPackageManager().getApplicationIcon(listDayUsed.get(i).getPackedName());
@@ -75,8 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 String statsString = ((statsTime[0] > 0) ? statsTime[0] + "h " : "") + ((statsTime[1] > 0) ? statsTime[1] + "m " : "") + ((statsTime[2] > 0) ? statsTime[2] + "s " : "");
                 holder.usageTime.setText(statsString);
                 break;
-            }
-            else{
+            } else {
                 TasksModel task = db.getTask(listTasks.get(position).getPackageName());
                 try {
                     Drawable d = mContext.getPackageManager().getApplicationIcon(listTasks.get(position).getPackageName());
@@ -97,17 +96,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return listTasks.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView usageName;
         TextView usageTime;
         ImageView usageIcon;
-        CardView cardView ;
+        CardView cardView;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
 
-            usageName = (TextView) itemView.findViewById(R.id.usage_name) ;
+            usageName = (TextView) itemView.findViewById(R.id.usage_name);
             usageTime = (TextView) itemView.findViewById(R.id.usage_time);
             usageIcon = (ImageView) itemView.findViewById(R.id.usage_icon);
             cardView = (CardView) itemView.findViewById(R.id.cardview_id);
@@ -116,14 +115,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public static long[] splitToComponentTimes(long longVal) {
+    private static long[] splitToComponentTimes(long longVal) {
         long hours = longVal / 3600;
         long remainder = longVal - hours * 3600;
         long mins = remainder / 60;
         remainder = remainder - mins * 60;
         long secs = remainder;
 
-        long[] ints = {hours , mins , secs};
-        return ints;
+        return new long[]{hours, mins, secs};
     }
 }

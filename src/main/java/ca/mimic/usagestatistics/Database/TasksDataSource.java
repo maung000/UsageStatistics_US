@@ -43,7 +43,7 @@ public class TasksDataSource {
     private static SQLiteDatabase database;
     private static Tasks dbHelper;
     private static TasksDataSource sInstance;
-    private String[] allColumns = { Tasks.COLUMN_ID,
+    private String[] allColumns = {Tasks.COLUMN_ID,
             Tasks.COLUMN_NAME, Tasks.COLUMN_PACKAGENAME,
             Tasks.COLUMN_CLASSNAME,
             Tasks.COLUMN_SECONDS,
@@ -51,9 +51,9 @@ public class TasksDataSource {
             Tasks.COLUMN_BLACKLISTED,
             Tasks.COLUMN_LAUNCHES,
             Tasks.COLUMN_ORDER,
-            Tasks.COLUMN_WIDGET_ORDER };
+            Tasks.COLUMN_WIDGET_ORDER};
 
-    TasksDataSource(Context context) {
+    private TasksDataSource(Context context) {
         if (dbHelper == null) {
             dbHelper = new Tasks(context);
         }
@@ -121,7 +121,6 @@ public class TasksDataSource {
             return 0;
         }
     }
-
 
 
 //    public int getSeconds(String name) {
@@ -238,19 +237,20 @@ public class TasksDataSource {
             Cursor cursor = database.query(Tasks.TABLE_TASKS,
                     allColumns, Tasks.COLUMN_BLACKLISTED + " = " + 1,
                     null, null, null, Tasks.COLUMN_TIMESTAMP + " DESC");
-
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                try {
-                    TasksModel task = cursorToTasks(cursor);
-                    tasks.add(task);
-                    cursor.moveToNext();
-                } catch (ParseException e) {
-                    Tools.USLog("blacklistTask parse error [" + e + "]");
+            if (cursor != null) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    try {
+                        TasksModel task = cursorToTasks(cursor);
+                        tasks.add(task);
+                        cursor.moveToNext();
+                    } catch (ParseException e) {
+                        Tools.USLog("blacklistTask parse error [" + e + "]");
+                    }
                 }
+                // make sure to close the cursor
+                cursor.close();
             }
-            // make sure to close the cursor
-            cursor.close();
             return tasks;
         }
     }
@@ -423,6 +423,7 @@ public class TasksDataSource {
     public List<TasksModel> getAllTasks() {
         return getAllTasks(0);
     }
+
     private TasksModel cursorToTasks(Cursor cursor) throws ParseException {
         TasksModel task = new TasksModel();
         task.setId(cursor.getLong(0));

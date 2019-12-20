@@ -9,15 +9,15 @@ import android.util.Log;
 
 public class DBUsage extends SQLiteOpenHelper {
 
-    public static final String TABLE_USAGE = "usage";
-    public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_CLASSNAME = "classname";
-    public static final String COLUMN_PACKAGENAME = "packagename";
-    public static final String COLUMN_LAUNCHES = "launches";
-    public static final String COLUMN_TIME_USED = "time_used";
-    public static final String COLUMN_TIMESTAMP = "timestamp";
-    public static final String COLUMN_DAY_USED = "dayused";
+    private static final String TABLE_USAGE = "usage";
+    private static final String COLUMN_ID = "_id";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_CLASSNAME = "classname";
+    private static final String COLUMN_PACKAGENAME = "packagename";
+    private static final String COLUMN_LAUNCHES = "launches";
+    private static final String COLUMN_TIME_USED = "time_used";
+    private static final String COLUMN_TIMESTAMP = "timestamp";
+    private static final String COLUMN_DAY_USED = "dayused";
 
     private static final String DATABASE_NAME = "usage.db";
     private static final int DATABASE_VERSION = 7;

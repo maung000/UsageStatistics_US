@@ -85,8 +85,7 @@ public class AppsRowAdapter extends BaseAdapter {
             holder.useStats = (TextView) convertView.findViewById(R.id.use_stats);
 
             convertView.setTag(holder);
-        }
-        else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 

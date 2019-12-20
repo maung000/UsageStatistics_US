@@ -74,32 +74,7 @@
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat"/>
-        <activity
-            android:name=".Activity.PasswordRecoverSetActivity"
-            android:excludeFromRecents="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
 
-        <activity
-            android:name=".Activity.PasswordRecoveryActivity"
-            android:excludeFromRecents="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
-        <activity
-            android:name=".Activity.PasswordActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".Activity.PasswordOldActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".Activity.PasswordChange"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".Activity.PasswordSelectLock"
             android:excludeFromRecents="true"
@@ -108,9 +83,14 @@
         <service
             android:name=".Services.AppCheckServices"
             android:exported="false" />
-        <receiver
-            android:name=".Services.AlarmReceiver">
-        </receiver>
+<!--        <receiver-->
+<!--            android:name=".Services.AlarmReceiver">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.BOOT_COMPLETED"/>-->
+<!--                <action android:name="android.intent.a"/>-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
         <service android:name=".Services.WatchfulService" >
         </service>
     </application>

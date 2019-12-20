@@ -54,7 +54,7 @@ public class Instructions extends Activity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        mIndicator = (CirclePageIndicator)findViewById(R.id.indicator);
+        mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(mViewPager);
 
         final float density = getResources().getDisplayMetrics().density;
@@ -106,9 +106,9 @@ public class Instructions extends Activity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
 
-            Bundle bundle=getArguments();
+            Bundle bundle = getArguments();
             int page = bundle.getInt(ARG_SECTION_NUMBER);
 
             int layout = getResources().getIdentifier("instructions_page_" + page, "layout", "ca.mimic.usagestatistics");

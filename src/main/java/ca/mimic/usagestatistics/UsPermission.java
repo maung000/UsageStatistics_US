@@ -26,8 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 public class UsPermission {
-    Context context;
-    View mUsPermission;
+    private Context context;
+    private View mUsPermission;
 
     public UsPermission(Context context) {
         this.context = context;

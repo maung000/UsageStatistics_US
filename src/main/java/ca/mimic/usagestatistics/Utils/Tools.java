@@ -35,17 +35,17 @@ import ca.mimic.usagestatistics.Models.AppsRowItem;
 import ca.mimic.usagestatistics.Models.TasksModel;
 
 public class Tools {
-    public final static String TAG = "UsageStatistics";
+    private final static String TAG = "UsageStatistics";
 
-    public final static int USAGE_STATS_QUERY_TIMEFRAME = 46800000;
-    public final static String USAGE_STATS_SERVICE_NAME = "usagestats";
+    private final static int USAGE_STATS_QUERY_TIMEFRAME = 46800000;
+    private final static String USAGE_STATS_SERVICE_NAME = "usagestats";
     public final static int AWAKE_REFRESH = 60000;
 
     public final static String REFRESH_ACTION = "ca.mimic.usagestatistics.SCREEN_ON_REFRESH";
     public final static String REPLACE_ACTION = "android.intent.action.PACKAGE_REPLACED";
     public final static String BOOT_ACTION = "android.intent.action.BOOT_COMPLETED";
 
-    static int mBackgroundResource;
+    private static int mBackgroundResource;
 
     public static void USLog(String message) {
         if (BuildConfig.BUILD_TYPE.equals("debug"))
@@ -69,28 +69,28 @@ public class Tools {
         return new ArrayList<String>(Arrays.asList(pinnedApps.split(" ")));
     }
 
-    public boolean togglePinned(Context context, String packageName, SharedPreferences.Editor settingsEditor) {
+    public void togglePinned(Context context, String packageName, SharedPreferences.Editor settingsEditor) {
         ArrayList<String> appList = getPinned(context);
 
-        Boolean removed = false;
-        String pinnedApps = "";
+        boolean removed = false;
+        StringBuilder pinnedApps = new StringBuilder();
 
         for (String app : appList) {
             if (app.equals(packageName)) {
                 removed = true;
                 continue;
             }
-            pinnedApps += app + " ";
+            pinnedApps.append(app).append(" ");
         }
         if (!removed) {
-            pinnedApps += packageName;
+            pinnedApps.append(packageName);
         }
 
-        settingsEditor.putString(Settings.PINNED_APPS, pinnedApps.trim());
+        settingsEditor.putString(Settings.PINNED_APPS, pinnedApps.toString().trim());
         settingsEditor.commit();
 
-        return !removed;
     }
+
     public boolean isLocked(Context context, String packageName) {
         ArrayList<String> appList = getLock(context);
         for (String app : appList) {
@@ -100,36 +100,37 @@ public class Tools {
         }
         return false;
     }
+
     private ArrayList<String> getLock(Context context) {
         SharedPreferences settingsPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS);
         String lockApps = settingsPrefs.getString(Settings.LOCKED_APPS, "");
 
         return new ArrayList<String>(Arrays.asList(lockApps.split(" ")));
     }
-    public boolean toggleLock(Context context, String packageName, SharedPreferences.Editor settingsEditor) {
+
+    public void toggleLock(Context context, String packageName, SharedPreferences.Editor settingsEditor) {
         ArrayList<String> appList = getLock(context);
 
-        Boolean removed = false;
-        String lockApps = "";
+        boolean removed = false;
+        StringBuilder lockApps = new StringBuilder();
 
         for (String app : appList) {
             if (app.equals(packageName)) {
                 removed = true;
                 continue;
             }
-            lockApps += app + " ";
+            lockApps.append(app).append(" ");
         }
         if (!removed) {
-            lockApps += packageName;
+            lockApps.append(packageName);
         }
 
-        settingsEditor.putString(Settings.LOCKED_APPS, lockApps.trim());
+        settingsEditor.putString(Settings.LOCKED_APPS, lockApps.toString().trim());
         settingsEditor.commit();
 
-        return !removed;
     }
 
-    protected static int getViewBackgroundResource () {
+    protected static int getViewBackgroundResource() {
         return mBackgroundResource;
     }
 
@@ -172,7 +173,7 @@ public class Tools {
     }
 
 
-    protected static class TaskInfoOrder {
+    static class TaskInfoOrder {
         int launchOrder;
         float launchScore;
         int secondsOrder;
@@ -180,9 +181,11 @@ public class Tools {
         int placeOrder;
 
         TaskInfo origTask;
+
         TaskInfoOrder(TaskInfo task) {
             origTask = task;
         }
+
         TaskInfo getOrig() {
             return origTask;
         }
@@ -196,7 +199,7 @@ public class Tools {
         public int seconds = 0;
         public int totalseconds = 0;
 
-        public TaskInfo (String string) {
+        public TaskInfo(String string) {
             packageName = string;
         }
     }
@@ -210,14 +213,14 @@ public class Tools {
         public long timeInFGDelta;
         public long timeInFG;
 
-        public LollipopTaskInfo (String string) {
+        public LollipopTaskInfo(String string) {
             packageName = string;
         }
     }
 
-    public static Bitmap drawableToBitmap (Drawable drawable) {
+    public static Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -235,7 +238,7 @@ public class Tools {
 
     @TargetApi(21)
     public static List<UsageStats> getUsageStats(Context context) {
-        @SuppressLint("WrongConstant") final UsageStatsManager usageStatsManager = (UsageStatsManager)context.getSystemService(USAGE_STATS_SERVICE_NAME); // Context.USAGE_STATS_SERVICE);
+        @SuppressLint("WrongConstant") final UsageStatsManager usageStatsManager = (UsageStatsManager) context.getSystemService(USAGE_STATS_SERVICE_NAME); // Context.USAGE_STATS_SERVICE);
         long time = System.currentTimeMillis();
 
         List<UsageStats> stats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, time - USAGE_STATS_QUERY_TIMEFRAME, time);
@@ -299,9 +302,10 @@ public class Tools {
         final int PINNED = 0;
         int mAddAppType;
 
-        public AddAppComparator (int AddAppType){
+        public AddAppComparator(int AddAppType) {
             mAddAppType = AddAppType;
         }
+
         @Override
         public int compare(AppsRowItem r1, AppsRowItem r2) {
             int firstCompare = 0;
@@ -309,20 +313,22 @@ public class Tools {
                 case ALPHABETICAL:
                     return r1.getName().compareToIgnoreCase(r2.getName());
                 case PINNED:
-                    return  r2.getPinned().compareTo(r1.getPinned());
-                }
-                return firstCompare;
+                    return r2.getPinned().compareTo(r1.getPinned());
+            }
+            return firstCompare;
         }
     }
+
     public static class AppRowComparator implements Comparator<AppsRowItem> {
         final int TIME_SPENT = 0;
         final int ALPHABETICAL = 1;
 
         int mAppRowType;
 
-        public AppRowComparator (int AppRowType) {
+        public AppRowComparator(int AppRowType) {
             mAppRowType = AppRowType;
         }
+
         @Override
         public int compare(AppsRowItem r1, AppsRowItem r2) {
             int firstCompare = 0;
@@ -338,11 +344,14 @@ public class Tools {
             return firstCompare;
         }
     }
+
     protected static class TasksModelComparator implements Comparator<TasksModel> {
         String mType = "seconds";
+
         TasksModelComparator(String type) {
             mType = type;
         }
+
         @Override
         public int compare(TasksModel t1, TasksModel t2) {
             Integer o1 = 0;
@@ -363,6 +372,7 @@ public class Tools {
     protected static class UsageStatsComparator implements Comparator<UsageStats> {
         Long o1;
         Long o2;
+
         @Override
         public int compare(UsageStats t1, UsageStats t2) {
             o1 = t1.getLastTimeUsed();
@@ -377,7 +387,7 @@ public class Tools {
         private Float numToCompare;
         private Float baseRecency;
 
-        public TaskComparator (String type, int weight, int num){
+        public TaskComparator(String type, int weight, int num) {
             mType = type;
             weightPriority = weight;
             Float calNum = num / 10f;
@@ -423,7 +433,7 @@ public class Tools {
     }
 
     public Boolean isInArray(ArrayList<String> list, String str) {
-        for (String curVal : list){
+        for (String curVal : list) {
             if (curVal.equals(str)) {
                 return true;
             }
@@ -465,19 +475,19 @@ public class Tools {
 
             taskListE.add(newTask);
 
-            count ++;
+            count++;
         }
 
         Collections.sort(taskListE, new TaskComparator("launch", weightPriority, taskList.size()));
         int c = 0;
-        for (int i=taskListE.size()-1; i >= 0; i--) {
+        for (int i = taskListE.size() - 1; i >= 0; i--) {
             taskListE.get(c).launchOrder = (i + 1);
             c++;
         }
 
         c = 0;
         Collections.sort(taskListE, new TaskComparator("seconds", weightPriority, taskList.size()));
-        for (int i=taskListE.size()-1; i >= 0; i--) {
+        for (int i = taskListE.size() - 1; i >= 0; i--) {
             taskListE.get(c).secondsOrder = (i + 1);
             c++;
         }
@@ -552,8 +562,8 @@ public class Tools {
     }
 
     public synchronized static ArrayList<Tools.TaskInfo> buildTaskList(Context context, TasksDataSource db,
-                                                             int queueSize, boolean weighted,
-                                                             boolean widget) {
+                                                                       int queueSize, boolean weighted,
+                                                                       boolean widget) {
         ArrayList<Tools.TaskInfo> taskList = new ArrayList<Tools.TaskInfo>();
         List<TasksModel> tasks;
         ArrayList<String> pinnedApps = new ArrayList<String>();
@@ -603,15 +613,16 @@ public class Tools {
         }
         return taskList;
     }
-    public  static ArrayList<Tools.TaskInfo> buildTaskList(Context context, TasksDataSource db, int queueSize) {
+
+    public static ArrayList<Tools.TaskInfo> buildTaskList(Context context, TasksDataSource db, int queueSize) {
         return buildTaskList(context, db, queueSize, false, false);
     }
 
-    public  static ArrayList<Tools.TaskInfo> buildPinnedList(Context context, TasksDataSource db) {
+    public static ArrayList<Tools.TaskInfo> buildPinnedList(Context context, TasksDataSource db) {
         return buildTaskList(context, db, 0, false, false);
     }
 
-    public  ArrayList<Tools.TaskInfo> addMoreAppsButton(ArrayList<Tools.TaskInfo> taskList, int count) {
+    public ArrayList<Tools.TaskInfo> addMoreAppsButton(ArrayList<Tools.TaskInfo> taskList, int count) {
         USLog("addMoreAppsButton: taskList.size(): " + taskList.size() + " count: " + count);
 
         Tools.TaskInfo moreAppsTask = new TaskInfo(Settings.MORE_APPS_PACKAGE);
@@ -624,7 +635,7 @@ public class Tools {
         return taskList;
     }
 
-    protected ArrayList<Tools.TaskInfo> getPinnedTasks (Context context, ArrayList<Tools.TaskInfo> pinnedListOrig, ArrayList<Tools.TaskInfo> pageListOrig, int count, boolean moreApps) {
+    protected ArrayList<Tools.TaskInfo> getPinnedTasks(Context context, ArrayList<Tools.TaskInfo> pinnedListOrig, ArrayList<Tools.TaskInfo> pageListOrig, int count, boolean moreApps) {
         ArrayList<TaskInfo> pinnedList = new ArrayList<TaskInfo>();
         ArrayList<TaskInfo> pageList = new ArrayList<TaskInfo>();
         if (pinnedListOrig != null)
@@ -640,7 +651,7 @@ public class Tools {
             if (pinnedPlacement == Settings.PINNED_PLACEMENT_LEFT) {
                 pinnedList.addAll(pageList);
                 if (moreApps)
-                    pinnedList = new Tools().addMoreAppsButton(pinnedList, count-1);
+                    pinnedList = new Tools().addMoreAppsButton(pinnedList, count - 1);
 
                 return pinnedList;
             } else {
