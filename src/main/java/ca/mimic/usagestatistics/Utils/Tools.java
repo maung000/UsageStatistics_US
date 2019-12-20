@@ -101,7 +101,7 @@ public class Tools {
         return false;
     }
 
-    private ArrayList<String> getLock(Context context) {
+    public ArrayList<String> getLock(Context context) {
         SharedPreferences settingsPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS);
         String lockApps = settingsPrefs.getString(Settings.LOCKED_APPS, "");
 

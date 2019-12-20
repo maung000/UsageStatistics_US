@@ -14,21 +14,10 @@
 
         <ImageView
             android:id="@+id/iv_lock"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/lock_26"/>
-
-        <ImageView
-            android:id="@+id/iv_ok"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_centerInParent="true"
-            android:alpha="0"
-            android:scaleX="0"
-            android:scaleY="0"
-            android:tint="#66e75d"
-            app:srcCompat="@drawable/ic_check_bold_24dp"/>
+            android:src="@drawable/lock_24"/>
     </RelativeLayout>
 
     <TextView

@@ -256,8 +256,6 @@ public class Settings extends Activity implements ActionBar.TabListener {
         String password = sharedPreference.getPasswordApp(mContext);
         if (TextUtils.isEmpty(password)) {
             launchCreatePassword(mContext);
-        } else {
-
         }
 
         if (mIsAtLeastLollipop && needsUsPermission()) {
@@ -270,27 +268,24 @@ public class Settings extends Activity implements ActionBar.TabListener {
                         Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, 1234);
             }
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    startService(new Intent(Settings.this, AppCheckServices.class));
-//                }
-//            }, SPLASH_TIME_OUT);
         }
-
-//        } else {
-//            editor = sharedPreferences.edit();
-//            editor.putBoolean(AppLockConstants.IS_PER, true);
-//            editor.commit();
-//            //startService(new Intent(SplashActivity.this, AppCheckServices.class));
-//
-//        }
         display = getWindowManager().getDefaultDisplay();
         updateDisplayWidth();
 
         myService = new ServiceCall(mContext);
         myService.setConnection(mConnection);
 
+        Tools tools = new Tools();
+        if(tools.getLock(mContext).size()>0){
+            Intent intentAppCheckServices = new Intent(mContext, AppCheckServices.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                intentAppCheckServices.setAction("STARTFOREGROUND_ACTION ");
+                mContext.startService(intentAppCheckServices);
+                mContext.startForegroundService(intentAppCheckServices);
+            } else {
+                mContext.startService(intentAppCheckServices);
+            }
+        }
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();

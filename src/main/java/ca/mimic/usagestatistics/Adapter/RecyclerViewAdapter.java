@@ -30,6 +30,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private IconHelper ih;
     private TasksDataSource db;
     private List<TasksModel> listTasks;
+    private int sizeList = 0;
 
 
     RecyclerViewAdapter(Context context, List<UsageRowItem> usageList, List<UsageDay> mDay, List<TasksModel> listTasks) {
@@ -61,31 +62,34 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         for (int i = 0; i < listDayUsed.size(); i++) {
             if (listTasks.get(position).getPackageName().equals(listDayUsed.get(i).getPackedName())) {
                 TasksModel task = db.getTask(listDayUsed.get(i).getPackedName());
-                try {
-                    Drawable d = mContext.getPackageManager().getApplicationIcon(listDayUsed.get(i).getPackedName());
-                    holder.usageIcon.setImageDrawable(d);
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
+                if(task.getSeconds()>0) {
+                    try {
+                        Drawable d = mContext.getPackageManager().getApplicationIcon(listDayUsed.get(i).getPackedName());
+                        holder.usageIcon.setImageDrawable(d);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    holder.usageName.setText(task.getName());
+
+                    long[] statsTime = splitToComponentTimes(listDayUsed.get(i).getTimeUsage());
+
+                    String statsString = ((statsTime[0] > 0) ? statsTime[0] + "h " : "") + ((statsTime[1] > 0) ? statsTime[1] + "m " : "") + ((statsTime[2] > 0) ? statsTime[2] + "s " : "");
+                    holder.usageTime.setText(statsString);
                 }
-
-                holder.usageName.setText(task.getName());
-
-                long[] statsTime = splitToComponentTimes(listDayUsed.get(i).getTimeUsage());
-
-                String statsString = ((statsTime[0] > 0) ? statsTime[0] + "h " : "") + ((statsTime[1] > 0) ? statsTime[1] + "m " : "") + ((statsTime[2] > 0) ? statsTime[2] + "s " : "");
-                holder.usageTime.setText(statsString);
                 break;
-            } else {
-                TasksModel task = db.getTask(listTasks.get(position).getPackageName());
-                try {
-                    Drawable d = mContext.getPackageManager().getApplicationIcon(listTasks.get(position).getPackageName());
-                    holder.usageIcon.setImageDrawable(d);
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
-                holder.usageName.setText(task.getName());
-                holder.usageTime.setText("0");
             }
+//            else {
+//                TasksModel task = db.getTask(listTasks.get(position).getPackageName());
+//                try {
+//                    Drawable d = mContext.getPackageManager().getApplicationIcon(listTasks.get(position).getPackageName());
+//                    holder.usageIcon.setImageDrawable(d);
+//                } catch (PackageManager.NameNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//                holder.usageName.setText(task.getName());
+//                holder.usageTime.setText("0");
+//            }
 
         }
         db.close();

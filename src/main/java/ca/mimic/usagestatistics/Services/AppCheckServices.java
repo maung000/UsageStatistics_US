@@ -239,7 +239,7 @@ public class AppCheckServices extends Service implements View.OnClickListener {
         tintImageView(iv_lock, numberTextColor);
         tintImageView(numberB, numberTextColor);
         tintImageView(numberOK, numberTextColor);
-        tintImageView(iv_ok, correctStatusColor);
+        //tintImageView(iv_ok, correctStatusColor);
 
         number0.setTag(0);
         number1.setTag(1);
@@ -342,13 +342,6 @@ public class AppCheckServices extends Service implements View.OnClickListener {
             secondInput = true;
             return;
         }
-
-//        if (equals(psd)) {
-//            // match
-//            runOkAnimation(promptsView);
-//        } else {
-//            runWrongAnimation(promptsView);
-//        }
     }
 
     public void runWrongAnimation(final View promptsView) {

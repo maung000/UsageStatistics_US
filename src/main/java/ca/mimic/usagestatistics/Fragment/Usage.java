@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import ca.mimic.usagestatistics.Adapter.UsageRowAdapter;
@@ -80,6 +81,17 @@ public class Usage extends Fragment {
                 pinnedApps = new Tools().getPinned(view.getContext());
 
             listTasks = db.getPinnedTasks(pinnedApps, pinnedSort);
+//            for(TasksModel tasksModel:listTasks){
+//                if(tasksModel.getSeconds()==0){
+//                    listTasks.remove(tasksModel);
+//                }
+//            }
+            for (Iterator<TasksModel> iterator = listTasks.iterator(); iterator.hasNext(); ) {
+                int value = iterator.next().getSeconds();
+                if (value == 0) {
+                    iterator.remove();
+                }
+            }
         } catch (Exception e) {
             Tools.USLog("createAppTasks exception: " + e);
             listTasks = new ArrayList<TasksModel>();
@@ -96,7 +108,9 @@ public class Usage extends Fragment {
                 String packedName = data.getString(1);
                 long total = data.getLong(2);
                 String lastime = data.getString(3);
-                arrayListUsage.add(new UsageRowItem(packedName, total, lastime));
+                if(total != 0) {
+                    arrayListUsage.add(new UsageRowItem(packedName, total, lastime));
+                }
             }
         } finally {
             data.close();

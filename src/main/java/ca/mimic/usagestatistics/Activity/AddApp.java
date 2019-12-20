@@ -96,8 +96,6 @@ public class AddApp extends Activity implements ActionBar.TabListener {
     static PackageManager packageManager = null;
     static Tools.TaskInfo runningTask;
     static List<ApplicationInfo> list_app = new ArrayList<>();
-    static Context context;
-    private SearchView searchView;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

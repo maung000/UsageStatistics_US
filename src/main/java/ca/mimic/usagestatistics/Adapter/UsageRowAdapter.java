@@ -32,9 +32,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import ca.mimic.usagestatistics.Database.DBUsage;
+import ca.mimic.usagestatistics.Database.TasksDataSource;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.Models.TasksModel;
 import ca.mimic.usagestatistics.Models.UsageDay;
@@ -49,6 +51,7 @@ public class UsageRowAdapter extends BaseAdapter {
     boolean completeRedraw = false;
     List<TasksModel> listTasks;
     DBUsage dbUsage;
+    private TasksDataSource db;
 
 
 
@@ -58,6 +61,7 @@ public class UsageRowAdapter extends BaseAdapter {
         mRowItems = rowItems;
         this.listTasks = listTasks;
         ih = new IconHelper(context);
+        db = TasksDataSource.getInstance(context);
     }
 
     private class ViewHolder {
@@ -73,7 +77,7 @@ public class UsageRowAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder;
-
+        db.open();
 
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)
@@ -98,12 +102,25 @@ public class UsageRowAdapter extends BaseAdapter {
                 String packedName = data.getString(0);
                 long total = data.getLong(1);
                 String day = data.getString(2);
-                Toast.makeText(convertView.getContext(), "" + packedName + "", Toast.LENGTH_SHORT);
                 listTempGrid.add(new UsageRowItem(packedName, total, day));
             }
         }
         finally {
             data.close();
+        }
+        for (Iterator<TasksModel> iterator = listTasks.iterator(); iterator.hasNext(); ) {
+            int value = iterator.next().getSeconds();
+            if (value == 0) {
+                iterator.remove();
+            }
+        }
+        for (int i = 0; i < listTempGrid.size(); i++) {
+            if (listTasks.get(position).getPackageName().equals(listTempGrid.get(i).getPackedName())) {
+                TasksModel task = db.getTask(listTempGrid.get(i).getPackedName());
+                if (task.getSeconds() == 0) {
+                    listTasks.remove(task);
+                }
+            }
         }
         final RecyclerView recyclerView = (RecyclerView) convertView.findViewById(R.id.recyclerview_id);
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(mContext,listTempGrid,mDay,listTasks);
