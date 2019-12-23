@@ -14,7 +14,7 @@ import com.hanks.passcodeview.PasscodeView;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.utils.SharedPreference;
 
-public class PasswordSelectLockActivity extends AppCompatActivity {
+public class CheckPasswordkActivity extends AppCompatActivity {
     SharedPreference sharedPreference;
     Context context;
     public static boolean check = true;
@@ -39,26 +39,28 @@ public class PasswordSelectLockActivity extends AppCompatActivity {
         }
         sharedPreference = new SharedPreference();
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_passcode2);
+        setContentView(R.layout.activity_check_password);
         PasscodeView passcodeView = (PasscodeView) findViewById(R.id.passcodeView);
+        passcodeView.setLocalPasscode(sharedPreference.getPasswordApp(this));
         passcodeView.setListener(new PasscodeView.PasscodeViewListener() {
             @Override
             public void onFail() {
-                Toast.makeText(getApplication(), getResources().getString(R.string.text_compare_input_password), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), getResources().getString(R.string.wrong_check_input_password), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSuccess(String number) {
-                sharedPreference.savePasswordApp(PasswordSelectLockActivity.this, number);
-                Toast.makeText(getApplication(), getResources().getString(R.string.text_complete_input_first_password), Toast.LENGTH_SHORT).show();
-                onBackPressed();
+                Intent intent = new Intent(CheckPasswordkActivity.this, PasswordChangeLockActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
         });
     }
 
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent(PasswordSelectLockActivity.this, SettingsActivity.class);
+        Intent intent = new Intent(CheckPasswordkActivity.this, SettingsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

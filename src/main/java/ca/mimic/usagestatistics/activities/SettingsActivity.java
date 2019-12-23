@@ -473,6 +473,7 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 startActivity(new Intent(mContext, PasswordSelectLockActivity.class));
+                                finish();
                             }
                         })
                 .setCancelable(false)
@@ -740,7 +741,7 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
                             new Preference.OnPreferenceClickListener() {
                                 @Override
                                 public boolean onPreferenceClick(Preference preference) {
-                                    Intent intent = new Intent(mContext, PasswordSelectLockActivity.class);
+                                    Intent intent = new Intent(mContext, CheckPasswordkActivity.class);
                                     startActivity(intent);
                                     return false;
                                 }

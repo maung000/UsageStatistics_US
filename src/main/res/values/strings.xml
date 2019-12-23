@@ -293,4 +293,16 @@
         <item>Dark</item>
     </string-array>
     <string name="pref_title_about">About</string>
+
+    <string name="wrong_check_input_password">Mật khẩu nhập không trùng khớp. Vui lòng nhập lại!</string>
+    <string name="correct_check_input_password">Mật khẩu nhập đúng</string>
+    <string name="text_input_password_now">Nhập password hiện tại của bạn:</string>
+    <string name="text_complete_input_new_password">Tạo mật khẩu mới thành công</string>
+    <string name="text_compare_input_password">Mật khẩu không giống nhau. Vui lòng nhập lại!</string>
+    <string name="text_complete_input_first_password">Tạo mật khẩu thành công</string>
+    <string name="text_input_first_password">Nhập password gồm 4 chữ số:</string>
+    <string name="text_input_first_password_again">Nhập lại password của bạn</string>
+    <string name="text_input_new_password">Nhập password mới gồm 4 chữ số:</string>
+    <string name="text_input_new_password_again">Nhập lại password mới của bạn:</string>
+
 </resources>

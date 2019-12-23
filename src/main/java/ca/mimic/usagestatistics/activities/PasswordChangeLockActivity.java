@@ -14,7 +14,7 @@ import com.hanks.passcodeview.PasscodeView;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.utils.SharedPreference;
 
-public class PasswordSelectLockActivity extends AppCompatActivity {
+public class PasswordChangeLockActivity extends AppCompatActivity {
     SharedPreference sharedPreference;
     Context context;
     public static boolean check = true;
@@ -39,7 +39,7 @@ public class PasswordSelectLockActivity extends AppCompatActivity {
         }
         sharedPreference = new SharedPreference();
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_passcode2);
+        setContentView(R.layout.activity_change_password);
         PasscodeView passcodeView = (PasscodeView) findViewById(R.id.passcodeView);
         passcodeView.setListener(new PasscodeView.PasscodeViewListener() {
             @Override
@@ -49,8 +49,8 @@ public class PasswordSelectLockActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(String number) {
-                sharedPreference.savePasswordApp(PasswordSelectLockActivity.this, number);
-                Toast.makeText(getApplication(), getResources().getString(R.string.text_complete_input_first_password), Toast.LENGTH_SHORT).show();
+                sharedPreference.savePasswordApp(PasswordChangeLockActivity.this, number);
+                Toast.makeText(getApplication(), getResources().getString(R.string.text_complete_input_new_password), Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }
         });
@@ -58,7 +58,7 @@ public class PasswordSelectLockActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent(PasswordSelectLockActivity.this, SettingsActivity.class);
+        Intent intent = new Intent(PasswordChangeLockActivity.this, SettingsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
