@@ -50,11 +50,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import ca.mimic.usagestatistics.adapters.BootStartBroadcastReceiver;
+import ca.mimic.usagestatistics.activities.SettingsActivity;
 import ca.mimic.usagestatistics.database.DBUsage;
 import ca.mimic.usagestatistics.IWatchfulService;
 import ca.mimic.usagestatistics.R;
-import ca.mimic.usagestatistics.activities.Settings;
 import ca.mimic.usagestatistics.database.TasksDataSource;
 import ca.mimic.usagestatistics.utils.Tools;
 import ca.mimic.usagestatistics.utils.Tools.TaskInfo;
@@ -203,7 +202,7 @@ public class WatchfulService extends Service {
             startForeground(2, notification);
         }
         // Check if action is a Multiple page trigger
-        if (intent != null && intent.getAction() != null && intent.getAction().equals(Settings.MORE_APPS_ACTION)) {
+        if (intent != null && intent.getAction() != null && intent.getAction().equals(SettingsActivity.MORE_APPS_ACTION)) {
             moreAppsPage = moreAppsPage + 1;
             createNotification();
             return START_STICKY;
@@ -235,7 +234,7 @@ public class WatchfulService extends Service {
         if (isToggled) {
             Tools.USLog("buildReorderAndLaunch isToggled");
             // Grab new taskList and check if this is a new install
-            taskList = Tools.buildTaskList(getApplicationContext(), db, Settings.TASKLIST_QUEUE_LIMIT);
+            taskList = Tools.buildTaskList(getApplicationContext(), db, SettingsActivity.TASKLIST_QUEUE_LIMIT);
             Tools.USLog("BaseTask 0: " + taskList.get(0).packageName);
             Tools.USLog("BaseTask size: " + taskList.size());
             // TODO: This needs to be more elegant for L...
@@ -246,7 +245,7 @@ public class WatchfulService extends Service {
                 } else {
                     buildBaseTasks();
                 }
-                taskList = Tools.buildTaskList(getApplicationContext(), db, Settings.TASKLIST_QUEUE_LIMIT);
+                taskList = Tools.buildTaskList(getApplicationContext(), db, SettingsActivity.TASKLIST_QUEUE_LIMIT);
             }
             reorderAndLaunch();
         }
@@ -328,8 +327,8 @@ public class WatchfulService extends Service {
                     boolean newActivity = false;
                     boolean recentTasksEmpty = true;
 
-                    boolean isToggled = prefs.getBoolean(Settings.TOGGLE_PREFERENCE, Settings.TOGGLE_DEFAULT);
-                    boolean smartNotification = prefs.getBoolean(Settings.SMART_NOTIFICATION_PREFERENCE, Settings.SMART_NOTIFICATION_DEFAULT);
+                    boolean isToggled = prefs.getBoolean(SettingsActivity.TOGGLE_PREFERENCE, SettingsActivity.TOGGLE_DEFAULT);
+                    boolean smartNotification = prefs.getBoolean(SettingsActivity.SMART_NOTIFICATION_PREFERENCE, SettingsActivity.SMART_NOTIFICATION_DEFAULT);
 
                     final Context context = getApplicationContext();
 
@@ -417,7 +416,7 @@ public class WatchfulService extends Service {
 
 //                        if (runningTaskLauncher || (isLollipop && runningTaskLauncherL)) {
 //                            if (!isToggled && isAppsWidget()) {
-//                                taskList = Tools.buildTaskList(getApplicationContext(), db, Settings.TASKLIST_QUEUE_LIMIT);
+//                                taskList = Tools.buildTaskList(getApplicationContext(), db, SettingsActivity.TASKLIST_QUEUE_LIMIT);
 //                                reorderAndLaunch(true);
 //                            }
 //                            runningTask = new TaskInfo(taskPackage);
@@ -456,7 +455,7 @@ public class WatchfulService extends Service {
                     }
 
                     buildTaskInfo(isLollipop ? lTaskClass : taskClass, isLollipop ? lTaskPackage : taskPackage);
-                    dbUsage = new DBUsage(context, "Usage.sqlite", null, 1);
+                    dbUsage = new DBUsage(context, "UsageFragment.sqlite", null, 1);
                     if (isLollipop) {
                         if (newActivity) {
                             int activityDelta = (int) Math.ceil(lollipopTaskInfo.timeInFGDelta / 1000);
@@ -545,11 +544,11 @@ public class WatchfulService extends Service {
 
     protected void reorderAndLaunch(boolean isWidget) {
         Tools.USLog("reorderAndLaunch taskList.size(): " + taskList.size() + " isWidget: " + isWidget);
-        boolean weightedRecents = prefs.getBoolean(Settings.WEIGHTED_RECENTS_PREFERENCE,
-                Settings.WEIGHTED_RECENTS_DEFAULT);
-        boolean isToggled = prefs.getBoolean(Settings.TOGGLE_PREFERENCE, Settings.TOGGLE_DEFAULT);
-        int weightPriority = Integer.parseInt(prefs.getString(Settings.WEIGHT_PRIORITY_PREFERENCE,
-                Integer.toString(Settings.WEIGHT_PRIORITY_DEFAULT)));
+        boolean weightedRecents = prefs.getBoolean(SettingsActivity.WEIGHTED_RECENTS_PREFERENCE,
+                SettingsActivity.WEIGHTED_RECENTS_DEFAULT);
+        boolean isToggled = prefs.getBoolean(SettingsActivity.TOGGLE_PREFERENCE, SettingsActivity.TOGGLE_DEFAULT);
+        int weightPriority = Integer.parseInt(prefs.getString(SettingsActivity.WEIGHT_PRIORITY_PREFERENCE,
+                Integer.toString(SettingsActivity.WEIGHT_PRIORITY_DEFAULT)));
         if (weightedRecents) {
             taskList = new Tools().reorderTasks(taskList, db, weightPriority);
         }
@@ -564,24 +563,24 @@ public class WatchfulService extends Service {
     }
 
     public void updatePrefs() {
-        contLayout = prefs.getBoolean(Settings.ROW_DIVIDER_PREFERENCE, Settings.ROW_DIVIDER_DEFAULT) ?
+        contLayout = prefs.getBoolean(SettingsActivity.ROW_DIVIDER_PREFERENCE, SettingsActivity.ROW_DIVIDER_DEFAULT) ?
                 getResources().getIdentifier("notification", "layout", taskPackage) :
                 getResources().getIdentifier("notification_no_dividers", "layout", taskPackage);
-        rowLayout = prefs.getBoolean(Settings.DIVIDER_PREFERENCE, Settings.DIVIDER_DEFAULT) ?
+        rowLayout = prefs.getBoolean(SettingsActivity.DIVIDER_PREFERENCE, SettingsActivity.DIVIDER_DEFAULT) ?
                 getResources().getIdentifier("notification_row", "layout", taskPackage) :
                 getResources().getIdentifier("notification_row_no_dividers", "layout", taskPackage);
 
-        numOfApps = Integer.parseInt(prefs.getString(Settings.APPSNO_PREFERENCE, Integer.toString(Settings.APPSNO_DEFAULT)));
+        numOfApps = Integer.parseInt(prefs.getString(SettingsActivity.APPSNO_PREFERENCE, Integer.toString(SettingsActivity.APPSNO_DEFAULT)));
         if (Tools.isLollipop(true)) {
-            setPriority = Settings.PRIORITY_ON_L_DEFAULT;
+            setPriority = SettingsActivity.PRIORITY_ON_L_DEFAULT;
         } else {
-            setPriority = Integer.parseInt(prefs.getString(Settings.PRIORITY_PREFERENCE, Integer.toString(Settings.PRIORITY_DEFAULT)));
+            setPriority = Integer.parseInt(prefs.getString(SettingsActivity.PRIORITY_PREFERENCE, Integer.toString(SettingsActivity.PRIORITY_DEFAULT)));
         }
-        secondRow = prefs.getBoolean(Settings.SECOND_ROW_PREFERENCE, Settings.SECOND_ROW_DEFAULT);
-        moreApps = prefs.getBoolean(Settings.MORE_APPS_PREFERENCE, Settings.MORE_APPS_DEFAULT);
-        moreAppsPages = Integer.parseInt(prefs.getString(Settings.MORE_APPS_PAGES_PREFERENCE, Integer.toString(Settings.MORE_APPS_PAGES_DEFAULT)));
-        iconSize = Integer.parseInt(prefs.getString(Settings.ICON_SIZE_PREFERENCE, Integer.toString(Settings.ICON_SIZE_DEFAULT)));
-        notificationBg = prefs.getString(Settings.NOTIFICATION_BG_PREFERENCE, Settings.NOTIFICATION_BG_DEFAULT_VALUE);
+        secondRow = prefs.getBoolean(SettingsActivity.SECOND_ROW_PREFERENCE, SettingsActivity.SECOND_ROW_DEFAULT);
+        moreApps = prefs.getBoolean(SettingsActivity.MORE_APPS_PREFERENCE, SettingsActivity.MORE_APPS_DEFAULT);
+        moreAppsPages = Integer.parseInt(prefs.getString(SettingsActivity.MORE_APPS_PAGES_PREFERENCE, Integer.toString(SettingsActivity.MORE_APPS_PAGES_DEFAULT)));
+        iconSize = Integer.parseInt(prefs.getString(SettingsActivity.ICON_SIZE_PREFERENCE, Integer.toString(SettingsActivity.ICON_SIZE_DEFAULT)));
+        notificationBg = prefs.getString(SettingsActivity.NOTIFICATION_BG_PREFERENCE, SettingsActivity.NOTIFICATION_BG_DEFAULT_VALUE);
 
         itemLayout = R.layout.notification_item;
 
@@ -591,7 +590,7 @@ public class WatchfulService extends Service {
             itemLayout = R.layout.notification_item_large;
         }
 
-        mIcon = prefs.getString(Settings.STATUSBAR_ICON_PREFERENCE, Settings.STATUSBAR_ICON_DEFAULT);
+        mIcon = prefs.getString(SettingsActivity.STATUSBAR_ICON_PREFERENCE, SettingsActivity.STATUSBAR_ICON_DEFAULT);
         Tools.USLog("mIcon: " + mIcon);
 
     }
@@ -663,7 +662,7 @@ public class WatchfulService extends Service {
 //        maxButtons = numOfApps;
 //
 //        int iconCacheCount = (maxButtons * (secondRow ? 2 : 1));
-//        appDrawer.setCount(iconCacheCount, Settings.CACHED_NOTIFICATION_ICON_LIMIT, secondRow);
+//        appDrawer.setCount(iconCacheCount, SettingsActivity.CACHED_NOTIFICATION_ICON_LIMIT, secondRow);
 //
 //        ArrayList<TaskInfo> pageList;
 //
@@ -728,7 +727,7 @@ public class WatchfulService extends Service {
 //            }
 //        }
 //
-//        if (!notificationBg.equals(Settings.NOTIFICATION_BG_DEFAULT_VALUE)) {
+//        if (!notificationBg.equals(SettingsActivity.NOTIFICATION_BG_DEFAULT_VALUE)) {
 //            customNotifView.setInt(R.id.notifContainer, "setBackgroundColor",
 //                    Color.parseColor(notificationBg));
 //        }
@@ -741,7 +740,7 @@ public class WatchfulService extends Service {
 //        }
 //
 //        // Set statusbar icon
-//        int smallIcon = iconMap.get(Settings.STATUSBAR_ICON_WHITE);
+//        int smallIcon = iconMap.get(SettingsActivity.STATUSBAR_ICON_WHITE);
 //        try {
 //            smallIcon = iconMap.get(mIcon);
 //        } catch (NullPointerException e) {

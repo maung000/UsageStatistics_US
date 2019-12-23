@@ -18,7 +18,7 @@
  *
  */
 
-package ca.mimic.usagestatistics.adapters;
+package ca.mimic.usagestatistics.services;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,7 +26,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 
-import ca.mimic.usagestatistics.activities.Settings;
+import ca.mimic.usagestatistics.activities.SettingsActivity;
 import ca.mimic.usagestatistics.utils.Tools;
 import ca.mimic.usagestatistics.services.WatchfulService;
 
@@ -40,7 +40,7 @@ public class BootStartBroadcastReceiver extends BroadcastReceiver {
             action = arg1.getAction();
         } catch (Exception e) {
         }
-        if ((action.equals(Tools.BOOT_ACTION) && prefs.getBoolean(Settings.BOOT_PREFERENCE, Settings.BOOT_DEFAULT)) ||
+        if ((action.equals(Tools.BOOT_ACTION) && prefs.getBoolean(SettingsActivity.BOOT_PREFERENCE, SettingsActivity.BOOT_DEFAULT)) ||
                 action.equals(Tools.REPLACE_ACTION) || action.equals(Tools.REFRESH_ACTION)) {
             Intent intent = new Intent(context, WatchfulService.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -49,7 +49,7 @@ public class BootStartBroadcastReceiver extends BroadcastReceiver {
                 context.startService(intent);
             }
         } else {
-            Tools.USLog("Start on boot [" + prefs.getBoolean(Settings.BOOT_PREFERENCE, Settings.BOOT_DEFAULT) + "] or Notification disabled [" + prefs.getBoolean(Settings.TOGGLE_PREFERENCE, Settings.TOGGLE_DEFAULT) + "]");
+            Tools.USLog("Start on boot [" + prefs.getBoolean(SettingsActivity.BOOT_PREFERENCE, SettingsActivity.BOOT_DEFAULT) + "] or Notification disabled [" + prefs.getBoolean(SettingsActivity.TOGGLE_PREFERENCE, SettingsActivity.TOGGLE_DEFAULT) + "]");
         }
     }
 }

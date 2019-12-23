@@ -29,7 +29,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 
-import ca.mimic.usagestatistics.activities.Settings;
+import ca.mimic.usagestatistics.activities.SettingsActivity;
 import ca.mimic.usagestatistics.utils.Tools;
 
 public class IconHelper {
@@ -58,7 +58,7 @@ public class IconHelper {
                 Tools.USLog("Loading new IconCacheHelper instance");
             }
             iconPackIcon = ich.getFullResIcon(rInfo);
-            cachedIconString = IconCacheHelper.preloadComponent(mContext, componentTask, Tools.drawableToBitmap(iconPackIcon), Tools.dpToPx(mContext, Settings.CACHED_ICON_SIZE));
+            cachedIconString = IconCacheHelper.preloadComponent(mContext, componentTask, Tools.drawableToBitmap(iconPackIcon), Tools.dpToPx(mContext, SettingsActivity.CACHED_ICON_SIZE));
 
         }
         taskIcon.setImageURI(Uri.parse(cachedIconString));
@@ -74,14 +74,14 @@ public class IconHelper {
                 ich = new IconCacheHelper(mContext);
                 Tools.USLog("Loading new IconCacheHelper instance");
             }
-            if (!resourceName.equals(Settings.MORE_APPS_PACKAGE)) {
+            if (!resourceName.equals(SettingsActivity.MORE_APPS_PACKAGE)) {
                 Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(resourceName);
                 ResolveInfo rInfo = mContext.getPackageManager().resolveActivity(intent, 0);
                 if (rInfo == null)
                     return null;
 
                 iconPackIcon = new IconCacheHelper(mContext).getFullResIcon(rInfo.activityInfo, true);
-                IconCacheHelper.preloadIcon(mContext, resourceName, Tools.drawableToBitmap(iconPackIcon), Tools.dpToPx(mContext, Settings.CACHED_ICON_SIZE));
+                IconCacheHelper.preloadIcon(mContext, resourceName, Tools.drawableToBitmap(iconPackIcon), Tools.dpToPx(mContext, SettingsActivity.CACHED_ICON_SIZE));
             }
 
         }
@@ -107,7 +107,7 @@ public class IconHelper {
                 Tools.USLog("Loading new IconCacheHelper instance");
             }
             iconPackIcon = ich.getFullResIcon(rInfo);
-            IconCacheHelper.preloadComponent(mContext, componentTask, Tools.drawableToBitmap(iconPackIcon), Tools.dpToPx(mContext, Settings.CACHED_ICON_SIZE));
+            IconCacheHelper.preloadComponent(mContext, componentTask, Tools.drawableToBitmap(iconPackIcon), Tools.dpToPx(mContext, SettingsActivity.CACHED_ICON_SIZE));
 
         }
         if (iconPackIcon == null) {

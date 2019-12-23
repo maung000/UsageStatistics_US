@@ -1,12 +1,12 @@
 package ca.mimic.usagestatistics.models;
 
 
-public class UsageRowItem {
+public class UsageRowItemModel {
     private String mDay;
     private String packedName;
     private long timeUsage;
 
-    public UsageRowItem(String packedName, long timeUsage, String mDay) {
+    public UsageRowItemModel(String packedName, long timeUsage, String mDay) {
         this.packedName = packedName;
         this.timeUsage = timeUsage;
         this.mDay = mDay;

@@ -28,10 +28,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import ca.mimic.usagestatistics.activities.Settings;
+import ca.mimic.usagestatistics.activities.SettingsActivity;
 import ca.mimic.usagestatistics.BuildConfig;
 import ca.mimic.usagestatistics.database.TasksDataSource;
-import ca.mimic.usagestatistics.models.AppsRowItem;
+import ca.mimic.usagestatistics.models.AppsRowItemModel;
 import ca.mimic.usagestatistics.models.TasksModel;
 
 public class Tools {
@@ -64,7 +64,7 @@ public class Tools {
 
     public ArrayList<String> getPinned(Context context) {
         SharedPreferences settingsPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS);
-        String pinnedApps = settingsPrefs.getString(Settings.PINNED_APPS, "");
+        String pinnedApps = settingsPrefs.getString(SettingsActivity.PINNED_APPS, "");
 
         return new ArrayList<String>(Arrays.asList(pinnedApps.split(" ")));
     }
@@ -86,7 +86,7 @@ public class Tools {
             pinnedApps.append(packageName);
         }
 
-        settingsEditor.putString(Settings.PINNED_APPS, pinnedApps.toString().trim());
+        settingsEditor.putString(SettingsActivity.PINNED_APPS, pinnedApps.toString().trim());
         settingsEditor.commit();
 
     }
@@ -103,7 +103,7 @@ public class Tools {
 
     public ArrayList<String> getLock(Context context) {
         SharedPreferences settingsPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS);
-        String lockApps = settingsPrefs.getString(Settings.LOCKED_APPS, "");
+        String lockApps = settingsPrefs.getString(SettingsActivity.LOCKED_APPS, "");
 
         return new ArrayList<String>(Arrays.asList(lockApps.split(" ")));
     }
@@ -125,7 +125,7 @@ public class Tools {
             lockApps.append(packageName);
         }
 
-        settingsEditor.putString(Settings.LOCKED_APPS, lockApps.toString().trim());
+        settingsEditor.putString(SettingsActivity.LOCKED_APPS, lockApps.toString().trim());
         settingsEditor.commit();
 
     }
@@ -296,7 +296,7 @@ public class Tools {
         return lollipopTaskInfo;
     }
 
-    public static class AddAppComparator implements Comparator<AppsRowItem> {
+    public static class AddAppComparator implements Comparator<AppsRowItemModel> {
         final int ALPHABETICAL = 1;
 
         final int PINNED = 0;
@@ -307,7 +307,7 @@ public class Tools {
         }
 
         @Override
-        public int compare(AppsRowItem r1, AppsRowItem r2) {
+        public int compare(AppsRowItemModel r1, AppsRowItemModel r2) {
             int firstCompare = 0;
             switch (mAddAppType) {
                 case ALPHABETICAL:
@@ -319,7 +319,7 @@ public class Tools {
         }
     }
 
-    public static class AppRowComparator implements Comparator<AppsRowItem> {
+    public static class AppRowComparator implements Comparator<AppsRowItemModel> {
         final int TIME_SPENT = 0;
         final int ALPHABETICAL = 1;
 
@@ -330,7 +330,7 @@ public class Tools {
         }
 
         @Override
-        public int compare(AppsRowItem r1, AppsRowItem r2) {
+        public int compare(AppsRowItemModel r1, AppsRowItemModel r2) {
             int firstCompare = 0;
 
             switch (mAppRowType) {
@@ -512,19 +512,19 @@ public class Tools {
         SharedPreferences settingsPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS);
         SharedPreferences widgetPrefs = context.getSharedPreferences("AppsWidget", Context.MODE_MULTI_PROCESS);
 
-        boolean weightedRecents = widgetPrefs.getBoolean(Settings.WEIGHTED_RECENTS_PREFERENCE,
-                Settings.WEIGHTED_RECENTS_DEFAULT);
-        int weightPriority = Integer.parseInt(widgetPrefs.getString(Settings.WEIGHT_PRIORITY_PREFERENCE,
-                Integer.toString(Settings.WEIGHT_PRIORITY_DEFAULT)));
+        boolean weightedRecents = widgetPrefs.getBoolean(SettingsActivity.WEIGHTED_RECENTS_PREFERENCE,
+                SettingsActivity.WEIGHTED_RECENTS_DEFAULT);
+        int weightPriority = Integer.parseInt(widgetPrefs.getString(SettingsActivity.WEIGHT_PRIORITY_PREFERENCE,
+                Integer.toString(SettingsActivity.WEIGHT_PRIORITY_DEFAULT)));
 
-        boolean wR = settingsPrefs.getBoolean(Settings.WEIGHTED_RECENTS_PREFERENCE,
-                Settings.WEIGHTED_RECENTS_DEFAULT);
-        int wP = Integer.parseInt(settingsPrefs.getString(Settings.WEIGHT_PRIORITY_PREFERENCE,
-                Integer.toString(Settings.WEIGHT_PRIORITY_DEFAULT)));
+        boolean wR = settingsPrefs.getBoolean(SettingsActivity.WEIGHTED_RECENTS_PREFERENCE,
+                SettingsActivity.WEIGHTED_RECENTS_DEFAULT);
+        int wP = Integer.parseInt(settingsPrefs.getString(SettingsActivity.WEIGHT_PRIORITY_PREFERENCE,
+                Integer.toString(SettingsActivity.WEIGHT_PRIORITY_DEFAULT)));
 
         USLog("reorderWidgetTasks wR: " + wR + " wP: " + wP + " weightPriority: " + weightPriority + " weightedRecents: " + weightedRecents);
         if ((weightedRecents && !wR) || (weightedRecents && wP != weightPriority)) {
-            ArrayList<TaskInfo> appList = buildTaskList(context, db, Settings.TASKLIST_QUEUE_LIMIT);
+            ArrayList<TaskInfo> appList = buildTaskList(context, db, SettingsActivity.TASKLIST_QUEUE_LIMIT);
             new Tools().reorderTasks(appList, db, weightPriority, true);
         } else {
             db.blankOrder(true);
@@ -569,8 +569,8 @@ public class Tools {
         ArrayList<String> pinnedApps = new ArrayList<String>();
 
         SharedPreferences settingsPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS);
-        int pinnedSort = Integer.parseInt(settingsPrefs.getString(Settings.PINNED_SORT_PREFERENCE, Integer.toString(Settings.PINNED_SORT_DEFAULT)));
-        boolean ignorePinned = settingsPrefs.getBoolean(Settings.IGNORE_PINNED_PREFERENCE, Settings.IGNORE_PINNED_DEFAULT);
+        int pinnedSort = Integer.parseInt(settingsPrefs.getString(SettingsActivity.PINNED_SORT_PREFERENCE, Integer.toString(SettingsActivity.PINNED_SORT_DEFAULT)));
+        boolean ignorePinned = settingsPrefs.getBoolean(SettingsActivity.IGNORE_PINNED_PREFERENCE, SettingsActivity.IGNORE_PINNED_DEFAULT);
 
         if (!ignorePinned)
             pinnedApps = new Tools().getPinned(context);
@@ -625,7 +625,7 @@ public class Tools {
     public ArrayList<Tools.TaskInfo> addMoreAppsButton(ArrayList<Tools.TaskInfo> taskList, int count) {
         USLog("addMoreAppsButton: taskList.size(): " + taskList.size() + " count: " + count);
 
-        Tools.TaskInfo moreAppsTask = new TaskInfo(Settings.MORE_APPS_PACKAGE);
+        Tools.TaskInfo moreAppsTask = new TaskInfo(SettingsActivity.MORE_APPS_PACKAGE);
 
         if (count >= taskList.size()) {
             taskList.add(moreAppsTask);
@@ -645,10 +645,10 @@ public class Tools {
             pageList = new ArrayList<TaskInfo>(pageListOrig);
 
         SharedPreferences settingsPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS);
-        int pinnedPlacement = Integer.parseInt(settingsPrefs.getString(Settings.PINNED_PLACEMENT_PREFERENCE, Integer.toString(Settings.PINNED_PLACEMENT_DEFAULT)));
+        int pinnedPlacement = Integer.parseInt(settingsPrefs.getString(SettingsActivity.PINNED_PLACEMENT_PREFERENCE, Integer.toString(SettingsActivity.PINNED_PLACEMENT_DEFAULT)));
 
         if (pinnedList.size() > 0) {
-            if (pinnedPlacement == Settings.PINNED_PLACEMENT_LEFT) {
+            if (pinnedPlacement == SettingsActivity.PINNED_PLACEMENT_LEFT) {
                 pinnedList.addAll(pageList);
                 if (moreApps)
                     pinnedList = new Tools().addMoreAppsButton(pinnedList, count - 1);

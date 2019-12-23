@@ -41,7 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-import ca.mimic.usagestatistics.activities.Settings;
+import ca.mimic.usagestatistics.activities.SettingsActivity;
 import ca.mimic.usagestatistics.utils.Tools;
 
 public class IconCacheHelper {
@@ -69,12 +69,12 @@ public class IconCacheHelper {
 
     private void loadIconPack() {
         mIconPackHelper.unloadIconPack();
-        Settings.PrefsGet prefs = new Settings.PrefsGet(mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_MULTI_PROCESS));
+        SettingsActivity.PrefsGet prefs = new SettingsActivity.PrefsGet(mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_MULTI_PROCESS));
         SharedPreferences mPrefs = prefs.prefsGet();
-        String iconPack = mPrefs.getString(Settings.ICON_PACK_PREFERENCE, "");
+        String iconPack = mPrefs.getString(SettingsActivity.ICON_PACK_PREFERENCE, "");
         if (!TextUtils.isEmpty(iconPack) && !mIconPackHelper.loadIconPack(iconPack)) {
             SharedPreferences.Editor mEditor = prefs.editorGet();
-            mEditor.putString(Settings.ICON_PACK_PREFERENCE, "");
+            mEditor.putString(SettingsActivity.ICON_PACK_PREFERENCE, "");
             mEditor.apply();
         }
     }

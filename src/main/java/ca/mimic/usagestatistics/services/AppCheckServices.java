@@ -47,7 +47,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
-import ca.mimic.usagestatistics.activities.Settings;
+import ca.mimic.usagestatistics.activities.SettingsActivity;
 import ca.mimic.usagestatistics.database.DBUsage;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.utils.Tools;
@@ -86,7 +86,7 @@ public class AppCheckServices extends Service implements View.OnClickListener {
 
 
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        dbUsage = new DBUsage(context, "Usage.sqlite", null, 1);
+        dbUsage = new DBUsage(context, "UsageFragment.sqlite", null, 1);
 
         imageView = new ImageView(this);
         imageView.setVisibility(View.GONE);
@@ -568,7 +568,7 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                                                     sharedPreference.addLocked(context, packedName2);
                                                     ActivityManager mActivityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
                                                     mActivityManager.killBackgroundProcesses(packedName2);
-                                                    Intent dialogIntent = new Intent(this, Settings.class);
+                                                    Intent dialogIntent = new Intent(this, SettingsActivity.class);
                                                     dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     startActivity(dialogIntent);
                                                 }
@@ -599,7 +599,7 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                                                                 sharedPreference.addLocked(context, packedName2);
                                                                 ActivityManager mActivityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
                                                                 mActivityManager.killBackgroundProcesses(packedName2);
-                                                                Intent dialogIntent = new Intent(this, Settings.class);
+                                                                Intent dialogIntent = new Intent(this, SettingsActivity.class);
                                                                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                 startActivity(dialogIntent);
 

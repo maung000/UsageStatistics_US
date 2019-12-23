@@ -38,14 +38,14 @@ import ca.mimic.usagestatistics.database.DBUsage;
 import ca.mimic.usagestatistics.database.TasksDataSource;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.models.TasksModel;
-import ca.mimic.usagestatistics.models.UsageDay;
-import ca.mimic.usagestatistics.models.UsageRowItem;
+import ca.mimic.usagestatistics.models.UsageDayModel;
+import ca.mimic.usagestatistics.models.UsageRowItemModel;
 import ca.mimic.usagestatistics.utils.helper.IconHelper;
 
 public class UsageRowAdapter extends BaseAdapter {
     Context mContext;
-    List<UsageRowItem> mRowItems;
-    List<UsageDay> mDay;
+    List<UsageRowItemModel> mRowItems;
+    List<UsageDayModel> mDay;
     IconHelper ih;
     boolean completeRedraw = false;
     List<TasksModel> listTasks;
@@ -54,7 +54,7 @@ public class UsageRowAdapter extends BaseAdapter {
 
 
 
-    public UsageRowAdapter(Context context, List<UsageRowItem> rowItems,List<UsageDay> mDay,List<TasksModel> listTasks) {
+    public UsageRowAdapter(Context context, List<UsageRowItemModel> rowItems, List<UsageDayModel> mDay, List<TasksModel> listTasks) {
         mContext = context;
         this.mDay = mDay;
         mRowItems = rowItems;
@@ -91,17 +91,17 @@ public class UsageRowAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        List<UsageRowItem> listTempGrid = new ArrayList<>();
-        UsageDay usageDay = mDay.get(position);
+        List<UsageRowItemModel> listTempGrid = new ArrayList<>();
+        UsageDayModel usageDay = mDay.get(position);
         String dayTemp = usageDay.getmDay();
-        dbUsage = new DBUsage(convertView.getContext(), "Usage.sqlite", null, 1);
+        dbUsage = new DBUsage(convertView.getContext(), "UsageFragment.sqlite", null, 1);
         Cursor data = dbUsage.GetData("SELECT TENPK,(SUM(TIME)) as TIME,LASTTIME  FROM USAGE_DAY_US WHERE LASTTIME = '"+dayTemp +"' GROUP BY TENPK ");
         try {
             while (data.moveToNext()) {
                 String packedName = data.getString(0);
                 long total = data.getLong(1);
                 String day = data.getString(2);
-                listTempGrid.add(new UsageRowItem(packedName, total, day));
+                listTempGrid.add(new UsageRowItemModel(packedName, total, day));
             }
         }
         finally {
@@ -113,11 +113,13 @@ public class UsageRowAdapter extends BaseAdapter {
                 iterator.remove();
             }
         }
-        for (int i = 0; i < listTempGrid.size(); i++) {
-            if (listTasks.get(position).getPackageName().equals(listTempGrid.get(i).getPackedName())) {
-                TasksModel task = db.getTask(listTempGrid.get(i).getPackedName());
-                if (task.getSeconds() == 0) {
-                    listTasks.remove(task);
+        if(listTempGrid.size()>0 && listTasks.size()>0) {
+            for (int i = 0; i < listTempGrid.size(); i++) {
+                if (listTasks.get(position).getPackageName().equals(listTempGrid.get(i).getPackedName())) {
+                    TasksModel task = db.getTask(listTempGrid.get(i).getPackedName());
+                    if (task.getSeconds() == 0) {
+                        listTasks.remove(task);
+                    }
                 }
             }
         }

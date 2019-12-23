@@ -1,10 +1,10 @@
 package ca.mimic.usagestatistics.models;
 
 
-public class UsageDay {
+public class UsageDayModel {
     private String mDay;
 
-    public UsageDay(String mDay) {
+    public UsageDayModel(String mDay) {
         this.mDay = mDay;
     }
 

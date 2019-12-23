@@ -37,7 +37,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 import ca.mimic.usagestatistics.R;
 
 
-public class Instructions extends Activity {
+public class InstructionsActivity extends Activity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
 

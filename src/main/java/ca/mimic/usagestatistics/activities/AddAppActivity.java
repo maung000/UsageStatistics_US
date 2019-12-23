@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ca.mimic.usagestatistics.adapters.ProcessListAdapter;
-import ca.mimic.usagestatistics.models.AppsRowItem;
+import ca.mimic.usagestatistics.models.AppsRowItemModel;
 import ca.mimic.usagestatistics.IWatchfulService;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.utils.Tools;
@@ -48,7 +48,7 @@ import ca.mimic.usagestatistics.database.TasksDataSource;
 import ca.mimic.usagestatistics.models.TasksModel;
 import ca.mimic.usagestatistics.services.WatchfulService;
 
-public class AddApp extends Activity implements ActionBar.TabListener {
+public class AddAppActivity extends Activity implements ActionBar.TabListener {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -62,8 +62,8 @@ public class AddApp extends Activity implements ActionBar.TabListener {
 
     final static String ADDAPP_SORT_PREFERENCE = "addapp_sort_preference";
 
-    protected static AddApp mInstance;
-    protected static AppsRowItem mIconTask;
+    protected static AddAppActivity mInstance;
+    protected static AppsRowItemModel mIconTask;
     protected static boolean isBound = false;
 
     static ProcessListAdapter mProcessListAdapter;
@@ -317,7 +317,7 @@ public class AddApp extends Activity implements ActionBar.TabListener {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                Intent intent = new Intent(this, Settings.class);
+                Intent intent = new Intent(this, SettingsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 return true;
@@ -487,7 +487,7 @@ public class AddApp extends Activity implements ActionBar.TabListener {
 
             Runnable runnable = new Runnable() {
                 public void run() {
-                    List<AppsRowItem> appTasks = createAppTasks();
+                    List<AppsRowItemModel> appTasks = createAppTasks();
                     if (appTasks == null)
                         return;
 
@@ -500,7 +500,7 @@ public class AddApp extends Activity implements ActionBar.TabListener {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            final AppsRowItem rowItem = (AppsRowItem) parent.getItemAtPosition(position);
+            final AppsRowItemModel rowItem = (AppsRowItemModel) parent.getItemAtPosition(position);
 
 
             Boolean isPinned = rowItem.getPinned();
@@ -513,7 +513,7 @@ public class AddApp extends Activity implements ActionBar.TabListener {
 
     }
 
-    public static List<AppsRowItem> createAppTasks() {
+    public static List<AppsRowItemModel> createAppTasks() {
         db = TasksDataSource.getInstance(mContext);
         db.open();
         int highestSeconds;
@@ -523,10 +523,10 @@ public class AddApp extends Activity implements ActionBar.TabListener {
             tasks = db.getAllTasks();
         } catch (Exception e) {
             Tools.USLog("createAppTasks exception: " + e);
-            return new ArrayList<AppsRowItem>();
+            return new ArrayList<AppsRowItemModel>();
         }
 
-        List<AppsRowItem> appTasks = new ArrayList<AppsRowItem>();
+        List<AppsRowItemModel> appTasks = new ArrayList<AppsRowItemModel>();
 
         for (TasksModel task : tasks) {
             try {
@@ -552,16 +552,16 @@ public class AddApp extends Activity implements ActionBar.TabListener {
     }
 
     public void updateRowItems() {
-        List<AppsRowItem> appList = mProcessListAdapter.mRowItems;
-        List<AppsRowItem> newAppList = new ArrayList<AppsRowItem>();
+        List<AppsRowItemModel> appList = mProcessListAdapter.mRowItems;
+        List<AppsRowItemModel> newAppList = new ArrayList<AppsRowItemModel>();
 
         db = TasksDataSource.getInstance(mContext);
         db.open();
         int highestSeconds = db.getHighestSeconds();
         db.close();
 
-        for (AppsRowItem item : appList) {
-            AppsRowItem newItem = createAppRowItem(item, highestSeconds);
+        for (AppsRowItemModel item : appList) {
+            AppsRowItemModel newItem = createAppRowItem(item, highestSeconds);
             newAppList.add(newItem);
         }
 
@@ -569,8 +569,8 @@ public class AddApp extends Activity implements ActionBar.TabListener {
         updateListView(false);
     }
 
-    public static AppsRowItem createAppRowItem(TasksModel task, int highestSeconds) {
-        AppsRowItem appTask = new AppsRowItem(task);
+    public static AppsRowItemModel createAppRowItem(TasksModel task, int highestSeconds) {
+        AppsRowItemModel appTask = new AppsRowItemModel(task);
         float secondsRatio = (float) task.getSeconds() / highestSeconds;
 
         ComponentName componentTask = ComponentName.unflattenFromString(task.getPackageName() + "/" + task.getClassName());

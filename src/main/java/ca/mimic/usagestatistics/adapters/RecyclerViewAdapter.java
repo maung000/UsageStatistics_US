@@ -19,12 +19,12 @@ import ca.mimic.usagestatistics.utils.helper.IconHelper;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.database.TasksDataSource;
 import ca.mimic.usagestatistics.models.TasksModel;
-import ca.mimic.usagestatistics.models.UsageDay;
-import ca.mimic.usagestatistics.models.UsageRowItem;
+import ca.mimic.usagestatistics.models.UsageDayModel;
+import ca.mimic.usagestatistics.models.UsageRowItemModel;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
-    private List<UsageRowItem> listDayUsed;
-    private List<UsageDay> mDay;
+    private List<UsageRowItemModel> listDayUsed;
+    private List<UsageDayModel> mDay;
     private boolean completeRedraw = false;
     private Context mContext;
     private IconHelper ih;
@@ -33,7 +33,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private int sizeList = 0;
 
 
-    RecyclerViewAdapter(Context context, List<UsageRowItem> usageList, List<UsageDay> mDay, List<TasksModel> listTasks) {
+    RecyclerViewAdapter(Context context, List<UsageRowItemModel> usageList, List<UsageDayModel> mDay, List<TasksModel> listTasks) {
         listDayUsed = usageList;
         mContext = context;
         this.mDay = mDay;

@@ -13,18 +13,18 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ca.mimic.usagestatistics.models.AppsRowItem;
+import ca.mimic.usagestatistics.models.AppsRowItemModel;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.utils.helper.IconHelper;
 
 public class ProcessListAdapter extends BaseAdapter {
     final int taskNameColor = 0xFFBBBBBB;
     Context mContext;
-    public List<AppsRowItem> mRowItems;
+    public List<AppsRowItemModel> mRowItems;
     IconHelper ih;
     boolean completeRedraw = false;
 
-    public ProcessListAdapter(Context context, List<AppsRowItem> rowItems) {
+    public ProcessListAdapter(Context context, List<AppsRowItemModel> rowItems) {
         mContext = context;
         mRowItems = rowItems;
         ih = new IconHelper(context);
@@ -44,7 +44,7 @@ public class ProcessListAdapter extends BaseAdapter {
 
         ViewHolder holder;
 
-        AppsRowItem rowItem = (AppsRowItem) getItem(position);
+        AppsRowItemModel rowItem = (AppsRowItemModel) getItem(position);
 
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)

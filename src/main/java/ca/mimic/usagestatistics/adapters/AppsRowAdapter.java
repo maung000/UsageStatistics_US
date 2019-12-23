@@ -35,7 +35,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ca.mimic.usagestatistics.models.AppsRowItem;
+import ca.mimic.usagestatistics.models.AppsRowItemModel;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.utils.helper.IconHelper;
 
@@ -43,11 +43,11 @@ public class AppsRowAdapter extends BaseAdapter {
     final int taskNameColor = 0xFFBBBBBB;
 
     Context mContext;
-    public List<AppsRowItem> mRowItems;
+    public List<AppsRowItemModel> mRowItems;
     IconHelper ih;
     boolean completeRedraw = false;
 
-    public AppsRowAdapter(Context context, List<AppsRowItem> rowItems) {
+    public AppsRowAdapter(Context context, List<AppsRowItemModel> rowItems) {
         mContext = context;
         mRowItems = rowItems;
         ih = new IconHelper(context);
@@ -69,7 +69,7 @@ public class AppsRowAdapter extends BaseAdapter {
 
         ViewHolder holder;
 
-        AppsRowItem rowItem = (AppsRowItem) getItem(position);
+        AppsRowItemModel rowItem = (AppsRowItemModel) getItem(position);
 
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater)

@@ -13,7 +13,7 @@ import com.hanks.passcodeview.PasscodeView;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.utils.SharedPreference;
 
-public class PasswordSelectLock extends AppCompatActivity {
+public class PasswordSelectLockActivity extends AppCompatActivity {
     SharedPreference sharedPreference;
     Context context;
     public static boolean check = true;
@@ -48,7 +48,7 @@ public class PasswordSelectLock extends AppCompatActivity {
 
             @Override
             public void onSuccess(String number) {
-                sharedPreference.savePasswordApp(PasswordSelectLock.this, number);
+                sharedPreference.savePasswordApp(PasswordSelectLockActivity.this, number);
                 Toast.makeText(getApplication(), "Tạo mật khẩu thành công", Toast.LENGTH_SHORT).show();
                 onBackPressed();
             }

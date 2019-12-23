@@ -54,9 +54,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import ca.mimic.usagestatistics.models.AppsRowItem;
+import ca.mimic.usagestatistics.activities.SettingsActivity;
+import ca.mimic.usagestatistics.models.AppsRowItemModel;
 import ca.mimic.usagestatistics.R;
-import ca.mimic.usagestatistics.activities.Settings;
 import ca.mimic.usagestatistics.utils.Tools;
 
 public class IconPackHelper {
@@ -78,9 +78,9 @@ public class IconPackHelper {
     private String mLoadedIconPackName;
     private Resources mLoadedIconPackResource;
 
-    protected static Settings mActivity;
-    protected static AppsRowItem mTask;
-    protected static Settings.PrefsGet prefs;
+    protected static SettingsActivity mActivity;
+    protected static AppsRowItemModel mTask;
+    protected static SettingsActivity.PrefsGet prefs;
 
     IconPackHelper(Context context) {
         mContext = context;
@@ -88,11 +88,11 @@ public class IconPackHelper {
 
     }
 
-    public static void setActivity(Settings activity) {
+    public static void setActivity(SettingsActivity activity) {
         mActivity = activity;
     }
 
-    public static void setTask(AppsRowItem task) {
+    public static void setTask(AppsRowItemModel task) {
         mTask = task;
     }
 
@@ -123,7 +123,7 @@ public class IconPackHelper {
         Intent i = new Intent();
         Map<String, IconPackInfo> packages = new HashMap<String, IconPackInfo>();
         PackageManager packageManager = context.getPackageManager();
-        i.setAction(Settings.ACTION_ADW_PICK_ICON);
+        i.setAction(SettingsActivity.ACTION_ADW_PICK_ICON);
         for (ResolveInfo r : packageManager.queryIntentActivities(i, 0)) {
             IconPackInfo info = new IconPackInfo(r, packageManager);
             packages.put(r.activityInfo.packageName, info);
@@ -334,12 +334,12 @@ public class IconPackHelper {
 
     public static IconPackInfo installNewPack(Context context) {
         try {
-            Intent intent = context.getPackageManager().getLaunchIntentForPackage(Settings.PLAY_STORE_PACKAGENAME);
+            Intent intent = context.getPackageManager().getLaunchIntentForPackage(SettingsActivity.PLAY_STORE_PACKAGENAME);
             ResolveInfo rInfo = context.getPackageManager().resolveActivity(intent, 0);
 
             Drawable icon = new IconCacheHelper(context).getFullResIcon(rInfo);
             String label = context.getResources().getString(R.string.title_icon_pack_install);
-            return new IconPackInfo(label, icon, Settings.PLAY_STORE_PACKAGENAME);
+            return new IconPackInfo(label, icon, SettingsActivity.PLAY_STORE_PACKAGENAME);
         } catch (Exception e) {
             return null;
         }
@@ -365,56 +365,56 @@ public class IconPackHelper {
             public void onClick(DialogInterface dialog, int position) {
 
                 /*String selectedPackage = adapter.getItem(position);
-                if (isPicker && !selectedPackage.equals(Settings.PLAY_STORE_PACKAGENAME)) {
+                if (isPicker && !selectedPackage.equals(SettingsActivity.PLAY_STORE_PACKAGENAME)) {
                     if (mTask != null && selectedPackage.equals(mTask.getPackageName())) {
                         ComponentName componentName = ComponentName.unflattenFromString(mTask.getPackageName() + "/" + mTask.getClassName());
-                        Settings.resetIconComponent(componentName);
+                        SettingsActivity.resetIconComponent(componentName);
                         return;
                     } else if (moreAppIcon && position == 0) {
-                        Settings.resetIconCache(Settings.MORE_APPS_PACKAGE);
+                        SettingsActivity.resetIconCache(SettingsActivity.MORE_APPS_PACKAGE);
                         return;
                     }
 
                     try {
                         Intent intent = new Intent();
                         intent.setPackage(selectedPackage);
-                        intent.setAction(Settings.ACTION_ADW_PICK_ICON);
+                        intent.setAction(SettingsActivity.ACTION_ADW_PICK_ICON);
                         mActivity.startActivityForResult(intent, moreAppIcon ? 2 : 1);
                     } catch (Exception e) {
                         Tools.USLog("Change icon intent failed! " + e + " : " + selectedPackage);
                     }
                     return;
                 }
-                prefs = new Settings.PrefsGet(context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS));
+                prefs = new SettingsActivity.PrefsGet(context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS));
                 SharedPreferences.Editor mEditor = prefs.editorGet();
 
                 Tools.USLog("selectedPAckage: " + selectedPackage);
-                if (selectedPackage.equals(Settings.PLAY_STORE_PACKAGENAME)) {
+                if (selectedPackage.equals(SettingsActivity.PLAY_STORE_PACKAGENAME)) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(Settings.PLAY_STORE_SEARCH_URI));
+                    intent.setData(Uri.parse(SettingsActivity.PLAY_STORE_SEARCH_URI));
 
                     context.startActivity(intent);
                     return;
                 }
-                mEditor.putString(Settings.ICON_PACK_PREFERENCE, selectedPackage);
+                mEditor.putString(SettingsActivity.ICON_PACK_PREFERENCE, selectedPackage);
                 mEditor.apply();
 
                 // Deleting cached icons
                 File[] files = context.getCacheDir().listFiles();
                 for (File file : files) {
-                    if (file.toString().contains(IconCacheHelper.getResourceName(Settings.MORE_APPS_PACKAGE)))
+                    if (file.toString().contains(IconCacheHelper.getResourceName(SettingsActivity.MORE_APPS_PACKAGE)))
                         continue;
                     file.delete();
                 }
 
-                Settings.iconPackUpdate.iconPackUpdated();*/
+                SettingsActivity.iconPackUpdate.iconPackUpdated();*/
             }
         });
 
         if (isPicker) {
             boolean needsWarning = true;
             String alertTxt;
-            String selectedPackage = prefs.prefsGet().getString(Settings.ICON_PACK_PREFERENCE, null);
+            String selectedPackage = prefs.prefsGet().getString(SettingsActivity.ICON_PACK_PREFERENCE, null);
 
             if (selectedPackage == null || selectedPackage.isEmpty()) {
                 alertTxt = context.getString(R.string.title_icon_pack_no_single_picks);
@@ -539,9 +539,9 @@ public class IconPackHelper {
                 mSupportedPackages.add(installNew);
 
 
-            prefs = new Settings.PrefsGet(context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS));
+            prefs = new SettingsActivity.PrefsGet(context.getSharedPreferences(context.getPackageName(), Context.MODE_MULTI_PROCESS));
             SharedPreferences mPrefs = prefs.prefsGet();
-            mCurrentIconPack = mPrefs.getString(Settings.ICON_PACK_PREFERENCE, "");
+            mCurrentIconPack = mPrefs.getString(SettingsActivity.ICON_PACK_PREFERENCE, "");
         }
 
         @Override

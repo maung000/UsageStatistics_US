@@ -70,7 +70,7 @@ import android.widget.Toast;
 //import com.github.omadahealth.lollipin.lib.managers.AppLock;
 
 import ca.mimic.usagestatistics.adapters.AppsRowAdapter;
-import ca.mimic.usagestatistics.fragments.Usage;
+import ca.mimic.usagestatistics.fragments.UsageFragment;
 import ca.mimic.usagestatistics.IWatchfulService;
 import ca.mimic.usagestatistics.R;
 import ca.mimic.usagestatistics.services.AppCheckServices;
@@ -80,11 +80,11 @@ import ca.mimic.usagestatistics.utils.helper.IconHelper;
 import ca.mimic.usagestatistics.utils.SharedPreference;
 import ca.mimic.usagestatistics.database.DBUsage;
 import ca.mimic.usagestatistics.database.TasksDataSource;
-import ca.mimic.usagestatistics.models.AppsRowItem;
+import ca.mimic.usagestatistics.models.AppsRowItemModel;
 import ca.mimic.usagestatistics.models.TasksModel;
 import ca.mimic.usagestatistics.services.WatchfulService;
 
-public class Settings extends Activity implements ActionBar.TabListener {
+public class SettingsActivity extends Activity implements ActionBar.TabListener {
 
 
     SectionsPagerAdapter mSectionsPagerAdapter;
@@ -126,8 +126,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
     public final static int REQUEST_FIRST_RUN_PIN = 0;
 
 
-    protected static Settings mInstance;
-    protected static AppsRowItem mIconTask;
+    protected static SettingsActivity mInstance;
+    protected static AppsRowItemModel mIconTask;
     protected static boolean isBound = false;
     protected static boolean mLaunchedPaypal = false;
     protected static Display display;
@@ -271,7 +271,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
         }
 
         if (Build.VERSION.SDK_INT >= 23) {
-            if (!android.provider.Settings.canDrawOverlays(Settings.this)) {
+            if (!android.provider.Settings.canDrawOverlays(SettingsActivity.this)) {
                 Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                         Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, 1234);
@@ -355,7 +355,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
             isBound = false;
         }
         // Khóa ứng dụng
-        dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+        dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
         Calendar c = Calendar.getInstance();
         int thisyear = c.get(Calendar.YEAR);
         int thismonth = (c.get(Calendar.MONTH) + 1);
@@ -455,7 +455,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
     }
 
     protected void launchInstructions() {
-        startActivity(new Intent(mContext, Instructions.class));
+        startActivity(new Intent(mContext, InstructionsActivity.class));
     }
 
 
@@ -472,7 +472,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(mContext, PasswordSelectLock.class));
+                                startActivity(new Intent(mContext, PasswordSelectLockActivity.class));
                             }
                         })
                 .setCancelable(false)
@@ -724,7 +724,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                         new Preference.OnPreferenceClickListener() {
                             @Override
                             public boolean onPreferenceClick(Preference preference) {
-                                Intent intent = new Intent(mContext, AddApp.class);
+                                Intent intent = new Intent(mContext, AddAppActivity.class);
                                 startActivity(intent);
                                 return false;
                             }
@@ -740,7 +740,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                             new Preference.OnPreferenceClickListener() {
                                 @Override
                                 public boolean onPreferenceClick(Preference preference) {
-                                    Intent intent = new Intent(mContext, PasswordSelectLock.class);
+                                    Intent intent = new Intent(mContext, PasswordSelectLockActivity.class);
                                     startActivity(intent);
                                     return false;
                                 }
@@ -852,7 +852,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
             if (mAppRowAdapter == null)
                 return;
 
-            List<AppsRowItem> mRowItems = createAppTasks();
+            List<AppsRowItemModel> mRowItems = createAppTasks();
             if (mAppRowAdapter.mRowItems.size() != mRowItems.size()) {
                 mAppRowAdapter.mRowItems = createAppTasks();
                 updateListView(true);
@@ -963,7 +963,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
             Runnable runnable = new Runnable() {
                 public void run() {
-                    List<AppsRowItem> appTasks = createAppTasks();
+                    List<AppsRowItemModel> appTasks = createAppTasks();
                     if (appTasks == null)
                         return;
 
@@ -977,7 +977,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            final AppsRowItem rowItem = (AppsRowItem) parent.getItemAtPosition(position);
+            final AppsRowItemModel rowItem = (AppsRowItemModel) parent.getItemAtPosition(position);
 
             sharedPreference = new SharedPreference();
 
@@ -985,7 +985,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
             popup.getMenuInflater().inflate(R.menu.app_action, popup.getMenu());
             final MenuItem lockItem = popup.getMenu().getItem(2);
 
-//            final PasswordSelectLock passwordSelectLock = new PasswordSelectLock();
+//            final PasswordSelectLockActivity passwordSelectLock = new PasswordSelectLockActivity();
 
             if (rowItem.getLocked()) {
                 lockItem.setTitle(R.string.action_unlock);
@@ -1010,11 +1010,11 @@ public class Settings extends Activity implements ActionBar.TabListener {
                                 new Tools().toggleLock(mContext, rowItem.getPackageName(), prefs.editorGet());
                                 sharedPreference.removeLocked(mContext, rowItem.getPackageName());
                                 lockItem.setTitle(R.string.action_lock);
-                                dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+                                dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
                                 dbUsage.QueryData("DELETE FROM LOCK_TIME WHERE TENPK = '" + rowItem.getPackageName() + "'");
                                 dbUsage.close();
                                 mContext.stopService(intentAppCheckServices);
-//                                Intent intent = new Intent(mContext, PasswordSelectLock.class);
+//                                Intent intent = new Intent(mContext, PasswordSelectLockActivity.class);
 //                                intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
 ////                                startActivityForResult(intent, REQUEST_CODE_ENABLE);
 //                                startActivity(intent);
@@ -1023,7 +1023,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 //                                    rowItem.setLocked(!isLock);
 //                                    new Tools().toggleLock(mContext, rowItem.getPackageName(), prefs.editorGet());
 //                                    sharedPreference.removeLocked(mContext, rowItem.getPackageName());
-//                                    dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+//                                    dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
 //                                    dbUsage.QueryData("DELETE FROM LOCK_TIME WHERE TENPK = '" + rowItem.getPackageName() + "'");
 //                                    dbUsage.close();
 //                                }
@@ -1037,7 +1037,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                             rowItem.setStats(null);
                             rowItem.setBarContWidth(0);
                             db.resetTaskStats(rowItem);
-                            dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+                            dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
                             dbUsage.QueryData("DELETE FROM USAGE_DAY_US WHERE TENPK = '" + rowItem.getPackageName() + "'");
 
                             dbUsage.close();
@@ -1057,7 +1057,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
     static TimePickerDialog picker;
 
-    public static void DialogLockTime(final String packedName, final AppsRowItem rowItem, final boolean isLock, final Intent intentAppCheckServices) {
+    public static void DialogLockTime(final String packedName, final AppsRowItemModel rowItem, final boolean isLock, final Intent intentAppCheckServices) {
         final Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_time_lock);
@@ -1103,7 +1103,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                     rowItem.setLocked(!isLock);
                     new Tools().toggleLock(mContext, rowItem.getPackageName(), prefs.editorGet());
 
-                    dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+                    dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
 
                     dbUsage.QueryData("CREATE TABLE IF NOT EXISTS LOCK_TIME (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME_LOCK INTEGER)");
                     dbUsage.QueryData("INSERT INTO LOCK_TIME VALUES(null,'" + packedName + "','" + seconds + "')");
@@ -1156,7 +1156,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
 
                 dayStart = Get_day(edtdayStart);
                 dayEnd = Get_day(edtdayEnd);
-                dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+                dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
                 Cursor data = dbUsage.GetData("SELECT SUM(TIME) FROM USAGE_DAY_US WHERE TENPK ='" + packedName + "' AND LASTTIME >= '" + dayStart + "' AND LASTTIME <= '" + dayEnd + "'");
                 try {
                     while (data.moveToNext()) {
@@ -1198,7 +1198,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
     }
 
 
-    public static List<AppsRowItem> createAppTasks() {
+    public static List<AppsRowItemModel> createAppTasks() {
         db = TasksDataSource.getInstance(mContext);
         db.open();
         int highestSeconds;
@@ -1211,8 +1211,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
             ArrayList<String> pinnedApps = new ArrayList<String>();
 
             SharedPreferences settingsPrefs = mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_MULTI_PROCESS);
-            int pinnedSort = Integer.parseInt(settingsPrefs.getString(Settings.PINNED_SORT_PREFERENCE, Integer.toString(Settings.PINNED_SORT_DEFAULT)));
-            boolean ignorePinned = settingsPrefs.getBoolean(Settings.IGNORE_PINNED_PREFERENCE, Settings.IGNORE_PINNED_DEFAULT);
+            int pinnedSort = Integer.parseInt(settingsPrefs.getString(SettingsActivity.PINNED_SORT_PREFERENCE, Integer.toString(SettingsActivity.PINNED_SORT_DEFAULT)));
+            boolean ignorePinned = settingsPrefs.getBoolean(SettingsActivity.IGNORE_PINNED_PREFERENCE, SettingsActivity.IGNORE_PINNED_DEFAULT);
 
             if (!ignorePinned)
                 pinnedApps = new Tools().getPinned(mContext);
@@ -1221,10 +1221,10 @@ public class Settings extends Activity implements ActionBar.TabListener {
             //
         } catch (Exception e) {
             Tools.USLog("createAppTasks exception: " + e);
-            return new ArrayList<AppsRowItem>();
+            return new ArrayList<AppsRowItemModel>();
         }
 
-        List<AppsRowItem> appTasks = new ArrayList<AppsRowItem>();
+        List<AppsRowItemModel> appTasks = new ArrayList<AppsRowItemModel>();
 
         for (TasksModel task : tasks) {
             try {
@@ -1250,16 +1250,16 @@ public class Settings extends Activity implements ActionBar.TabListener {
     }
 
     public void updateRowItems() {
-        List<AppsRowItem> appList = mAppRowAdapter.mRowItems;
-        List<AppsRowItem> newAppList = new ArrayList<AppsRowItem>();
+        List<AppsRowItemModel> appList = mAppRowAdapter.mRowItems;
+        List<AppsRowItemModel> newAppList = new ArrayList<AppsRowItemModel>();
 
         db = TasksDataSource.getInstance(mContext);
         db.open();
         int highestSeconds = db.getHighestSeconds();
         db.close();
 
-        for (AppsRowItem item : appList) {
-            AppsRowItem newItem = createAppRowItem(item, highestSeconds);
+        for (AppsRowItemModel item : appList) {
+            AppsRowItemModel newItem = createAppRowItem(item, highestSeconds);
             newAppList.add(newItem);
         }
 
@@ -1267,8 +1267,8 @@ public class Settings extends Activity implements ActionBar.TabListener {
         updateListView(false);
     }
 
-    public static AppsRowItem createAppRowItem(TasksModel task, int highestSeconds) {
-        AppsRowItem appTask = new AppsRowItem(task);
+    public static AppsRowItemModel createAppRowItem(TasksModel task, int highestSeconds) {
+        AppsRowItemModel appTask = new AppsRowItemModel(task);
         float secondsRatio = (float) task.getSeconds() / highestSeconds;
 
         int barColor;
@@ -1313,7 +1313,7 @@ public class Settings extends Activity implements ActionBar.TabListener {
                 case SETTING_TAB:
                     return PrefsFragment.newInstance(R.layout.setting);
                 case USAGE_TAB:
-                    return Usage.newInstance();
+                    return UsageFragment.newInstance();
                 case APPS_TAB: {
                     return AppsFragment.newInstance();
                 }

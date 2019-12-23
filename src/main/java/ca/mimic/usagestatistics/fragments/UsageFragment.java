@@ -18,37 +18,37 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import ca.mimic.usagestatistics.activities.SettingsActivity;
 import ca.mimic.usagestatistics.adapters.UsageRowAdapter;
 import ca.mimic.usagestatistics.R;
-import ca.mimic.usagestatistics.activities.Settings;
 import ca.mimic.usagestatistics.utils.Tools;
 import ca.mimic.usagestatistics.database.DBUsage;
 import ca.mimic.usagestatistics.database.TasksDataSource;
 import ca.mimic.usagestatistics.models.TasksModel;
-import ca.mimic.usagestatistics.models.UsageDay;
-import ca.mimic.usagestatistics.models.UsageRowItem;
+import ca.mimic.usagestatistics.models.UsageDayModel;
+import ca.mimic.usagestatistics.models.UsageRowItemModel;
 
 
-public class Usage extends Fragment {
+public class UsageFragment extends Fragment {
     static ListView lv;
     static Context mContext;
     static boolean completeRedraw;
     static TasksDataSource db;
     static DBUsage dbUsage;
     static ListView lvThongKe;
-    static List<UsageRowItem> arrayListUsage;
-    static List<UsageDay> arrayListDay;
+    static List<UsageRowItemModel> arrayListUsage;
+    static List<UsageDayModel> arrayListDay;
     static UsageRowAdapter adapter;
     static List<TasksModel> listTasks;
-    static Usage mInstance;
+    static UsageFragment mInstance;
     private boolean shouldRefreshOnResume = false;
 
     public static Fragment newInstance() {
 
-        return new Usage();
+        return new UsageFragment();
     }
 
-    public Usage() {
+    public UsageFragment() {
     }
 
     @Override
@@ -74,8 +74,8 @@ public class Usage extends Fragment {
             ArrayList<String> pinnedApps = new ArrayList<String>();
 
             SharedPreferences settingsPrefs = view.getContext().getSharedPreferences(view.getContext().getPackageName(), Context.MODE_MULTI_PROCESS);
-            int pinnedSort = Integer.parseInt(settingsPrefs.getString(Settings.PINNED_SORT_PREFERENCE, Integer.toString(Settings.PINNED_SORT_DEFAULT)));
-            boolean ignorePinned = settingsPrefs.getBoolean(Settings.IGNORE_PINNED_PREFERENCE, Settings.IGNORE_PINNED_DEFAULT);
+            int pinnedSort = Integer.parseInt(settingsPrefs.getString(SettingsActivity.PINNED_SORT_PREFERENCE, Integer.toString(SettingsActivity.PINNED_SORT_DEFAULT)));
+            boolean ignorePinned = settingsPrefs.getBoolean(SettingsActivity.IGNORE_PINNED_PREFERENCE, SettingsActivity.IGNORE_PINNED_DEFAULT);
 
             if (!ignorePinned)
                 pinnedApps = new Tools().getPinned(view.getContext());
@@ -99,7 +99,7 @@ public class Usage extends Fragment {
         db.close();
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
+        dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
         dbUsage.QueryData("CREATE TABLE IF NOT EXISTS USAGE_DAY_US (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME INTEGER,LASTTIME VARCHAR(100))");
 
         Cursor data = dbUsage.GetData("SELECT * FROM USAGE_DAY_US ");
@@ -109,7 +109,7 @@ public class Usage extends Fragment {
                 long total = data.getLong(2);
                 String lastime = data.getString(3);
                 if(total != 0) {
-                    arrayListUsage.add(new UsageRowItem(packedName, total, lastime));
+                    arrayListUsage.add(new UsageRowItemModel(packedName, total, lastime));
                 }
             }
         } finally {
@@ -119,7 +119,7 @@ public class Usage extends Fragment {
         try {
             while (data1.moveToNext()) {
                 String lastime = data1.getString(0);
-                arrayListDay.add(new UsageDay(lastime));
+                arrayListDay.add(new UsageDayModel(lastime));
 
             }
         } finally {
