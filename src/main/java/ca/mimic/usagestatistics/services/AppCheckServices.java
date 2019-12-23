@@ -82,11 +82,11 @@ public class AppCheckServices extends Service implements View.OnClickListener {
             pakageName = sharedPreference.getLocked(context);
         }
         timer = new Timer("AppCheckServices");
-        timer.schedule(updateTask, 1000L, 1000L);
+        timer.schedule(updateTask, 0, 5000L);
 
 
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        dbUsage = new DBUsage(context, "UsageFragment.sqlite", null, 1);
+        dbUsage = new DBUsage(context, "Usage.sqlite", null, 1);
 
         imageView = new ImageView(this);
         imageView.setVisibility(View.GONE);
@@ -113,6 +113,7 @@ public class AppCheckServices extends Service implements View.OnClickListener {
     private TimerTask updateTask = new TimerTask() {
         @Override
         public void run() {
+            Log.d("<<<<<<<<<<<<","Run service");
             if (sharedPreference != null) {
                 pakageName = sharedPreference.getLocked(context);
             }
@@ -120,7 +121,9 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                 if (imageView != null) {
                     imageView.post(new Runnable() {
                         public void run() {
+                            Log.d("<<<<<<<<<<<<","Run service 1");
                             if (!currentApp.matches(previousApp)) {
+                                Log.d("<<<<<<<<<<<<","Run service 2");
                                 showUnlockDialog();
                                 previousApp = currentApp;
                             }
@@ -164,11 +167,11 @@ public class AppCheckServices extends Service implements View.OnClickListener {
     private ImageView iv_lock, iv_ok;
     private View cursor;
 
-    private String firstInputTip = "Enter a passcode of 4 digits";
+    private String firstInputTip = "Nhập password gồm 4 chữ số:";
     private String secondInputTip = "Re-enter new passcode";
     private String wrongLengthTip = "Enter a passcode of 4 digits";
-    private String wrongInputTip = "Passcode do not match";
-    private String correctInputTip = "Passcode is correct";
+    private String wrongInputTip = "Mật khẩu không đúng";
+    private String correctInputTip = "Mật khẩu nhập đúng";
 
     private int passcodeLength = 4;
     private int correctStatusColor = 0xFF61C560; //0xFFFF0000
@@ -400,8 +403,8 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                                         super.onAnimationEnd(animation);
                                         if (listener != null) {
                                             listener.onSuccess(getPasscodeFromView());
-                                            dialog.dismiss();
                                         }
+                                        dialog.dismiss();
                                     }
                                 }).start();
                     }
@@ -493,7 +496,8 @@ public class AppCheckServices extends Service implements View.OnClickListener {
          */
         return START_STICKY;
     }
-
+    static Tools.LollipopTaskInfo lollipopTaskInfo;
+    static int timeLock = 0;
     public boolean isConcernedAppIsInForeground() {
         ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> task = manager.getRunningTasks(5);
@@ -554,6 +558,17 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                         try {
                             while (data.moveToNext()) {
                                 String packedName1 = data.getString(0);
+                                if(lollipopTaskInfo!=null) {
+                                    int activityDelta = (int) Math.ceil(lollipopTaskInfo.timeInFGDelta / 1000);
+                                    timeLock += activityDelta;
+                                } else {
+                                    List<UsageStats> listStat = Tools.getUsageStats(context);
+                                    if (listStat.size() == 0) {
+                                        // Either no permission or nothing new.  Move along
+                                        return false;
+                                    }
+                                    lollipopTaskInfo = Tools.parseUsageStats(listStats, lollipopTaskInfo);
+                                }
                                 long total = data.getLong(1);
                                 dbUsage.QueryData("CREATE TABLE IF NOT EXISTS LOCK_TIME (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME_LOCK INTEGER)");
                                 if (getLocked == null || getLocked.size() == 0) {
@@ -564,7 +579,7 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                                             String packedName2 = data2.getString(1);
                                             long lock_time = data2.getLong(2);
                                             if (packedName2.equals(packedName1)) {
-                                                if (lock_time < total) {
+                                                if (lock_time < total|lock_time<timeLock) {
                                                     sharedPreference.addLocked(context, packedName2);
                                                     ActivityManager mActivityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
                                                     mActivityManager.killBackgroundProcesses(packedName2);
@@ -595,7 +610,7 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                                                             }
                                                         }
                                                         if (!check) {
-                                                            if (lock_time < total) {
+                                                            if (lock_time < total || lock_time<timeLock) {
                                                                 sharedPreference.addLocked(context, packedName2);
                                                                 ActivityManager mActivityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
                                                                 mActivityManager.killBackgroundProcesses(packedName2);

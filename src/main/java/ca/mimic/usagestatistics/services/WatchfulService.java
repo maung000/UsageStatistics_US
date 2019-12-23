@@ -449,13 +449,15 @@ public class WatchfulService extends Service {
                                 db.addSeconds(taskPackage, runningTask.seconds);
                                 runningTask.totalseconds += runningTask.seconds;
                                 runningTask.seconds = 0;
+                                Log.d("<<<<<<<<<<<<<<<<<<", "Time : " + runningTask.totalseconds);
+
                             }
                         }
                         return;
                     }
 
                     buildTaskInfo(isLollipop ? lTaskClass : taskClass, isLollipop ? lTaskPackage : taskPackage);
-                    dbUsage = new DBUsage(context, "UsageFragment.sqlite", null, 1);
+                    dbUsage = new DBUsage(context, "Usage.sqlite", null, 1);
                     if (isLollipop) {
                         if (newActivity) {
                             int activityDelta = (int) Math.ceil(lollipopTaskInfo.timeInFGDelta / 1000);
@@ -464,8 +466,7 @@ public class WatchfulService extends Service {
                             if (activityDelta > 0) {
 
                                 db.addSeconds(lollipopTaskInfo.lastPackageName, activityDelta);
-                                Log.d("<<<<<<<<<<<<", "Insert OK");
-
+                                Log.d("<<<<<<<<<<<<<<<<<<", "Time : " + activityDelta);
                                 dbUsage.QueryData("INSERT INTO USAGE_DAY_US VALUES(null,'" + lollipopTaskInfo.lastPackageName + "','" + activityDelta + "','" + lollipopTaskInfo.lastDay + "')");
 
                             }

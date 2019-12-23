@@ -94,7 +94,7 @@ public class UsageRowAdapter extends BaseAdapter {
         List<UsageRowItemModel> listTempGrid = new ArrayList<>();
         UsageDayModel usageDay = mDay.get(position);
         String dayTemp = usageDay.getmDay();
-        dbUsage = new DBUsage(convertView.getContext(), "UsageFragment.sqlite", null, 1);
+        dbUsage = new DBUsage(convertView.getContext(), "Usage.sqlite", null, 1);
         Cursor data = dbUsage.GetData("SELECT TENPK,(SUM(TIME)) as TIME,LASTTIME  FROM USAGE_DAY_US WHERE LASTTIME = '"+dayTemp +"' GROUP BY TENPK ");
         try {
             while (data.moveToNext()) {

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,6 +43,7 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -64,6 +66,7 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -355,7 +358,7 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
             isBound = false;
         }
         // Khóa ứng dụng
-        dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
+        dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
         Calendar c = Calendar.getInstance();
         int thisyear = c.get(Calendar.YEAR);
         int thismonth = (c.get(Calendar.MONTH) + 1);
@@ -849,7 +852,6 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
 
         public void onResume() {
             super.onResume();
-
             if (mAppRowAdapter == null)
                 return;
 
@@ -869,9 +871,7 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
         @Override
         public void onStart() {
             super.onStart();
-
         }
-
 
         public void buildList() {
             Runnable runnable = new Runnable() {
@@ -965,7 +965,7 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
             Runnable runnable = new Runnable() {
                 public void run() {
                     List<AppsRowItemModel> appTasks = createAppTasks();
-                    if (appTasks == null)
+                    if (appTasks == null||appTasks.size()==0)
                         return;
 
                     mAppRowAdapter = new AppsRowAdapter(mContext, appTasks);
@@ -1011,7 +1011,7 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
                                 new Tools().toggleLock(mContext, rowItem.getPackageName(), prefs.editorGet());
                                 sharedPreference.removeLocked(mContext, rowItem.getPackageName());
                                 lockItem.setTitle(R.string.action_lock);
-                                dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
+                                dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
                                 dbUsage.QueryData("DELETE FROM LOCK_TIME WHERE TENPK = '" + rowItem.getPackageName() + "'");
                                 dbUsage.close();
                                 mContext.stopService(intentAppCheckServices);
@@ -1038,7 +1038,7 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
                             rowItem.setStats(null);
                             rowItem.setBarContWidth(0);
                             db.resetTaskStats(rowItem);
-                            dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
+                            dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
                             dbUsage.QueryData("DELETE FROM USAGE_DAY_US WHERE TENPK = '" + rowItem.getPackageName() + "'");
 
                             dbUsage.close();
@@ -1063,7 +1063,7 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_time_lock);
 
-        final EditText edtAppLockTime = (EditText) dialog.findViewById(R.id.lock_hour_time);
+        final TextView edtAppLockTime = (TextView) dialog.findViewById(R.id.lock_hour_time);
         edtAppLockTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1104,7 +1104,7 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
                     rowItem.setLocked(!isLock);
                     new Tools().toggleLock(mContext, rowItem.getPackageName(), prefs.editorGet());
 
-                    dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
+                    dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
 
                     dbUsage.QueryData("CREATE TABLE IF NOT EXISTS LOCK_TIME (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME_LOCK INTEGER)");
                     dbUsage.QueryData("INSERT INTO LOCK_TIME VALUES(null,'" + packedName + "','" + seconds + "')");
@@ -1126,15 +1126,16 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
 
     }
 
+    // Item Usage
     public static void DialogCalculate(final String packedName) {
         Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_statitics);
 
 
-        final EditText edtdayStart = (EditText) dialog.findViewById(R.id.dayStart);
-        final EditText edtdayEnd = (EditText) dialog.findViewById(R.id.dayEnd);
-        final EditText edtCalculate = (EditText) dialog.findViewById(R.id.sum_time);
+        final TextView edtdayStart = (TextView) dialog.findViewById(R.id.dayStart);
+        final TextView edtdayEnd = (TextView) dialog.findViewById(R.id.dayEnd);
+        final TextView edtCalculate = (TextView) dialog.findViewById(R.id.sum_time);
         final Button buttonUsage = (Button) dialog.findViewById(R.id.btn_statitic);
 
         edtdayStart.setOnClickListener(new View.OnClickListener() {
@@ -1157,31 +1158,34 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
 
                 dayStart = Get_day(edtdayStart);
                 dayEnd = Get_day(edtdayEnd);
-                dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
+                dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
                 Cursor data = dbUsage.GetData("SELECT SUM(TIME) FROM USAGE_DAY_US WHERE TENPK ='" + packedName + "' AND LASTTIME >= '" + dayStart + "' AND LASTTIME <= '" + dayEnd + "'");
                 try {
                     while (data.moveToNext()) {
                         int sum_time = data.getInt(0);
                         int[] statsTime = splitToComponentTimes(sum_time);
                         String statsString = ((statsTime[0] > 0) ? statsTime[0] + "h " : "") + ((statsTime[1] > 0) ? statsTime[1] + "m " : "") + ((statsTime[2] > 0) ? statsTime[2] + "s " : "");
-                        edtCalculate.setText(statsString);
-
+                        if(TextUtils.isEmpty(statsString)){
+                            edtCalculate.setText("0s");
+                        } else {
+                            edtCalculate.setText(statsString);
+                        }
                     }
                 } finally {
                     data.close();
+                    dbUsage.close();
                 }
             }
         });
         dialog.show();
-
     }
 
-    public static String Get_day(EditText editText) {
+    public static String Get_day(TextView editText) {
 
         return editText.getText().toString();
     }
 
-    public static void Select_day(final EditText editText) {
+    public static void Select_day(final TextView editText) {
         final Calendar calendar = Calendar.getInstance();
         int ngay = calendar.get(Calendar.DATE);
         int thang = calendar.get(Calendar.MONTH);
@@ -1194,6 +1198,7 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
                 editText.setText(simpleDateFormat.format(calendar.getTime()));
             }
         }, nam, thang, ngay);
+        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
         datePickerDialog.show();
 
     }
@@ -1207,8 +1212,6 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
 
         try {
             highestSeconds = db.getHighestSeconds();
-
-            //
             ArrayList<String> pinnedApps = new ArrayList<String>();
 
             SharedPreferences settingsPrefs = mContext.getSharedPreferences(mContext.getPackageName(), Context.MODE_MULTI_PROCESS);

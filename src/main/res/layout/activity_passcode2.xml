@@ -16,6 +16,7 @@
         app:secondInputTip="@string/text_input_first_password_again"
         app:wrongInputTip="@string/text_compare_input_password"
         app:correctStateColor="#71bb4d"
+        app:correctInputTip="@string/correct_check_input_password"
         app:wrongStateColor="#ea2b46"
         app:normalStateColor="#ffffff"
         app:numberTextColor="#222222"

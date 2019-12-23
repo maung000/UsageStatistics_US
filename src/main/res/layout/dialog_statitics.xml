@@ -10,7 +10,7 @@
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#e3fdf9">
+            android:background="@color/white">
 
             <TextView
 
@@ -24,12 +24,12 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/statitics" />
+<!--            <ImageView-->
+<!--                android:id="@+id/imageView2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="100dp"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:background="@drawable/statitics" />-->
 
             <TableRow
                 android:layout_width="match_parent"
@@ -48,12 +48,15 @@
                     android:textColor="#000000"
                     android:textStyle="bold" />
 
-                <EditText
+                <TextView
                     android:id="@+id/dayStart"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#e3fdf9"
-                    android:hint="Chọn thời gian"
+                    android:background="@color/white"
+                    android:hint="DD/MM/YYYY"
+                    android:autoSizeMaxTextSize="40sp"
+                    android:autoSizeMinTextSize="16sp"
+                    android:autoSizeTextType="uniform"
                     android:textSize="16sp"
                     android:textColor="#000000" />
             </TableRow>
@@ -73,12 +76,12 @@
                     android:textColor="#000000"
                     android:textStyle="bold" />
 
-                <EditText
+                <TextView
                     android:id="@+id/dayEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#e3fdf9"
-                    android:hint="Chọn thời gian"
+                    android:background="@color/white"
+                    android:hint="DD/MM/YYYY"
                     android:textSize="16sp"
                     android:textColor="#000000" />
 
@@ -112,11 +115,11 @@
                     android:textColor="#000000"
                     android:textStyle="bold" />
 
-                <EditText
+                <TextView
                     android:id="@+id/sum_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#e3fdf9"
+                    android:background="@color/white"
                     android:textSize="16sp"
                     android:textColor="#000000" />
             </TableRow>

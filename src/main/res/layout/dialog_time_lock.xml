@@ -10,16 +10,15 @@
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#e3fdf9">
+            android:background="@color/white">
 
             <TextView
-
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="QUY ĐỊNH THỜI GIAN"
+                android:text="KHÓA ỨNG DỤNG"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -27,12 +26,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
+                android:layout_margin="15dp"
                 android:background="#ff3d33"
                 android:padding="8dp"
                 android:text="Thời gian này quy định việc bạn có thể sử dụng ứng dụng bao lâu trong một ngày"
-                android:textColor="#ffffff"
-                android:textSize="15sp" />
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
             <TableRow
                 android:layout_width="match_parent"
@@ -40,43 +39,34 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal">
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Chọn thời gian khóa app:   "
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="#000000"
                     android:textStyle="bold" />
-
-
-                <EditText
+                <TextView
                     android:id="@+id/lock_hour_time"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#e3fdf9"
-                    android:hint="-- : --"
+                    android:background="@color/white"
+                    android:hint="－－ : －－"
                     android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:inputType="number"/>
+                    android:textSize="18sp"/>
             </TableRow>
-
 
             <TableRow
                 android:layout_marginBottom="10dp"
                 android:gravity="center_horizontal">
-
                 <Button
                     android:id="@+id/btn_OK"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="OK"
+                    android:gravity="center"
+                    android:text="@string/btn_ok"
                     android:textSize="16sp" />
             </TableRow>
-
-
         </TableLayout>
-
     </ScrollView>
 </RelativeLayout>

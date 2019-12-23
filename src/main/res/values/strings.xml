@@ -132,7 +132,6 @@
     <string name="create_password_head">Phần mềm cho phép người sử dụng có thể quy định thời gian và khóa ứng dụng lại bằng mật khẩu.</string>
     <string name="create_password_button">Tạo mật khẩu</string>
     <string name="btn_ignore">Bỏ qua</string>
-
     <string-array name="entries_stats_widget_appsno_preference" translatable="false">
         <item>2</item>
         <item>3</item>
@@ -296,6 +295,7 @@
 
     <string name="wrong_check_input_password">Mật khẩu nhập không trùng khớp. Vui lòng nhập lại!</string>
     <string name="correct_check_input_password">Mật khẩu nhập đúng</string>
+    <string name="wrong_check_input_password_open_app">Mật khẩu không đúng</string>
     <string name="text_input_password_now">Nhập password hiện tại của bạn:</string>
     <string name="text_complete_input_new_password">Tạo mật khẩu mới thành công</string>
     <string name="text_compare_input_password">Mật khẩu không giống nhau. Vui lòng nhập lại!</string>

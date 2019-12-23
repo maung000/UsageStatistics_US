@@ -99,7 +99,7 @@ public class UsageFragment extends Fragment {
         db.close();
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        dbUsage = new DBUsage(mContext, "UsageFragment.sqlite", null, 1);
+        dbUsage = new DBUsage(mContext, "Usage.sqlite", null, 1);
         dbUsage.QueryData("CREATE TABLE IF NOT EXISTS USAGE_DAY_US (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME INTEGER,LASTTIME VARCHAR(100))");
 
         Cursor data = dbUsage.GetData("SELECT * FROM USAGE_DAY_US ");
