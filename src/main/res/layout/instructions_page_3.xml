@@ -8,7 +8,7 @@
     android:paddingLeft="10dp"
     android:paddingBottom="0dp"
     android:requiresFadingEdge="vertical"
-    tools:context="ca.mimic.usagestatistics.Activity.Instructions$PlaceholderFragment">
+    tools:context="ca.mimic.usagestatistics.activities.Instructions$PlaceholderFragment">
 
     <LinearLayout
         android:orientation="vertical"
