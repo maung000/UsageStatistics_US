@@ -367,11 +367,13 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
         if (listStats.size() != 0) {
             sharedPreference = new SharedPreference();
             String dayTemp = "";
-            ArrayList<String> locked = sharedPreference.getLocked(mContext);
             if (today < 10) {
                 dayTemp = "0" + today + "/0" + thismonth + "/" + thisyear;
-            } else
+            } else if (thismonth < 10) {
                 dayTemp = today + "/0" + thismonth + "/" + thisyear;
+            } else {
+                dayTemp = today + "/" + thismonth + "/" + thisyear;
+            }
 
             if (!day_old.equals(dayTemp) && !day_old.equals("")) {
                 sharedPreference.removeAllLocked(mContext);
@@ -414,6 +416,7 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        mContext.unbindService(mConnection);
         isBound = false;
     }
 
@@ -824,8 +827,6 @@ public class SettingsActivity extends Activity implements ActionBar.TabListener 
             public void run() {
                 if (!mAppsLoaded) {
                     RelativeLayout bg = (RelativeLayout) lv.getParent();
-                    bg.findViewById(R.id.loading_text).setVisibility(View.GONE);
-
                     mAppsLoaded = true;
                 }
                 if (setAdapter) {

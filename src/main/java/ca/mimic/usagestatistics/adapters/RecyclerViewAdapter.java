@@ -79,18 +79,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
                 break;
             }
-//            else {
-//                TasksModel task = db.getTask(listTasks.get(position).getPackageName());
-//                try {
-//                    Drawable d = mContext.getPackageManager().getApplicationIcon(listTasks.get(position).getPackageName());
-//                    holder.usageIcon.setImageDrawable(d);
-//                } catch (PackageManager.NameNotFoundException e) {
-//                    e.printStackTrace();
-//                }
-//                holder.usageName.setText(task.getName());
-//                holder.usageTime.setText("0");
-//            }
-
+            else {
+                TasksModel task = db.getTask(listTasks.get(position).getPackageName());
+                try {
+                    Drawable d = mContext.getPackageManager().getApplicationIcon(listTasks.get(position).getPackageName());
+                    holder.usageIcon.setImageDrawable(d);
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                holder.usageName.setText(task.getName());
+                holder.usageTime.setText("0");
+            }
         }
         db.close();
     }
