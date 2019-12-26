@@ -607,11 +607,11 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                                     }
 
                                 } else {
-                                    Cursor cursorLock = dbUsage.GetData("SELECT TENPK FROM LOCK_TIME");
-                                    getLocked = null;
-                                    while (cursorLock.moveToNext()) {
-                                        getLocked.add(cursorLock.getString(0));
-                                    }
+//                                    Cursor cursorLock = dbUsage.GetData("SELECT TENPK FROM LOCK_TIME");
+//                                    getLocked = null;
+//                                    while (cursorLock.moveToNext()) {
+//                                        getLocked.add(cursorLock.getString(0));
+//                                    }
                                     for (String s : getLocked) {
                                         if (!packedName1.equals(s)) {
                                             Cursor data2 = dbUsage.GetData("SELECT * FROM LOCK_TIME WHERE Id >0");
