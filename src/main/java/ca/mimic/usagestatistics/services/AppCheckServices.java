@@ -541,7 +541,6 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                     if (listStats.size() != 0) {
                         sharedPreference = new SharedPreference();
                         String dayTemp = "";
-                        ArrayList<String> locked = sharedPreference.getLocked(context);
                         if (today < 10) {
                             dayTemp = "0" + today + "/0" + thismonth + "/" + thisyear;
                         } else if (thismonth < 10) {
@@ -559,29 +558,6 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                         try {
                             while (data.moveToNext()) {
                                 String packedName1 = data.getString(0);
-                                Runnable runnable = new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-                                        String mpackageName = manager.getRunningAppProcesses().get(0).processName;
-                                        List<UsageStats> listStats = Tools.getUsageStats(context);
-                                        if (lollipopTaskInfo != null) {
-                                            if(mpackageName.equals(lollipopTaskInfo.packageName)) {
-                                                int activityDelta = (int) Math.ceil(lollipopTaskInfo.timeInFGDelta / 1000);
-                                                timeLock += activityDelta;
-                                            } else {
-                                                lollipopTaskInfo = null;
-                                            }
-                                        } else {
-                                            List<UsageStats> listStat = Tools.getUsageStats(context);
-                                            if (listStat.size() == 0) {
-                                                // Either no permission or nothing new.  Move along
-//                                                return false;
-                                            }
-                                            lollipopTaskInfo = Tools.parseUsageStats(listStats, lollipopTaskInfo);
-                                        }
-                                    }
-                                };
                                 long total = data.getLong(1);
                                 dbUsage.QueryData("CREATE TABLE IF NOT EXISTS LOCK_TIME (Id INTEGER PRIMARY KEY AUTOINCREMENT, TENPK VARCHAR(200),TIME_LOCK INTEGER)");
                                 if (getLocked == null || getLocked.size() == 0) {
@@ -592,7 +568,7 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                                             String packedName2 = data2.getString(1);
                                             long lock_time = data2.getLong(2);
                                             if (packedName2.equals(packedName1)) {
-                                                if (lock_time < total|lock_time<timeLock) {
+                                                if (lock_time < total) {
                                                     sharedPreference.addLocked(context, packedName2);
                                                     ActivityManager mActivityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
                                                     mActivityManager.killBackgroundProcesses(packedName2);
@@ -607,11 +583,6 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                                     }
 
                                 } else {
-//                                    Cursor cursorLock = dbUsage.GetData("SELECT TENPK FROM LOCK_TIME");
-//                                    getLocked = null;
-//                                    while (cursorLock.moveToNext()) {
-//                                        getLocked.add(cursorLock.getString(0));
-//                                    }
                                     for (String s : getLocked) {
                                         if (!packedName1.equals(s)) {
                                             Cursor data2 = dbUsage.GetData("SELECT * FROM LOCK_TIME WHERE Id >0");
@@ -627,7 +598,7 @@ public class AppCheckServices extends Service implements View.OnClickListener {
                                                             }
                                                         }
                                                         if (!check) {
-                                                            if (lock_time < total|lock_time<timeLock) {
+                                                            if (lock_time < total) {
                                                                 sharedPreference.addLocked(context, packedName2);
                                                                 ActivityManager mActivityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
                                                                 mActivityManager.killBackgroundProcesses(packedName2);
